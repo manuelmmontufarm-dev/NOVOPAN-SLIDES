@@ -369,3 +369,4 @@ En la práctica se puede descargar por **especie** o por **patio** cuando lo jus
 ---
 
 <!-- Próxima entrada arriba de esta línea, sin borrar las anteriores -->
+<!-- TEST: automation marker -->
