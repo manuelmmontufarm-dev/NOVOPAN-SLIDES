@@ -22,30 +22,28 @@
 **Objetivo activo:** documentar el proceso de **recepción de madera en balanza** en formato IJP ISO, dividido en tres documentos separados (Recepción, Descargas y Consumo, Inventario).
 
 **Documentos vigentes:**
-- `instructivos/finales/IJP_FINAL_ACTUALIZADO_2026-06-19.docx` — IJP-REC-001 final con 3 fixes 2026-06-19.
-- `instructivos/finales/RECEPCION_DE_MADERA_guia_v2_ACTUALIZADO_2026-06-19.docx` — guía rápida ANI con fix de altura ruma.
-- `instructivos/finales/NOVOPAN_Guia_Recepcion_Madera_FINAL.pdf` — render para impresión.
-- `instructivos/finales/NOVOPAN_Guia_Recepcion_Madera_FINAL_ESTATICO.html` — bundle estático (rebuild parcial, ver `notas/REBUILD_PENDING.md`).
-- `html-app/NOVOPNHTML1.html` + `html-app/NOVOPNHTML1_files/Screens.jsx` — app React activa con todos los fixes.
+- `instructivos/finales/IJP_FINAL_ACTUALIZADO_2026-06-19.docx` — IJP-REC-001 final sincronizado con marcador TEST 2026-06-19 12:25.
+- `instructivos/finales/RECEPCION_DE_MADERA_guia_v2_ACTUALIZADO_2026-06-19.docx` — guía rápida ANI sincronizada con marcador TEST 2026-06-19 12:25.
+- `instructivos/finales/NOVOPAN_Guia_Recepcion_Madera_FINAL.pdf` — render para impresión re-exportado desde HTML estático actualizado.
+- `instructivos/finales/NOVOPAN_Guia_Recepcion_Madera_FINAL_ESTATICO.html` — bundle estático reconstruido desde `Screens.jsx`.
+- `html-app/NOVOPNHTML1.html` + `html-app/NOVOPNHTML1_files/Screens.jsx` — app React activa con todos los fixes y marcador TEST.
 - `instructivos/IJP_Recepcion_v2.md` — borrador md original (mantener como referencia).
 
 **Próximos pasos (orden de prioridad):**
 1. **Insertar manualmente en Word** los 3 bloques de la adenda (`notas/ADENDA_2026-06-19_contenido-nuevo.md`): humedad como último filtro, verificación humedad salida Balanza 1, FIFO con excepción.
 2. **Validar con Daniel Sotalin** los `[POR VALIDAR]` de la adenda: punto exacto en ANI donde la humedad bloquea edición, procedimiento de anulación.
-3. **Rebuild del bundle estático** `NOVOPAN_Guia_Recepcion_Madera_FINAL_ESTATICO.html` con babel para que recoja las 2 secciones nuevas del Screens.jsx (ver `notas/REBUILD_PENDING.md`).
-4. **Pasar Screens.jsx por Claude Design** usando `notas/CLAUDE_DESIGN_PROMPT.md` para mejora visual slide-by-slide token-optimizada.
-5. Validar IJP-Recepción con Alejandro (operador de balanza) y Daniel Sotalin.
-6. Resolver los `[POR VALIDAR]` que quedan del borrador v2:
+3. **Pasar Screens.jsx por Claude Design** usando `notas/CLAUDE_DESIGN_PROMPT.md` para mejora visual slide-by-slide token-optimizada.
+4. Validar IJP-Recepción con Alejandro (operador de balanza) y Daniel Sotalin.
+5. Resolver los `[POR VALIDAR]` que quedan del borrador v2:
    - Sistema ANI: nombre oficial y si es ANI Sistemas (Brasil).
    - Medición de diámetro: instrumento real (cinta vs calibrador) y si se anota en ANI o solo hoja de campo.
    - WhatsApp de asignación de patios: oficializar canal.
    - QR forestal: confirmar con Christian Villalba si es del SAF/MAATE.
-7. Empezar IJP **Descargas y Consumo** (Balanza 1 + grúa + Factory Track + ITMAD→PREMAD).
-8. Empezar IJP **Inventario** (basado en RJP-05 del IJP Rev9 original).
+6. Empezar IJP **Descargas y Consumo** (Balanza 1 + grúa + Factory Track + ITMAD→PREMAD).
+7. Empezar IJP **Inventario** (basado en RJP-05 del IJP Rev9 original).
 
 **Cosas que NO se han hecho aún:**
 - Pegar las 3 secciones nuevas (humedad-filtro, verif salida B1, FIFO) en los .docx finales — están en la adenda lista para copiar.
-- Rebuild completo del bundle estático con las 2 secciones nuevas.
 - Validar con planta los `[POR VALIDAR]` de la adenda.
 - Falta sección 1 "PROPÓSITO Y ALCANCE" formal en el v2 md (el documento empieza en 2. DEFINICIONES).
 
@@ -89,6 +87,19 @@
 ---
 
 ## Historial
+
+### 2026-06-19 12:25 — Sync agent TEST desde CONTENIDO_MAESTRO
+
+**Qué cambió:**
+- `html-app/NOVOPNHTML1_files/Screens.jsx` y `instructivos/finales/NOVOPNHTML1_files/Screens.jsx`: se agregó sección visible `TEST` con timestamp `2026-06-19 12:25 (-05 ECT)` y se actualizó el historial interno.
+- `instructivos/finales/IJP_FINAL_ACTUALIZADO_2026-06-19.docx` y `instructivos/finales/RECEPCION_DE_MADERA_guia_v2_ACTUALIZADO_2026-06-19.docx`: se insertó el marcador TEST al final, antes del historial, y se actualizó la última actualización a `12:25`.
+- `instructivos/finales/NOVOPAN_Guia_Recepcion_Madera_FINAL_ESTATICO.html`: rebuild desde `Screens.jsx`.
+- `instructivos/finales/NOVOPAN_Guia_Recepcion_Madera_FINAL.pdf`: re-export desde el HTML estático actualizado.
+- HTML interactivo/print/estático: corrección responsive en el título de portada para evitar desborde horizontal en pantallas móviles.
+- HTML/PDF estático: fallback visual para ocultar textos de íconos Material Symbols cuando la fuente externa no carga en modo offline.
+
+**Por qué:**
+- Push en `maestro/edits` modificó `instructivos/finales/CONTENIDO_MAESTRO.md`; el cambio fue el marcador `TEST — 2026-06-19 12:25 (-05 ECT)`.
 
 ### 2026-06-19 10:10 — ESTATICO rebuilt + paridad git==local
 
