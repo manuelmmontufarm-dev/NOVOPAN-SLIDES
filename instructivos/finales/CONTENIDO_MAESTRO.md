@@ -347,6 +347,20 @@ En la práctica se puede descargar por **especie** o por **patio** cuando lo jus
 
 ---
 
+# TEST
+
+> ⚠️ **MARCADOR DE PRUEBA DEL AGENT** — Este texto debe aparecer al final de TODOS los documentos derivados:
+> - `html-app/NOVOPNHTML1_files/Screens.jsx` (sección visible al final del HTML)
+> - `instructivos/finales/IJP_FINAL_ACTUALIZADO_<fecha>.docx` (última página)
+> - `instructivos/finales/RECEPCION_DE_MADERA_guia_v2_ACTUALIZADO_<fecha>.docx` (última página)
+> - `instructivos/finales/NOVOPAN_Guia_Recepcion_Madera_FINAL_ESTATICO.html` (al final, antes del footer changelog)
+>
+> Si ves la palabra **TEST** al final de cada uno de esos documentos, el agent de sincronización está funcionando correctamente. Este marcador se elimina después de validar el test.
+
+**TEST**
+
+---
+
 # CHANGELOG — historial de cambios al contenido maestro
 
 > **Regla:** cada cambio aquí se registra arriba del todo con fecha + HORA + autor + qué cambió.
