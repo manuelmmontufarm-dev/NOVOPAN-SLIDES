@@ -927,15 +927,21 @@ function DescargaFactoryTrack() {
 function ChangelogFooter() {
   return (
     <Stack>
-      <SectionHeader number="7" eyebrow="Versión" title="Historial de cambios" icon="history" />
+      <SectionHeader number="8" eyebrow="Versión" title="Historial de cambios" icon="history" />
       <Lead>Cada actualización del contenido se registra aquí con fecha, hora exacta (minuto) y autor. Esto permite saber qué se modificó y cuándo, sin tener que cruzar varios documentos.</Lead>
 
       <Card title="Última actualización" icon="event" tone="green">
         <p style={{ marginTop: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--fs-h3)', color: 'var(--text-strong)' }}>
-          2026-06-19 · 09:53 (-05 ECT)
+          2026-06-19 · 12:25 (-05 ECT)
         </p>
         <p style={{ margin: 0 }}><strong>Editor:</strong> Manuel Montúfar</p>
-        <p style={{ margin: 0 }}><strong>Documento fuente:</strong> <code>docs-finales/CONTENIDO_MAESTRO.md</code></p>
+        <p style={{ margin: 0 }}><strong>Documento fuente:</strong> <code>instructivos/finales/CONTENIDO_MAESTRO.md</code></p>
+      </Card>
+
+      <Card title="2026-06-19 12:25 — marcador TEST de sincronización" icon="sync">
+        <p style={{ marginTop: 0 }}>
+          Se propagó el marcador <strong>TEST — 2026-06-19 12:25 (-05 ECT)</strong> desde <code>CONTENIDO_MAESTRO.md</code> para verificar que el agent de sincronización replica cambios reales del maestro a los documentos derivados.
+        </p>
       </Card>
 
       <Card title="2026-06-19 09:53 — fixes de consistencia + 3 secciones nuevas" icon="track_changes">
@@ -959,6 +965,29 @@ function ChangelogFooter() {
   );
 }
 
+function TestMarker() {
+  return (
+    <Stack>
+      <SectionHeader number="7" eyebrow="Control de sincronización" title="TEST" icon="verified" />
+      <Callout variant="advertencia" title="MARCADOR DE PRUEBA DEL AGENT">
+        Este texto debe aparecer al final de TODOS los documentos derivados. Si ves la palabra <strong>TEST</strong> al final de cada documento, el agent de sincronización está funcionando correctamente. Este marcador se elimina después de validar el test.
+      </Callout>
+
+      <Card title="TEST — 2026-06-19 12:25 (-05 ECT)" icon="schedule" tone="yellow">
+        <p style={{ marginTop: 0 }}>
+          Este marcador fue añadido en la edición del 2026-06-19 a las 12:25 para verificar que el agent de sincronización propaga cambios reales del maestro a los 4 derivados. Si ves esta línea con el timestamp <code>2026-06-19 12:25</code> al final de los siguientes archivos, el sistema funciona:
+        </p>
+        <List items={[
+          <code>html-app/NOVOPNHTML1_files/Screens.jsx</code>,
+          <code>instructivos/finales/IJP_FINAL_ACTUALIZADO_2026-06-19.docx</code>,
+          <code>instructivos/finales/RECEPCION_DE_MADERA_guia_v2_ACTUALIZADO_2026-06-19.docx</code>,
+          <code>instructivos/finales/NOVOPAN_Guia_Recepcion_Madera_FINAL_ESTATICO.html</code>,
+        ]} />
+      </Card>
+    </Stack>
+  );
+}
+
 window.GuiaScreens = {
   nav: [
     { id: 'antes', n: '1', label: 'Antes de recibir', icon: 'menu_book', Comp: AntesDeRecibir },
@@ -967,6 +996,7 @@ window.GuiaScreens = {
     { id: 'humedad', n: '4', label: 'Humedad y muestras', icon: 'science', Comp: HumedadMuestras },
     { id: 'cierre', n: '5', label: 'Cierre y excepciones', icon: 'assignment_turned_in', Comp: CierreExcepciones },
     { id: 'descarga', n: '6', label: 'Descarga y Factory Track', icon: 'phone_android', Comp: DescargaFactoryTrack },
-    { id: 'changelog', n: '7', label: 'Historial de cambios', icon: 'history', Comp: ChangelogFooter },
+    { id: 'test', n: '7', label: 'TEST', icon: 'verified', Comp: TestMarker },
+    { id: 'changelog', n: '8', label: 'Historial de cambios', icon: 'history', Comp: ChangelogFooter },
   ],
 };
