@@ -33,16 +33,21 @@
 - `html-app/NOVOPNHTML1.html` + `html-app/NOVOPNHTML1_files/Screens.jsx` — app React activa con todos los fixes.
 - `instructivos/IJP_Recepcion_v2.md` — borrador md original (mantener como referencia).
 
-**Próximos pasos (orden de prioridad):**
-1. **Pasar Screens.jsx por Claude Design** usando `notas/CLAUDE_DESIGN_PROMPT.md` para mejora visual slide-by-slide token-optimizada.
-2. Validar IJP-Recepción con Alejandro (operador de balanza) y Daniel Sotalin.
-3. Resolver los `[POR VALIDAR]` que quedan del borrador v2:
-   - Sistema ANI: nombre oficial y si es ANI Sistemas (Brasil).
-   - Medición de diámetro: instrumento real (cinta vs calibrador) y si se anota en ANI o solo hoja de campo.
-   - WhatsApp de asignación de patios: oficializar canal.
-   - QR forestal: confirmar con Christian Villalba si es del SAF/MAATE.
-4. Empezar IJP **Descargas y Consumo** (Balanza 1 + grúa + Factory Track + ITMAD→PREMAD).
-5. Empezar IJP **Inventario** (basado en RJP-05 del IJP Rev9 original).
+**Próximos pasos — Encolados (orden de prioridad):**
+1. ✅ Integrar datos del recorrido 2026-06-22 en `encolados/PROCESO.md` — HECHO.
+2. Investigación técnica externa (particleboard forming line) → `encolados/technical-research/` — en curso.
+3. **Formular plan del proyecto Opción A** (trazabilidad por etapas con sensor en banda):
+   - Medir distancias entre sensor y cada esparcidora/punto crítico.
+   - Cronometrar tiempos de tránsito entre secciones.
+   - Configurar tiempos de tránsito en software.
+   - Definir cómo mostrar estado por etapa al operador (HMI/SCADA) y guardar histórico.
+4. Subir transcripciones completas de los 3 audios del 2026-06-22 → `encolados/transcripts/`.
+5. Confirmar: split exacto externas (53/47 o 53/43), nombre oficial del área, nombre supervisor.
+
+**Próximos pasos — Recepción (pendientes de la fase anterior):**
+1. Validar IJP-Recepción con Alejandro (operador de balanza) y Daniel Sotalin.
+2. Resolver `[POR VALIDAR]` del borrador v2 (ANI, diámetro, WhatsApp patios, QR forestal).
+3. Empezar IJP **Descargas y Consumo** cuando se retome.
 
 **Cosas que NO se han hecho aún:**
 - Validar con planta los `[POR VALIDAR]` generales del borrador v2.
