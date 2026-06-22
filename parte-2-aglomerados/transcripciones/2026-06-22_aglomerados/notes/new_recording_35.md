@@ -1,0 +1,992 @@
+# New Recording 35 — Recorrido técnico de aglomerados línea 1
+
+## Metadata
+
+- Fecha de procesamiento: 2026-06-22
+- Contexto: NOVOPAN / aglomerados / línea de tableros de partículas MDP
+- Audio original normalizado: `audios/2026-06-22_aglomerados/new_recording_35.m4a`
+- Duración aproximada: 53:07
+- Transcripción cruda: `transcripts/2026-06-22_aglomerados/raw/new_recording_35.txt`
+- Artefactos timestamped: `transcripts_audio_aglomerados/2026-06-22_batch/new_recording_35.json/.srt/.tsv/.vtt`
+
+## Resumen ejecutivo
+
+Este audio es el recorrido técnico más completo de la tanda. La conversación parte de un problema real de taponamientos en la línea y se convierte en una explicación de control e instrumentación de aglomerados: sensores de máximo/nivel, comunicación sensor-controlador, SP/PV/LMN, bombas de dosificación de resina/parafina, control PID, silos, tornillos de descarga, celdas de carga, flujómetros, actuadores neumáticos, encolado, formación de colchón, preprensa, prensa, corte, medición de espesor/peso y apilado.
+
+El hilo central es que muchas fallas no se explican mirando una sola alarma. Hay que reconstruir la cronología: primera alarma, reacción del controlador, material que siguió cayendo por inercia, reinicios/reset de falla y síntomas posteriores. El audio deja una pista fuerte para proyecto: construir una metodología de diagnóstico con tendencias, alarmas, estados de sensor y variables de control por tramo de línea.
+
+## Puntos clave con timestamp
+
+- `[00:00-04:30]` Se analizan cuatro taponamientos; se distingue entre sensor de máximo, señal que llega o no al controlador, y acción de protección que debería detener descargas para evitar daños mayores.
+- `[07:30-13:30]` Se introduce SP/PV/LMN: setpoint solicitado, valor realimentado por flujómetro/sensor y acción de control sobre motor/bomba. Se explica que operar al 100% sostenido indica problema, aunque picos breves puedan ser tolerables.
+- `[12:40-18:50]` Se explica la sobreoscilación de un controlador y el rol de P/I/D. La parte proporcional corrige por error actual, la integral reparte/corrige en el tiempo y la derivativa anticipa tendencia.
+- `[21:50-28:00]` Silos y dosificación: sensores ultrasónicos de nivel, paletas de mínimo/máximo, tornillos de descarga, celdas de carga y cálculo de kg/min mediante peso, volumen/llenado y velocidad de motor/banda.
+- `[28:05-36:30]` Medición de flujo para resina/parafina/agua: flujómetros, bombas, sensores de presión con membrana, válvulas, electroválvulas y actuadores neumáticos. Se menciona ensuciamiento de sensores por resina/parafina y limpieza en mantenimiento.
+- `[38:00-41:15]` Formación del colchón: capas, rodillos/clasificación, plataformas de pesaje y peso total del colchón como variable crítica.
+- `[41:20-46:10]` Preprensa y prensa: reducción de aire, uniformidad, presión, temperatura, aceite térmico/hidráulico, control de platos y sistemas de calentamiento/enfriamiento.
+- `[46:15-51:40]` Acabado: sierras longitudinales, corte a 90 grados, control de diagonales, medición ultrasónica/óptica de espesor, pesaje individual, agrupamiento, enfriamiento y apilado.
+- `[51:55-53:07]` Se nombran referentes de planta: Marco Villalba en mantenimiento, Juan Carlos en mantenimiento, Angelo como jefe de aglomerado; estos nombres deben confirmarse.
+
+## Gaps técnicos detectados con research
+
+- **Cronología de taponamientos.** El audio sugiere que la primera alarma puede ser la causa raíz y las siguientes consecuencias. Falta extraer del historian/PLC la secuencia exacta de alarma, nivel, velocidad de banda, estado de rodillos, señal de sensor, salida del controlador y acción de paro/rearme.
+- **Umbrales de nivel y lógica de interlock.** Se mencionan referencias como 85, 100 y 120, pero no queda claro si son % de nivel, unidades HMI o límites de alarma. Hay que mapear: nivel normal, warning, high-high, paro, y qué equipos se detienen en cada estado.
+- **Sensor OK vs controlador sin acción.** En una parte se dice que el sensor sí entrega señal, pero que el controlador no controla. Falta revisar cableado/IO, tag PLC, escalamiento, modo automático/manual, alarm acknowledge y lógica de bypass.
+- **Tuning de controladores.** La explicación de SP/PV/LMN y sobreoscilación coincide con documentación Siemens PID_Compact: conviene levantar tendencias de setpoint, process value y manipulated variable antes/después de cada perturbación, y revisar saturación, anti-windup, rampas y modo manual/auto.
+- **Básculas/celdas en banda en condición dinámica.** El problema no se resuelve solo con peso patrón estático. NIST recomienda pruebas zero-load/material test, alineación, limpieza y operación dentro de capacidad nominal; aplicar esto a esparcidoras y báscula central puede separar error de celda, error mecánico y error de banda.
+- **Silos con polvo.** La elección entre ultrasónico, radar, paletas o peso debe validarse por material, polvo, altura, estructuras internas y condensación. El research de Endress+Hauser respalda que la tecnología de nivel depende de estas condiciones, no solo del tipo de sensor.
+- **Flujómetros de resina/parafina/agua.** Confirmar qué líneas usan magnético vs Coriolis. Los magnéticos requieren fluido conductivo; Coriolis mide masa/densidad/temperatura y puede ser más robusto para fluidos con cambios de propiedades.
+- **Variables críticas de tablero.** Alinear las variables vistas en planta con ANSI A208.1 y ensayos internos: densidad, espesor, perfil, internal bond, MOR/MOE, hinchamiento, emisión de formaldehído y tolerancias dimensionales.
+
+## Términos por confirmar
+
+- `dosimil`, `dosibunker` o `dosificadora`: el audio suena como “dos y mil” / “dosimbuncas”.
+- `LMN`: probablemente salida/manipulated variable del controlador, pero confirmar etiqueta exacta en HMI/PLC.
+- `sensor de máximo`: confirmar si es paleta, switch de nivel, ultrasónico, radar o señal derivada.
+- `perfilómetro` / `densitómetro`: aparece con más claridad en la reunión, pero conviene homogeneizar nombre.
+- `línea 1`: al final se corrige que el recorrido es línea 1.
+
+## Research externo usado para gaps técnicos
+
+- [EPA AP-42, cap. 10.6.2 Particleboard Manufacturing](https://gaftp.epa.gov/ap42/ch10/s062/c10s06-2.pdf): confirma el flujo base de particleboard: preparación/clasificación de partículas, secado, mezcla con resina/cera, formación de colchón, prensado caliente y acabado.
+- [CORRIM, Particleboard life-cycle inventory](https://corrim.org/wp-content/uploads/2018/03/lci-particleboard-panels-resource-through-product.pdf): referencia de proceso para secado, blending con resina/wax/catalyst, formación por capas face/core, hot pressing, enfriado, corte y lijado.
+- [ANSI A208.1-2016 Particleboard](https://res.cloudinary.com/hdi/image/upload/v1621251940/Suppliers/Guides/CPA_ANSI_Standard_A208_1_Particleboard_2016.pdf): marco externo de propiedades, tolerancias, test methods, inspección e identificación de tableros de partículas.
+- [NIST Handbook 44, Section 2.21 Belt-Conveyor Scale Systems](https://www.nist.gov/document/2026-nist-handbook-44-section-221): referencia para calibración, zero-load tests, material tests, alineación, limpieza y operación de básculas en banda.
+- [Siemens PID_Compact docs](https://docs.tia.siemens.cloud/r/en-us/v21/pid-control/pid-control-s7-1200-s7-1500-s7-1200-g2/using-pid_compact-s7-1200-s7-1500-s7-1200-g2/technology-object-pid_compact-s7-1200-s7-1500-s7-1200-g2): referencia para SP, PV, desviación de control y acciones P/I/D en PLC.
+- [Endress+Hauser, medición de nivel en silos de sólidos](https://www.us.endress.com/_storage/asset/4898436/storage/master/file/47932299/download/WP01074F24EN0118%20-%20Measuring%20the%20level%20of%20bulk%20solids%20stored%20in%20silos.pdf): criterios de selección para radar/ultrasonido en silos con polvo, estructuras internas y condensación.
+- [Endress+Hauser, principio electromagnético de medición de flujo](https://www.endress.com/en/support-overview/learning-center/flow-measuring-principle-emf): referencia para flujómetros magnéticos en líquidos conductivos.
+- [Endress+Hauser, principio Coriolis](https://www.endress.com/en/support-overview/learning-center/flow-measuring-principle-coriolis): referencia para medición directa de flujo másico, densidad y temperatura.
+- [Suo & Bowyer, Simulation modeling of particleboard density profile](https://wfs.swst.org/index.php/wfs/article/download/880/880/0): el perfil de densidad vertical afecta propiedades del tablero y se relaciona con temperatura, humedad y prensado.
+- [Korai 2021, Journal of Wood Science](https://link.springer.com/article/10.1186/s10086-021-01994-4): advierte que el perfil de densidad por sí solo no explica todo el internal bond; también importan adhesivo, partículas, especies, humedad y parámetros de prensa.
+
+## Transcripción segmentada
+
+> Transcripción automática con Whisper large-v3-turbo. Mantener como base cruda; corregir términos técnicos contra planta antes de usar en documentos formales.
+
+- `[00:00-00:29]` Claro. ¿Y eso ya revisaron? Sí, ya revisaron. ¿Nada que ver? En la segunda vez se activa ese sensor. Ah, ya, ok. Pero esa es la seguridad para que no pase algo más grave. ¿Cuántas veces se taponeó? Eh, cuatro veces. ¿Ayer? Eh, sí, ayer de la madrugada, cuatro de la mañana. Ahora, el sensor de seguridad es lo único que dices, puta, ya no valió el controlador, tienes que apagar el resto para que evites que todo más,
+- `[00:30-00:35]` se tapone, eso hace, cuando me da la señal, me apaga todo el descanso
+- `[00:35-00:42]` si, se llega a parar la banda, ya no detecta más el sensor
+- `[00:42-00:47]` entonces para prevenir de que esto solo empieza a andar como el otro, eso es todo
+- `[00:47-00:49]` ya tiene el otro sensor
+- `[00:49-00:56]` y entonces toda la acción de corredor que tiene es tapado, todo tiene control
+- `[00:56-01:00]` y todavía siguen, o sea el segundo taponamiento si fue por eso
+- `[01:00-01:04]` no funcionó bien, que te sale una alarma si no funciona bien el sensor de máximo
+- `[01:04-01:08]` claro, cuando ya llegas al máximo de alarma te paro
+- `[01:08-01:12]` ya, y la primera todavía no saben, que pasó?
+- `[01:12-01:16]` la cauta no se sabe todavía bien, están analizando bien
+- `[01:16-01:20]` lo que pasa es que estos nunca deberían llegar a las más de 85 en general
+- `[01:20-01:24]` ya, y no se activó el máximo
+- `[01:24-01:26]` Máximo?
+- `[01:26-01:31]` Llega tanto pero no te llena lo suficiente como para que te pare
+- `[01:31-01:33]` Pero cuanto del?
+- `[01:33-01:34]` 120
+- `[01:34-01:36]` Ah y se sube a 120
+- `[01:36-01:38]` Entonces igual se dispara?
+- `[01:38-01:39]` Ahora
+- `[01:39-01:40]` Por que se dispara?
+- `[01:40-01:43]` Esto al momento de que pide mas material
+- `[01:43-01:46]` También me coincide como otra arma que tengo en la parte de atrás
+- `[01:46-01:47]` Ya
+- `[01:47-01:50]` Que son de los dedos igual no se pica el material
+- `[01:50-01:51]` Ok
+- `[01:51-01:52]` ¿Va por arriba?
+- `[01:52-01:54]` En la parte del encolado.
+- `[01:54-01:54]` Ah, ya.
+- `[01:54-01:57]` Si esos rodillos se alarman, no me manda material.
+- `[01:57-01:58]` Ya.
+- `[01:58-02:01]` Al no mandarme material, esto pide más material.
+- `[02:01-02:02]` Claro.
+- `[02:02-02:06]` Al destaponarse los rodillos de atrás, demandan un exceso de material.
+- `[02:07-02:13]` Claro, lo ideal fuera que también haya una comunicación entre el encolado y el sensor de...
+- `[02:13-02:17]` Si tienes la comunicación, pero no llegas...
+- `[02:17-02:20]` Todo lo que hace la parte del sensor es lo que normalmente debes hacer.
+- `[02:20-02:22]` No me manda material, también más.
+- `[02:22-02:26]` Claro, no hay para las excepciones de donde se la ve el problema.
+- `[02:26-02:27]` Ahí es que...
+- `[02:27-02:29]` Manda más material, acepta por...
+- `[02:29-02:31]` En la función, más cerrado.
+- `[02:31-02:32]` Claro.
+- `[02:32-02:34]` Es porque tu aporta en la parte de arriba,
+- `[02:34-02:36]` después un tubo cerrado, no se la pierna.
+- `[02:36-02:37]` Es una...
+- `[02:37-02:39]` Tu teoría principal es...
+- `[02:40-02:42]` Aquí una mezcla de dos cobre.
+- `[02:42-02:43]` Sí.
+- `[02:43-02:45]` Uno que no me pusieron bien el controlador,
+- `[02:45-02:47]` otro en la parte del cobreador,
+- `[02:47-02:48]` que me ponen mal la cantidad.
+- `[02:48-02:49]` ¿Maldó mal?
+- `[02:49-02:54]` y la segunda es la acción de control, el controlador no funciona bien
+- `[02:54-02:58]` claro, o sea puede ser cualquiera de los mayores que no funcionó bien
+- `[02:58-03:03]` hay que tener que ir a completo, como ves es un problema de conducir a la prevención
+- `[03:03-03:10]` se vuelve bastante difícil de identificar, es otra parte que te dan en esta parte de control
+- `[03:10-03:16]` es el problema que se te vayan, que se te vayan, que se te vayan
+- `[03:16-03:22]` en una línea de información, le pita cualquier sensor y te hace bien suficientemente falla
+- `[03:22-03:23]` esto es lo que te va a traer
+- `[03:23-03:24]` a lo de eso?
+- `[03:24-03:25]` para cómo va
+- `[03:25-03:29]` como se hace el análisis de falla, desde lo más simple hasta lo más complejo
+- `[03:29-03:32]` comienzas primero con botones y ya iban a instalar
+- `[03:32-03:33]` con botones?
+- `[03:33-03:34]` con botones
+- `[03:34-03:35]` como es eso?
+- `[03:35-03:37]` muchas veces puedes fallar solo un botón de acción
+- `[03:37-03:39]` ah ya, literal algo no se prendió?
+- `[03:39-03:40]` si
+- `[03:40-03:43]` ah ya y después ya van las formas detalladas que puedo decirlo
+- `[03:43-03:48]` Hay que ver el motor, el controlador, la instalación, todo el sistema de control.
+- `[03:49-03:52]` Pero esa es la parte inicial del sistema de detección de fallas.
+- `[03:53-03:57]` Entonces, en la primera no se sabe, la segunda probablemente fue falla del sensor de máximo,
+- `[03:57-04:00]` porque ahí sí pasó de los 120 en la segunda ocasión.
+- `[04:01-04:05]` No es el sensor. El sensor me da bien la señal porque me dice que llegaste a 100.
+- `[04:05-04:06]` Pero no se paró.
+- `[04:06-04:10]` Sí, porque así el controlador no llega esa señal al controlador.
+- `[04:10-04:15]` La comunicación entre los que me hizo el sensor, lo que hizo el controlador...
+- `[04:15-04:16]` No, es muy cruel.
+- `[04:16-04:19]` ¿Y la tercera que fue lo mismo?
+- `[04:19-04:21]` La tercera estamos en el mismo punto.
+- `[04:21-04:22]` ¿Que en el segundo?
+- `[04:22-04:23]` Sí.
+- `[04:23-04:26]` Ya, o sea, se pasó de 120 y no se controló.
+- `[04:26-04:27]` No se controló.
+- `[04:27-04:28]` ¿Y la cuarta?
+- `[04:28-04:31]` La cuarta es la que ya vaciaron todo.
+- `[04:31-04:35]` En la cuarta me parece que ya tuvieron problemas con el material acá,
+- `[04:35-04:37]` como a lo que se separan materiales
+- `[04:37-04:38]` de golpe de la línea
+- `[04:38-04:42]` arranca, sube demasiado
+- `[04:42-04:43]` y es una pila
+- `[04:43-04:47]` siempre que tienes un problema
+- `[04:47-04:48]` y arrancan enseguida
+- `[04:48-04:49]` y arrancan enseguida
+- `[04:49-04:51]` vas para llenar
+- `[04:51-04:53]` y al final es un problema
+- `[04:53-04:55]` completamente diferente del principal
+- `[04:55-04:57]` claro, porque ya es solo
+- `[04:57-04:58]` por operativo
+- `[04:58-05:01]` ya es como por prenderme
+- `[05:01-05:04]` muchas veces lo que hace en la parte de la operativa
+- `[05:04-05:09]` que solo resetean la falla
+- `[05:09-05:15]` sin ver, ahora resetear la falla, si te rearmas si, pero ya causan otros problemas
+- `[05:15-05:18]` claro porque me estas construyendo encima de eso
+- `[05:18-05:23]` pero en verdad lo que se tiene que ver siempre es, o en este caso es la causa de la primera
+- `[05:23-05:25]` porque los otros pueden ser síntomas
+- `[05:25-05:30]` si, la mayor parte de veces la primera es la causa real de la parada
+- `[05:30-05:32]` pero esto es solo consecuencia de ello
+- `[05:34-06:04]` La ciudad de México
+- `[06:04-06:06]` ¡Gracias!
+- `[06:34-07:04]` La Baja
+- `[07:04-07:10]` ¿Y por qué la desviación está constantemente en menos negativo 25?
+- `[07:10-07:13]` No, porque lo que se me acaba de hacer en la alta idea.
+- `[07:14-07:16]` Ah, ok.
+- `[07:17-07:21]` En la alta idea, la planta, la caída de la planta y todo eso.
+- `[07:23-07:26]` Porque los manes se dicen para que le hicieran su ciencia.
+- `[07:28-07:30]` En la parte del llenado, intervieren bastantes cosas.
+- `[07:30-07:33]` Aparte de la alimentación del sensor, también tiene que ver la densidad del material.
+- `[07:33-07:35]` tienes una etapa de compensación
+- `[07:35-07:37]` del factor que hace
+- `[07:37-07:39]` que se llene más o menos
+- `[07:39-07:40]` la densidad del material también
+- `[07:40-07:42]` que cambia todo el rato
+- `[07:42-07:46]` los controles de aquí
+- `[07:46-07:48]` vas viendo desde una parte específica
+- `[07:48-07:51]` entre los lados
+- `[07:51-07:52]` con todo lo demás
+- `[07:52-07:53]` ese proceso
+- `[07:53-07:55]` de controlarlas
+- `[07:55-07:57]` allá te voy a explicar la parte del controlador
+- `[07:57-07:58]` porque allá es un poco más
+- `[07:58-08:01]` fácil de entender
+- `[08:01-08:03]` la parte del controlador
+- `[08:03-08:04]` un poco más
+- `[08:04-08:05]` gracias
+- `[08:33-08:59]` Este es el valor que yo le estoy solicitando, te digo quiero 3.5 litros por minuto.
+- `[08:59-09:00]` Ya, el SP.
+- `[09:01-09:01]` Sí, el setpoint.
+- `[09:01-09:03]` Setpoint, ok.
+- `[09:04-09:10]` Este es Setpoint, Process Value, y el LMN, no me acuerdo el significado, pero es la acción del control.
+- `[09:11-09:12]` Esto es lo que yo solicito.
+- `[09:13-09:13]` Claro.
+- `[09:14-09:16]` Esto es lo que me está realimentando el sensor.
+- `[09:17-09:23]` En este caso, la parte de alimentación del sensor me hace esto de aquí, que es un flujómetro.
+- `[09:23-09:25]` Yo tengo unas partes de acá, ya te voy a indicar.
+- `[09:25-09:34]` Yo pido, el flujómetro me realimenta, quien hace la acción de control, el motor o la
+- `[09:34-09:35]` bomba.
+- `[09:35-09:36]` Ok.
+- `[09:36-09:39]` Claro, si me falta flujo acelero la bomba, gano más flujo.
+- `[09:39-09:41]` Si tengo más flujo, me realimenta.
+- `[09:41-09:42]` Correcto.
+- `[09:42-09:43]` Eso es.
+- `[09:43-09:48]` Lo que aceteo, lo que me está mandando el flujómetro, realimentando el controlador.
+- `[09:48-09:50]` Y lo controlado.
+- `[09:50-09:52]` es el porcentaje
+- `[09:52-09:54]` del controlador, del controlador
+- `[09:54-09:55]` el que hace la acción de control
+- `[09:55-09:57]` digamos que mi bomba puede
+- `[09:57-10:00]` trabajar de 6.8
+- `[10:00-10:01]` ese es el porcentaje de repel
+- `[10:01-10:03]` bueno eso me imagino
+- `[10:03-10:06]` el process value sin esto estaría 6.8%
+- `[10:06-10:08]` y está ahorita
+- `[10:08-10:10]` compensado con 6.7
+- `[10:10-10:11]` no es la importación correcta
+- `[10:11-10:13]` a ver, esto
+- `[10:13-10:16]` es cuánta capacidad de mi motor
+- `[10:16-10:16]` estoy ocupando
+- `[10:16-10:19]` yo estoy ocupando
+- `[10:19-10:21]` el 6.6% de la capacidad
+- `[10:21-10:23]` de mi motor para tener
+- `[10:23-10:25]` este control estampo. Sí.
+- `[10:25-10:27]` Ok. Si es que yo necesito
+- `[10:27-10:29]` más flujo, lo que vamos a
+- `[10:29-10:31]` hacer es esto, va a ir subiendo.
+- `[10:31-10:33]` Va a ir subiendo. Automáticamente sube. Sí.
+- `[10:33-10:35]` Va a ir subiendo. ¿Hasta dónde?
+- `[10:35-10:37]` Hasta el límite que te detuvo.
+- `[10:37-10:39]` Si tú ves un controlador
+- `[10:39-10:42]` que controla, pero está controlando al 100%,
+- `[10:42-10:43]` ya tienes un problema.
+- `[10:44-10:45]` Porque claro, la bomba
+- `[10:45-10:47]` está sobresforzándose para llegar
+- `[10:47-10:49]` al mínimo.
+- `[10:49-10:50]` Correcto.
+- `[10:50-10:55]` Y esto cuando sube en la velocidad de la banda, todo se...
+- `[10:55-10:56]` Auto calcula.
+- `[10:56-10:57]` Pero se sube todo.
+- `[10:57-10:58]` Sí.
+- `[10:58-10:59]` Claro.
+- `[10:59-11:02]` Y llega a un punto peligroso a veces o...
+- `[11:02-11:04]` Algo que si tienes demasiada...
+- `[11:04-11:05]` Aquí las bombas son...
+- `[11:05-11:06]` Como acá.
+- `[11:06-11:08]` ...sobredimensionadas.
+- `[11:08-11:09]` Claro.
+- `[11:09-11:15]` Normalmente un controlado tú deberías controlar o funcionar en un 50, 40% de la capacidad de estar en la banda.
+- `[11:15-11:16]` Del mínimo.
+- `[11:16-11:17]` Del mínimo.
+- `[11:17-11:22]` si te puede aguantar en picos no constantes de 100% que si te van a aguantar las bombas
+- `[11:22-11:25]` pero no es correcto trabajar en el 100% de la capacidad
+- `[11:25-11:27]` un 50%
+- `[11:27-11:28]` y de que es esto?
+- `[11:29-11:31]` esto de acá es del LOAT en cambio
+- `[11:31-11:32]` ¿de bien?
+- `[11:32-11:34]` esto es de una...
+- `[11:34-11:35]` ¿a todo esto son de los...?
+- `[11:35-11:38]` son todas las acciones de control que tenemos aquí
+- `[11:38-11:39]` este de que me estás preguntando
+- `[11:39-11:44]` específicamente de una compuerta que me controla cuánto tiempo tengo el material dentro del colador o no
+- `[11:44-11:45]` ah ok ok
+- `[11:45-11:49]` el de las bombas es mas facil de entender
+- `[11:49-11:51]` que es lo que pasa
+- `[11:51-11:53]` cuáles son las bombas?
+- `[11:53-11:55]` parafina capo externo
+- `[11:57-11:59]` las bombas de dosificación
+- `[11:59-12:03]` de zina parafina
+- `[12:07-12:09]` ahi le voy a subir yo
+- `[12:09-12:11]` mira esta de aqui
+- `[12:11-12:13]` parafina capo externo
+- `[12:13-12:14]` a 14. Ok.
+- `[12:15-12:17]` ¿Para qué le venís? Está en 1.3.
+- `[12:18-12:19]` Ahí le sumo la relación
+- `[12:19-12:20]` del porcentaje que quiero que pide.
+- `[12:23-12:24]` Y le cambia
+- `[12:24-12:27]` de 1.3 a 1.5.
+- `[12:27-12:29]` Eso hace que esto aumente
+- `[12:29-12:30]` y por ende más aumente el foco.
+- `[12:32-12:33]` Buenazo.
+- `[12:34-12:35]` Buenazo, buenazo.
+- `[12:35-12:37]` Lo que quiere es la potencia
+- `[12:37-12:38]` lo que te da.
+- `[12:39-12:41]` Llegas al requerimiento
+- `[12:41-12:42]` se estabiliza.
+- `[12:43-12:44]` funciona un controlador en realidad
+- `[12:44-12:47]` es esto, de lo que tú pides
+- `[12:47-12:49]` el LMN
+- `[12:49-12:51]` tiene que hacer esto, sobreoscila
+- `[12:51-12:52]` claro, y se va
+- `[12:52-12:55]` y estabiliza
+- `[12:55-12:57]` ahora, ¿qué pasa con un
+- `[12:57-12:58]` controlador que hace esto?
+- `[12:59-13:00]` eso es una sobreoscilación
+- `[13:00-13:02]` no está controlando, está muy
+- `[13:02-13:04]` no tienes bien sintonizado
+- `[13:04-13:07]` la realimentación, tampoco tienes
+- `[13:07-13:08]` bien sintonizado la acción de control
+- `[13:08-13:10]` eso te genera un problema
+- `[13:10-13:12]` así debe funcionar un controlador
+- `[13:12-13:14]` ya subió
+- `[13:14-13:16]` inmediatamente ves que se sincronizan acá
+- `[13:16-13:18]` y ahí se estabiliza esto otra vez
+- `[13:18-13:20]` y ahí esta la sobre oscilación
+- `[13:20-13:22]` sobre oscila para controlar
+- `[13:22-13:24]` y estabiliza
+- `[13:24-13:26]` esa es la
+- `[13:26-13:28]` la forma correcta de controlar
+- `[13:32-13:34]` no siempre ocurre lo mismo
+- `[13:34-13:36]` ahora ya les pide el psoe para mi que es normal y esto va a controlar de nuevo
+- `[13:36-13:38]` claro va a subosilar
+- `[13:38-13:40]` otra vez esto me baja
+- `[13:40-13:42]` y esto va a controlar
+- `[13:55-13:57]` esto es lo ideal en controladores
+- `[13:57-13:59]` si que no subasile
+- `[13:59-14:01]` esto es lo ideal en controladores
+- `[14:01-14:03]` que es lo que pasa
+- `[14:03-14:05]` hay controlador masivo
+- `[14:05-14:07]` hay
+- `[14:07-14:12]` y es el controlador del lado del material de la tapa media
+- `[14:12-14:13]` ¿la línea negra?
+- `[14:15-14:17]` es la verde
+- `[14:17-14:17]` la verde
+- `[14:17-14:22]` la verde, la azul y la roja
+- `[14:22-14:23]` la roja es el seteo
+- `[14:23-14:26]` en realidad la azul debería estar encima de la roja
+- `[14:26-14:28]` ¿siempre?
+- `[14:28-14:29]` sí
+- `[14:29-14:30]` siempre
+- `[14:30-14:32]` ahora, mire esto
+- `[14:32-14:34]` por tu control
+- `[14:37-14:42]` de las bombas, porque es un sistema bastante preciso
+- `[14:42-14:47]` pero este nunca puede estabilizarse
+- `[14:47-14:50]` sube, recorrige, baja, corrige, sube, corrige
+- `[14:50-14:51]` debería ser un poco más estable, si
+- `[14:51-14:55]` que es lo que pasa o por qué las acciones de control no son buenas
+- `[14:55-14:57]` por la señal que viene a derretar
+- `[14:57-15:02]` esto se controla, aquí en cambio
+- `[15:02-15:04]` al final y se demora en avisar
+- `[15:04-15:08]` Este está controlado por el seteo que tú necesitas.
+- `[15:08-15:09]` Claro.
+- `[15:09-15:15]` La realimentación de esto son igual dos celdas de carga que me dan el nivel.
+- `[15:16-15:21]` Y esto de aquí, el controlador que hace la dosificación del material es un tornillo de descarga.
+- `[15:22-15:25]` ¿Qué sucede con los tornillos de descarga?
+- `[15:26-15:30]` Principalmente se calcula para que una revolución te dé una cantidad de descarga.
+- `[15:30-15:37]` pero eso es, imaginándose el mejor de los casos, que la caída del material o está lleno el tornillo
+- `[15:37-15:44]` cuando el tornillo a veces tiene punto bajo, punto alto, punto bajo, de ocasiones
+- `[15:44-15:51]` me pide una cantidad de material, pero a veces me cae menos, a veces me cae más
+- `[15:51-15:54]` y no hay forma de corregir, de que esté siempre lleno
+- `[15:54-15:56]` ahí comienza la siguiente etapa
+- `[15:56-16:01]` Normalmente los controles PID, que son los que estamos ocupando aquí
+- `[16:01-16:06]` En la parte de controles fáciles solo se ocupa la parte proporcional
+- `[16:06-16:11]` En la parte de controles un poco más complejos, integral y la derivativa
+- `[16:11-16:15]` Esas son las tres componentes de un controlador PID
+- `[16:15-16:16]` ¿Qué era esta parte?
+- `[16:17-16:17]` Proporcional
+- `[16:17-16:22]` La acción proporcional genera una corrección proporcional al error
+- `[16:22-16:24]` ¿Qué conocemos como error?
+- `[16:24-16:32]` es la parte medida frente a la diferencia del pv ya entonces esta es la integral que digo esta es
+- `[16:32-16:39]` la proporcional esta es el error proporcional y aquí te da los datos de la curva de la diferencia
+- `[16:39-16:49]` claro claro por ejemplo aquí la idea de 0.6 el error exacto bueno una vez que tú calculas el
+- `[16:49-16:54]` error hay parámetros para calcular la parte proporcional a mano, se puede calcular la
+- `[16:54-16:58]` mano. Y es proporción del error al... Esa es proporcional al error, al error total.
+- `[16:58-17:05]` Ok, al error total. Cuando calculas los controladores, te hacen calcular a mano, que es una desgracia
+- `[17:05-17:11]` completa porque es bastante complejo, ahí entran integrales y derivadas, que es la parte
+- `[17:11-17:17]` bonita de la matemática. Pero entonces esta integral no es solo simplemente el espacio
+- `[17:17-17:19]` entre el área
+- `[17:19-17:21]` entre el seteado
+- `[17:21-17:22]` y el...
+- `[17:22-17:24]` La integral aquí no hace referencia a una integral
+- `[17:24-17:27]` de concepto
+- `[17:27-17:28]` porque la integral de concepto es el área
+- `[17:28-17:29]` debajo de la curva.
+- `[17:30-17:33]` Aquí la integral lo que hace es
+- `[17:33-17:34]` darnos valor
+- `[17:34-17:36]` para poder predecir.
+- `[17:37-17:38]` Ah, ya, ok.
+- `[17:38-17:41]` Porque estamos hablando de la proporción, no de la misma línea
+- `[17:41-17:42]` PB. La parte proporcional
+- `[17:42-17:44]` te da el ajuste grueso
+- `[17:44-17:46]` de cómo voy a controlar. Tengo un error
+- `[17:46-17:51]` de 6 entonces la fe con una corrección de 6 exacto ya la parte integral lo que te hace es
+- `[17:51-17:57]` en qué sección voy a aplicar el error en qué rango de tiempo yo voy a aplicar un error con
+- `[17:57-18:03]` una corrección de 6% pero lo voy a aplicar en 100 segundos en mil segundos en 10 mil segundos ya
+- `[18:03-18:10]` porque los 6% se dividen en partes proporcionales para ir controlando de forma más lenta o más
+- `[18:10-18:15]` rápido claro que para qué tan rápido va a responder en la parte proporcional
+- `[18:15-18:22]` la barra ahora la parte de ruba tiba es de cambio una aproximación o una
+- `[18:22-18:29]` interpolación para ver el error futuro aunque ya la de la derribada lo que te
+- `[18:29-18:36]` hace es yo tengo estos errores pasados este posiblemente sea mi error futuro
+- `[18:36-18:44]` controla antes de que entonces la integral es para más o menos la amplitud
+- `[18:44-18:50]` y esta de aquí la derivativa es para la parte de protección
+- `[18:50-18:57]` cuando ya tienes que empezar a hacer la proporción
+- `[18:57-19:03]` 6% de un promedio, me da una corrección aparte de la proporcional para gustarle a él
+- `[19:03-19:06]` la sumatoria de las tres correcciones
+- `[19:06-19:09]` le da la acción de control definitiva
+- `[19:09-19:14]` que es la fuerza de control o la acción de control que voy a poner sobre el controlador
+- `[19:14-19:17]` para corregir mi error
+- `[19:17-19:19]` te da el tiempo de eso
+- `[19:19-19:23]` el tiempo y la potencia que nos manda corregir
+- `[19:23-19:26]` dependiendo de cual sea el controlador
+- `[19:26-19:30]` eso es un pay de todo el esquema completo
+- `[19:30-19:33]` Ya le voy a investigar más, porque es algo que se usa bastante, ¿o qué?
+- `[19:33-19:34]` Sí.
+- `[19:34-19:40]` Estos conceptos yo dime nomás para en la casa ahí investigarles y poder venir más por otro lado.
+- `[19:40-19:43]` Te van a servir bastantísimo, porque esto va a haber en toda la...
+- `[19:43-19:44]` PIDE, ¿qué pasa si tú?
+- `[19:45-19:46]` Esto es todo lo que es esquema de control.
+- `[19:47-19:48]` Todo el esquema es muy chévere.
+- `[19:48-19:49]` Todo está...
+- `[19:49-19:54]` ¿Tú dirías que esquema de control es de los temas más importantes?
+- `[19:54-19:56]` Para la parte de acá sí.
+- `[19:56-19:58]` Depende de a dónde te quieras orientar.
+- `[19:58-20:03]` Si tú te quieres orientar a la parte de gestión de datos, me iría más a la parte de programación, análisis de datos.
+- `[20:04-20:11]` Si tú quieres orientarte a la parte más operativa, para operativa necesitas entender los sistemas de control para hacer la depresión de fallos.
+- `[20:12-20:13]` Porque sin eso te has perdido.
+- `[20:13-20:14]` Buenazo, buenas.
+- `[20:16-20:17]` Esta es la parte principal de controladores.
+- `[20:18-20:20]` De ahí vamos a ver un poco de sensores, te voy a explicar un poco de esta línea.
+- `[20:20-20:21]` De ahí nos vamos a ver el pie.
+- `[20:25-20:25]` Buenazo.
+- `[20:25-20:29]` Aquí es la parte ya un poco más técnica
+- `[20:29-20:31]` También tiene procesores
+- `[20:31-20:32]` Pero un poco más
+- `[20:32-20:33]` Aquí machete
+- `[20:33-20:36]` Arriba es a grosso modo
+- `[20:36-20:38]` Desde afuera, desde arriba
+- `[20:38-20:40]` En toneladas grandes
+- `[20:40-20:42]` Acá ya va a precisión
+- `[20:42-20:44]` ¿Por estar más atrás o por estar en otro niño?
+- `[20:45-20:46]` Porque necesitas más
+- `[20:46-20:48]` Quizás ser más exacto
+- `[20:48-20:50]` Aparte los controles
+- `[20:50-20:52]` Arriba igual la J de la sobrecibeción
+- `[20:52-20:53]` Es una máquina
+- `[20:53-21:01]` acá tiene que ser señalos de la parte real para que puedas tener la garantía de que estás dosificando lo que necesitas dosificando
+- `[21:01-21:02]` Muy claro.
+- `[21:25-21:26]` Ya, bueno, buenísimo.
+- `[21:31-21:33]` vamos de ir desde atrás
+- `[21:38-21:41]` claro desde los hilos que esto ya es preparación todavía
+- `[21:41-21:43]` que te van alimentando
+- `[21:43-21:45]` vos comparten ese
+- `[21:51-21:53]` ¿cómo tienes esquemas de control?
+- `[21:53-21:55]` ¿cómo controlamos los niveles de los hilos
+- `[21:55-21:57]` con unos sensores ultrasonicos que están en la parte superior?
+- `[21:57-21:59]` los hilos se controlan con sensores ultrasonicos
+- `[22:01-22:06]` Y aparte de los usuarios de ahí, tenemos los usuarios de ultracónicos que nos hacen...
+- `[22:06-22:09]` ¿Cómo puede utilizar un ultracónico en un silo?
+- `[22:09-22:13]` Solo manda la señal de sonido, rebota en el nivel...
+- `[22:13-22:15]` Claro, y detecta el tiempo y...
+- `[22:15-22:18]` ...y aquí tiene la señal de reafirmación.
+- `[22:18-22:21]` ¿Y por qué se utiliza estos sensores?
+- `[22:21-22:23]` Por la cantidad de polvo que tenemos.
+- `[22:23-22:24]` ¿Tiene varios tipos de sensores?
+- `[22:24-22:27]` Ah, claro, o sea, algo visual, un asesor donde sirve.
+- `[22:27-22:29]` Se tapa, o se fluye muy rápido.
+- `[22:30-22:33]` También tenemos unas paletas que tienen niveles fijos,
+- `[22:33-22:34]` o niveles mínimos y máximos,
+- `[22:35-22:37]` que son más seguras para la parte de control de materiales.
+- `[22:38-22:40]` Porque son, como...
+- `[22:40-22:43]` O sea, no es una interpolación de todo el rango.
+- `[22:43-22:46]` Si uno te dice, aquí tengo el 20% fijo, estamos aquí.
+- `[22:47-22:48]` Son más seguras.
+- `[22:48-22:53]` Oye, y entonces, ¿en los cielos se mide por peso o por volumen?
+- `[22:53-22:57]` Aquí se mide solo por la cantidad de refracción que tiene.
+- `[22:57-23:00]` y al final ya está haciendo volumen
+- `[23:00-23:06]` si, para calibrar el sensor del nivel lo que hace es la señal de 0
+- `[23:06-23:08]` ¿no es cierto? ¿cuanto ha metido la señal de 0?
+- `[23:08-23:10]` y ¿cuanto ha metido la señal de 100?
+- `[23:10-23:12]` y una interpolación lineal
+- `[23:12-23:16]` claro, es lógico, pero no es por peso, después se pesan las cosas
+- `[23:16-23:18]` observe
+- `[23:18-23:20]` ya
+- `[23:20-23:31]` y tenemos dos torretas, dos tornillos
+- `[23:31-23:32]` dos tornillos adentro del cielo
+- `[23:32-23:35]` se van girando, se van descargando el material
+- `[23:35-23:36]` y se va cayendo aquí
+- `[23:36-23:40]` aquí está el transportador que nos lleva hasta su espacilador
+- `[23:40-23:41]` y ya pasan al
+- `[23:41-23:44]` aquí tenemos estos sensores que van a ver bastante
+- `[23:44-23:46]` estos sensores, a ver
+- `[23:46-23:48]` estos, los ya tenemos
+- `[23:48-23:53]` detectan la señal de estos, de los puntos negros.
+- `[23:54-23:54]` Ya.
+- `[23:55-23:58]` Cuando ocurre un taponamiento o hay una falla,
+- `[23:59-24:03]` esto deja de mandar los pulsos y te da a echar la alarma.
+- `[24:03-24:03]` Ok.
+- `[24:04-24:06]` Estos son sensores inductivos.
+- `[24:06-24:06]` ¿Cómo?
+- `[24:07-24:07]` Inductivos.
+- `[24:07-24:09]` Inductivos, sensores inductivos.
+- `[24:09-24:13]` Los sensores inductivos solo te reconocen materiales netamente magnéticos.
+- `[24:14-24:15]` Ah, ya.
+- `[24:15-24:16]` ¿Para metales?
+- `[24:17-24:17]` Sí, metales.
+- `[24:17-24:19]` Este es un detector para metales.
+- `[24:19-24:21]` Básicamente.
+- `[24:21-24:27]` Como funciona, a lo que pasa el metal te dice prendido, apagalo.
+- `[24:27-24:29]` Y esta señal te interpreta de la forma tíquica.
+- `[24:29-24:33]` Claro, apagarlo.
+- `[24:33-24:37]` Sienta de carga.
+- `[24:37-24:41]` Esta es una presentación, la mayoría son mucho más pequeños.
+- `[24:41-24:43]` Este es la tendra a la izquierda, a la derecha.
+- `[24:43-24:45]` Este es el puente de medición.
+- `[24:45-24:47]` ¿esto pesa?
+- `[24:47-24:49]` si, aquí sobre esta liga
+- `[24:49-24:53]` se pone todo el peso del material
+- `[24:53-24:55]` si tu le ves esta liga
+- `[24:55-24:57]` no tiene contacto directo
+- `[24:57-24:59]` con una parte de la cintura
+- `[24:59-25:01]` ya, ok
+- `[25:01-25:03]` claro, claro
+- `[25:03-25:05]` esto es el nivel
+- `[25:05-25:07]` esto es el nivel de llenado
+- `[25:07-25:09]` ahora
+- `[25:09-25:11]` eso si es con peso
+- `[25:11-25:13]` si
+- `[25:13-25:16]` carga
+- `[25:20-25:22]` pero la otra también trae el peso
+- `[25:22-25:27]` la una utilizamos el peso para saber el nivel
+- `[25:27-25:32]` y esto utilizamos el peso para saber cuánto descargamos
+- `[25:32-25:37]` esto es para ver cuánto sigue esbotando y esto es para ver cuánto cae de adelante
+- `[25:37-25:40]` cuánto descarga
+- `[25:43-25:46]` Está peinada
+- `[25:46-25:46]` Sí
+- `[25:46-25:49]` Ya, ya, para mantener el volumen constante
+- `[25:49-25:50]` Correcto
+- `[25:50-25:52]` Al mantener un volumen constante
+- `[25:52-25:55]` Y tienes el peso, tú puedes calcular la densidad
+- `[25:55-25:56]` 100%
+- `[25:56-25:58]` Ya tienes la densidad
+- `[25:58-26:00]` Con el peso constante
+- `[26:00-26:02]` Y la velocidad de la banda
+- `[26:02-26:04]` Tú puedes calcular la descarga
+- `[26:04-26:07]` Ya tienes la descarga en minutos
+- `[26:07-26:08]` Buenazo
+- `[26:08-26:11]` Y ya tienes como interpreta
+- `[26:11-26:12]` Todas las pruebas de comunicación
+- `[26:12-26:15]` si todo empieza manteniendo el volumen constante
+- `[26:15-26:16]` claro
+- `[26:16-26:17]` que hay que ver que pasa
+- `[26:17-26:18]` es una estimación
+- `[26:18-26:18]` si
+- `[26:18-26:20]` volumen constante
+- `[26:20-26:21]` es decir la descarga
+- `[26:21-26:23]` y te da cuanto material yo estoy enviando
+- `[26:23-26:25]` pero esto no mide nada
+- `[26:25-26:26]` esto solo es
+- `[26:26-26:26]` claro
+- `[26:26-26:28]` pero nosotros adentro tenemos
+- `[26:28-26:31]` cuanta velocidad tiene ese motor de allá
+- `[26:31-26:33]` y este de acá
+- `[26:33-26:34]` es como decir que este motor
+- `[26:34-26:36]` más o menos depende más de este
+- `[26:36-26:37]` sensor
+- `[26:37-26:39]` la descarga es la multiplicación de los dos
+- `[26:39-26:42]` para entenderlo
+- `[26:42-26:45]` La descarga aquí está dada en kilogramos por minuto.
+- `[26:45-26:47]` ¿De dónde sacan los kilogramos? De allá.
+- `[26:47-26:49]` ¿De dónde sacan los minutos?
+- `[26:49-26:50]` ¿De cuál es la rotación?
+- `[26:50-26:51]` Ah, ya.
+- `[26:53-26:55]` La parte de allá es de la capa media.
+- `[26:56-26:58]` Tiene un sistema igual, similar a acá.
+- `[26:59-27:02]` El de nivel es nada de atar y el de pesante está acá delante.
+- `[27:03-27:05]` ¿Ves el sensor que está aquí tirando acá al frente?
+- `[27:05-27:05]` Sí.
+- `[27:05-27:08]` Y también hay un desecho de giro del motor.
+- `[27:09-27:10]` También son inyectivos.
+- `[27:11-27:11]` Ya.
+- `[27:12-27:15]` Cada que gira, se detecta que estamos girando la manta.
+- `[27:15-27:18]` Claro, veo ahí una piecita que cada vez que pasa es un metal.
+- `[27:19-27:22]` Ok, son los sensores que más vamos a encontrar en la parte de los clips.
+- `[27:24-27:28]` Entonces, el primer sensor de la... ¿Cómo se llama esta parte?
+- `[27:29-27:31]` Dos y mil de la parte interna.
+- `[27:32-27:32]` ¿El perón?
+- `[27:32-27:33]` Dos y mil de la parte interna.
+- `[27:33-27:34]` Dos y mil.
+- `[27:34-27:35]` Dos y mil.
+- `[27:35-27:36]` Ah, ya, dos y mil.
+- `[27:37-27:39]` Ya, y el dos y mil tiene dos sensores.
+- `[27:40-27:42]` El primero es de volumen, el segundo es de peso.
+- `[27:42-27:49]` y con las rotaciones de la banda por decir, del motor, se calcula la descarga.
+- `[27:54-27:56]` Estos son flucómetros.
+- `[27:57-28:00]` Esta es la parte digital donde da la conversión del flux.
+- `[28:01-28:03]` Estos son los flucómetros de sí.
+- `[28:04-28:06]` ¿Cómo funcionan estos flucómetros?
+- `[28:06-28:08]` Tiene una sección constante en un tubo constante.
+- `[28:09-28:14]` Tiene dos electrodos que miden la diferencia de conductividad de un punto al otro.
+- `[28:15-28:20]` Con la diferencia de conductividad del flujo constante, salvo la sección constante que calcula el flujo.
+- `[28:21-28:23]` El flujo nos da en litros por minuto.
+- `[28:23-28:24]` ¿En cómo?
+- `[28:24-28:25]` En litros por minuto el flujo.
+- `[28:26-28:29]` Este es el principio de funcionamiento de los sensores de aquí del flujo.
+- `[28:30-28:32]` Esto nos sirve para losificar las resinas.
+- `[28:32-28:34]` Por aquí losificamos nosotros resinas a ambos lados.
+- `[28:34-28:40]` Aquí hay material, especificamos la resina, en la parte de abajo especificamos los demás
+- `[28:40-28:51]` componentes, sensores de posición que también son bastante ocupados, actuadores, son actuadores
+- `[28:51-28:57]` neumáticos que acortan a válvulas mecánicas, lo que hacen es cierran y abren llaves, diferentes
+- `[28:57-28:59]` exposiciones
+- `[28:59-29:02]` y ahí no tiene más, electroválvulas que también va a haber
+- `[29:02-29:05]` una electroválvula y un observador automático
+- `[29:05-29:09]` hace el control de todo el conflicto
+- `[29:09-29:13]` esto es la parte de la alimentación que nos da la señal
+- `[29:13-29:15]` para acender o apagar
+- `[29:15-29:19]` este es otro mundo completo porque toda la parte de
+- `[29:19-29:23]` instrumentación, inspectores, es muy amplio
+- `[29:23-29:28]` entender como va a funcionar esto y también los otros que se hacen laboratorios
+- `[29:28-29:34]` porque estos se van a comandar cimientos de cintiación, de doble acción, con el otro no con muebles
+- `[29:34-29:38]` hay una infinidad de configuraciones que puedes tener
+- `[29:38-29:41]` lo importante es saber el concepto básico del control
+- `[29:41-29:43]` claro, ya se
+- `[29:43-29:45]` eso, más detenido a la parte mecánica
+- `[29:45-29:47]` si, muy bien
+- `[29:47-29:57]` Hay el motor, ahí tenemos los rodillos, que hacen una telera de material para la marte de la base, que va al entolador.
+- `[29:58-30:00]` Los sensores los utilizamos para dar el material.
+- `[30:02-30:04]` De material o taponamiento son ese tipo.
+- `[30:05-30:05]` Ya.
+- `[30:06-30:07]` Adentro tienen una mariposa que va a tirar.
+- `[30:08-30:11]` Cuando el material llega a ese punto y se traba, van a taponar.
+- `[30:11-30:12]` Ah, ya, ok.
+- `[30:12-30:17]` no hay ninguno visible ahorita porque nos van agarrando un tren de la racionalidad
+- `[30:17-30:19]` pero si cuando vamos a subir el aire
+- `[30:19-30:22]` entonces solo detecta algo y se tapa
+- `[30:22-30:24]` si, correcto
+- `[30:24-30:26]` ¿ya es común?
+- `[30:26-30:28]` a ver
+- `[30:28-30:30]` a ver
+- `[30:30-30:33]` esto necesita polvo, el sensor, el ventilador
+- `[30:33-30:37]` otra forma de medir el nivel es que se cura solo con paletas
+- `[30:37-30:41]` como si es lo mas pequeñito es mucho mas fácil interactuar el tipo que el aire
+- `[30:41-30:48]` El vibrador no es nada más que un motor como un ETE no balanceado.
+- `[30:48-30:50]` Está balanceado y así que...
+- `[30:54-30:57]` Los sensores hasta abajo, los inductivos.
+- `[30:59-31:01]` Esos van a ver todos lados.
+- `[31:01-31:04]` Oye, ¿cómo reconoces si son inductivos o no?
+- `[31:04-31:10]` La parte de los sensores inductivos es justamente cuando le ves que tiene presencia de algún metal
+- `[31:10-31:12]` algún agente externo que dé la señal
+- `[31:12-31:14]` como en este caso?
+- `[31:14-31:16]` en la rueda de acá dentro
+- `[31:18-31:20]` ah, ok
+- `[31:26-31:28]` estos son detalles y no metales
+- `[31:28-31:30]` ya
+- `[31:30-31:32]` no tenemos ninguno de estos
+- `[31:32-31:34]` al menos de allá
+- `[31:34-31:44]` En el caso de las instaladoras, aquí les utilizamos de este componente, en el caso de la acción de control, aquí está la con las bombas.
+- `[31:44-31:49]` Aquí hay otro tipo de acelerador neumático que es sólo una posición, abro, entiendo.
+- `[31:49-31:56]` Aquí hay más sensores, igual, negativo, mecánico.
+- `[31:56-31:58]` ¿Por qué hay dos?
+- `[31:58-32:03]` Si se te pasa que por el mismo tiempo definitivo, los mecánicos casi nunca paguen.
+- `[32:03-32:08]` Hay la perspectiva de los mecánicos que necesitan algo físico.
+- `[32:08-32:12]` Pero eso también, al tener algo físico, produce el gaspe.
+- `[32:12-32:14]` Conociendo el gaspe, se le está preparado.
+- `[32:14-32:17]` Al tener los dos, sale a lo superior.
+- `[32:19-32:22]` ¿Aquí se mezcla la resina para fina agua?
+- `[32:22-32:24]` Sí, aquí es el resino.
+- `[32:24-32:26]` y en pleno
+- `[32:26-32:27]` agua
+- `[32:27-32:29]` el de alla es de capa
+- `[32:29-32:31]` capa externa
+- `[32:31-32:33]` ok y aqui algo mas
+- `[32:33-32:35]` el sistema de enfriamiento
+- `[32:35-32:37]` que viene dado por una
+- `[32:37-32:39]` en la parte de abajo
+- `[32:39-32:41]` que circula toda la parte del encolar
+- `[32:41-32:43]` claro
+- `[32:43-32:45]` para que no reaccione
+- `[32:45-32:47]` la mezcla
+- `[32:47-32:49]` mas el suelo de sustitivo
+- `[32:49-32:51]` en lugares de mantenimiento
+- `[32:51-32:53]` las escuelas de mantenimiento
+- `[32:53-33:00]` y la mática se utiliza para tener el aire seco y para tener la presión
+- `[33:00-33:03]` aquí se acumula la parte del contaminado del agua
+- `[33:03-33:08]` aquí se acumula la parte del agua, es una de las partes del agua
+- `[33:08-33:11]` y esa es una de las partes del formato de marzo
+- `[33:11-33:14]` en especial la parte del agua
+- `[33:14-33:18]` y esa puede actuar con varios compromisos
+- `[33:23-33:28]` Esta es la anotolita que tenemos aquí.
+- `[33:28-33:36]` Se compone con igual de electroválvulas que manejan sistemas neumáticos con sintomas de cinta y orden de acción.
+- `[33:36-33:44]` Acá tenemos senores de excepción, más de electroválvulas, de los automáticos, de los de arriba también.
+- `[33:44-33:45]` ¿Y eso es manual?
+- `[33:45-33:47]` No, es automático.
+- `[33:47-33:54]` Ustedes desde el control room limitan resina desde acá se puede ver.
+- `[33:54-33:59]` A lo que inyecta la resina esto se puede ver, a lo que dejan de dosificar se pone bloque.
+- `[33:59-34:01]` Es una válvula de paso de forma de éxito.
+- `[34:01-34:03]` ¿Y es constante la resina?
+- `[34:04-34:05]` Sí.
+- `[34:05-34:05]` ¿Siempre?
+- `[34:06-34:07]` ¿Y se apagan ahorita?
+- `[34:08-34:09]` Se apagan desde arriba y se apaga.
+- `[34:09-34:10]` Ya, chévere.
+- `[34:11-34:12]` ¿Con sectores de presión?
+- `[34:12-34:13]` O se hacen...
+- `[34:13-34:22]` bueno, allá también me imagino que manejan lo que es la mezcla para que sea prueba de humedad en los tableros
+- `[34:22-34:26]` eso es solo una diferente proporción de esto de acá, que ahí se prende el color
+- `[34:26-34:34]` esto, esto es un sensor de opresión también, esto es una membrana constructora
+- `[34:34-34:38]` a lo que los sensores de opresión están interactuando directamente con la parte de componentes
+- `[34:38-34:41]` vienen a arañar las membranas de conducción
+- `[34:41-34:43]` y lo que hacen es mandar la señal
+- `[34:43-34:44]` y una señal de presión
+- `[34:44-34:46]` siempre que esté en contacto con el permanente directo
+- `[35:08-35:28]` ¿Qué te comentaba del control?
+- `[35:28-35:29]` ¿Esto es un putómetro?
+- `[35:30-35:30]` ¿Ya?
+- `[35:30-35:31]` ¿Te da el flujo?
+- `[35:32-35:34]` ¿Esta es la bomba que interactúa con un putómetro?
+- `[35:36-35:36]` ¿Ok?
+- `[35:36-35:38]` ¿Este manda la señal al PID?
+- `[35:38-35:40]` de cuanto me da más el grupo
+- `[35:40-35:42]` si falta grupo o estaré más grupo
+- `[35:42-35:44]` se acelera o va
+- `[35:44-35:46]` estos son los grupos de aquí
+- `[35:46-35:48]` son los electrodomésticos
+- `[35:48-35:50]` igual por una sección definida
+- `[35:50-35:52]` un electrodo aquí
+- `[35:52-35:54]` y otro electrodo acá
+- `[35:54-35:56]` estos de acá
+- `[35:56-35:58]` igual son los usuarios del grupo
+- `[35:58-36:00]` pero de otro sistema de medición
+- `[36:00-36:02]` o de otro pechito de medición
+- `[36:02-36:04]` estos son másicos
+- `[36:04-36:06]` este en el especifico
+- `[36:06-36:10]` El único es un defecto Coriolis, que es uno que vas a ver en física.
+- `[36:10-36:18]` El defecto Coriolis, como se distribuye, como se exa esto, tiene un tubo aquí, recto, y tiene un tubo acá.
+- `[36:19-36:25]` La diferencia de velocidad entre este y este, te da la velocidad de tu.
+- `[36:25-36:26]` Ok.
+- `[36:26-36:28]` Ese es el principio de esto.
+- `[36:28-36:58]` ¿Qué pasa?
+- `[36:58-37:03]` Este también mide el nivel, pero este es el nivel de compresión.
+- `[37:03-37:05]` Se va llenando igual.
+- `[37:05-37:08]` Cuanto la plasta, pero es de que está la baja.
+- `[37:08-37:09]` Correcto.
+- `[37:09-37:13]` Mínima, máxima interpolación lineal es cuanto el nivel.
+- `[37:13-37:14]` Así es el calibre.
+- `[37:14-37:15]` Claro.
+- `[37:15-37:18]` Hay que estar constantemente calibrándoles.
+- `[37:18-37:19]` Ya está.
+- `[37:19-37:22]` El ajuste debería terminar solo una vez.
+- `[37:22-37:27]` Cuando los accesorios de presión se manchan con resina o parafina, te dejan enviar la
+- `[37:27-37:33]` necesitas limpieza y vuelve a cargarla
+- `[37:33-37:37]` se hace normalmente en los días de mantenimiento
+- `[37:37-37:41]` un día de mantenimiento casi que se vacía toda la leña
+- `[37:41-37:45]` se vacía todo y se repita toda la parte de los componentes que puedan afectar
+- `[37:45-37:47]` también los tanques de resina parafina
+- `[37:47-37:51]` los tanques de orio de acá adelante y los tanques grandes
+- `[37:57-38:08]` La parte del cuadriculo
+- `[38:08-38:12]` El cuadriculo tiene el material
+- `[38:12-38:14]` Cae acá
+- `[38:14-38:16]` El cuadriculo se mide
+- `[38:16-38:18]` Se confunde acá
+- `[38:18-38:20]` Cae a una cama de ruido
+- `[38:20-38:21]` Y cae el cuadriculo
+- `[38:27-38:29]` ¿Claro?
+- `[38:29-38:31]` Capa baja
+- `[38:31-38:33]` Es la primera capa
+- `[38:33-38:35]` Es una que es para la capa media
+- `[38:35-38:37]` Dos camas de rodillas
+- `[38:37-38:41]` Y esos son los tornillos que decías
+- `[38:41-38:43]` Los rodillos
+- `[38:43-38:45]` Los rodillos
+- `[38:45-38:47]` Te hacen la documentación
+- `[38:47-38:49]` El sistema de aquí, desde allá, es completamente liberado
+- `[38:49-38:51]` Ah, ya
+- `[38:51-38:53]` Es más mecánico
+- `[38:53-39:05]` pero los rodillos también clasifican, no es cierto?
+- `[39:05-39:07]` si
+- `[39:07-39:10]` la clasificación de estos rodillos es la separación
+- `[39:10-39:12]` claro, es legado
+- `[39:12-39:16]` hay un sistema parecido allá atrás
+- `[39:16-39:19]` el diamante también tiene mucho que ver
+- `[39:19-39:20]` la forma?
+- `[39:20-39:25]` Los directos de aquí son como moleteados, pero cada moleteado de esos tiene diferentes profundidades.
+- `[39:25-39:28]` El de 0.3 lo está dando a 0.3.
+- `[39:28-39:30]` Y eso va siendo la clasificación de todas las cosas.
+- `[39:30-39:32]` Claro, hay muy de dinero.
+- `[39:36-39:38]` ¿Qué es el plan de esta lucha?
+- `[39:38-39:39]` ¿Pero a la dos?
+- `[39:43-39:47]` El producto que venga abajo, el tabaco es la central de pesaje de aquí.
+- `[39:47-39:51]` las dos plataformas
+- `[39:55-39:59]` este es el peso total del colchón
+- `[39:59-40:03]` y esto es la administración de aquí para todo
+- `[40:03-40:05]` hasta donde hace la...
+- `[40:05-40:07]` hasta la losificación
+- `[40:07-40:11]` el peso de aquí es muy importante
+- `[40:11-40:15]` lo más importante que tiene en estas líneas es en estos pasos
+- `[40:17-40:19]` Gracias a ti.
+- `[40:47-40:52]` ¿Para qué es el neumático? ¿Para sacar aire?
+- `[40:52-40:58]` El neumático, los sistemas neumáticos son para un poco de acciones o cualquier accionamiento que necesites
+- `[40:58-41:00]` A baja presión o baja eficiente
+- `[41:00-41:04]` ¿Y este específicamente para qué se usa?
+- `[41:04-41:11]` Este de aquí es el hidráulico que hace que suba o baje la prensa para agitarse el exceso de aire de pochón
+- `[41:11-41:14]` Ah, ya, ok. Esto solo te reduce el aire.
+- `[41:15-41:15]` Depresión.
+- `[41:15-41:16]` Depresión un poquito.
+- `[41:16-41:18]` y te pone uniforme
+- `[41:18-41:20]` ¿es la diferencia de altura de atrás
+- `[41:20-41:21]` como la de adelante?
+- `[41:23-41:25]` es como una pre prensa
+- `[41:25-41:27]` claro
+- `[41:27-41:32]` oye y la
+- `[41:32-41:34]` las prensas son
+- `[41:34-41:36]` como se llama
+- `[41:36-41:38]` como que linealmente bajan
+- `[41:38-41:39]` hasta llegar al
+- `[41:39-41:42]` al anchor o es de entrada
+- `[41:42-41:44]` va a entrar ambición
+- `[41:44-41:49]` la defrada tiene mas puntos de presión y de ahi vas aplicando presiones constantes
+- `[41:49-41:51]` hasta una parte de mujer
+- `[41:51-41:53]` claro es lento es como un bubo
+- `[41:53-41:55]` es un sistema de puña mas de vez
+- `[41:55-41:56]` ya
+- `[41:56-41:57]` ah ya
+- `[41:57-41:59]` para arriba o abajo
+- `[42:01-42:04]` eso no necesitaban que los metales y no metales
+- `[42:04-42:07]` se presentan como pobres y todos no metales
+- `[42:07-42:11]` acá tenemos el sector de óptico
+- `[42:11-42:13]` Ahí ya.
+- `[42:13-42:16]` Este es un sensor óptico.
+- `[42:16-42:18]` Cuando no hay la constación del mismo sistema,
+- `[42:18-42:21]` de mano no se puede igualar bien funcionado.
+- `[42:21-42:25]` Acá hay un sensor bastante interesante.
+- `[42:25-42:29]` Este es un sensor óptico de medición de altura.
+- `[42:29-42:31]` Se da una de alimentación de la altura,
+- `[42:31-42:33]` desde el punto de medición
+- `[42:33-42:35]` hasta el punto que tiene el de la presión en la banda.
+- `[42:35-42:37]` Esta es la diferencia.
+- `[42:37-42:38]` Sí.
+- `[42:38-42:45]` y esto hace la administración de esta amante de la llave para mantener un contacto en tanto de altura
+- `[42:48-42:53]` y esto es otro tipo de sectores, igual, directivos, tenemos la presentación
+- `[43:00-43:06]` sistema de medición, sistema de medición de altura, sensores de finales de carrera mecánicos
+- `[43:06-43:15]` Esto da la interpretación de la altura dependiendo a cuanto nivel de resistencia mande la parte de esa zona.
+- `[43:15-43:45]` La presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión de la presión
+- `[43:45-43:52]` Cada plato está seteado a una temperatura diferente, 220, 220, 220, 220, 220.
+- `[43:52-43:56]` Defectando las necesidades de producción, también la presión.
+- `[43:56-44:01]` La presión, pues, es el ecuante de acuerdo con las necesidades.
+- `[44:01-44:06]` Más para entrada, no comunica la salida, sólo para la estabilización.
+- `[44:06-44:07]` María.
+- `[44:07-44:14]` Los equipos que ven aquí son los bloques de control de presión de cada uno de los equipos.
+- `[44:15-44:17]` vale
+- `[44:17-44:19]` vale
+- `[44:19-44:21]` vale
+- `[44:27-44:29]` el neumático es para tensión de la
+- `[44:29-44:31]` la tensa
+- `[44:31-44:35]` es un efecto de
+- `[44:35-44:37]` hidráulico que viene básicamente con una
+- `[44:37-44:39]` bomba verdad? que hace que se prescute
+- `[44:39-44:41]` el aceite que es un líquido de compresión
+- `[44:41-44:43]` ese es el tema
+- `[44:43-44:54]` esas dos bombas no dan la presión necesaria para todo el sistema de la prensa
+- `[44:54-45:00]` tanque de almacenamiento de aceite hidráulico
+- `[45:00-45:03]` ya se maneja
+- `[45:03-45:09]` ahora la parte de presión y temperatura nos llega también
+- `[45:09-45:11]` ¿Perdón? ¿Catal?
+- `[45:11-45:16]` Lo que tiene demasiada diferencia de temperatura, los líquidos cambian sus propiedades.
+- `[45:16-45:20]` Por eso el líquido hidráulico no debe superar 100 temperaturas.
+- `[45:20-45:25]` Para trabajar, ya interviene el sistema de encubriamiento de la prensa.
+- `[45:25-45:31]` Tenemos un sistema de calentamiento y un sistema de enfriamiento para mantenerle a las temperaturas que creen.
+- `[45:31-45:36]` El sistema de calentamiento se hace por medio de aceite térmico y ahí llegan las bombas.
+- `[45:36-45:38]` Se dosifican a cada uno de los marcos.
+- `[45:38-45:40]` Se canta.
+- `[45:40-45:42]` Esto es un lento.
+- `[45:42-45:44]` Esto calienta el aceite térmico
+- `[45:44-45:46]` hasta la temperatura que se solicite.
+- `[45:46-45:48]` ¿A la temperatura de qué?
+- `[45:48-45:50]` Hasta la temperatura solicitada.
+- `[45:50-45:52]` Recibe los 85 grados.
+- `[45:52-45:54]` Ah. Ok.
+- `[45:54-45:56]` El aceite hidraulico.
+- `[45:56-45:58]` El aceite térmico.
+- `[45:58-46:00]` Para calentar.
+- `[46:00-46:02]` Para calentar.
+- `[46:02-46:04]` Para calentar la parte de la presión.
+- `[46:04-46:06]` acá
+- `[46:13-46:15]` sale el tablero
+- `[46:15-46:17]` que está de la parte de aquí, son asieras domicilinales
+- `[46:17-46:19]` recortan los bordes
+- `[46:19-46:21]` ah, ya
+- `[46:24-46:26]` recortan acá
+- `[46:34-46:41]` esta es la pareja de la ingeniería
+- `[46:41-46:47]` las tierras, la distancia y las velocidades del tratamiento
+- `[46:47-46:49]` las velocidades de la tienda
+- `[46:49-46:51]` claro, se adaptan todos solitos
+- `[46:55-46:56]` hermoso
+- `[46:56-46:57]` ¿está transportando?
+- `[46:57-46:58]` no
+- `[47:00-47:02]` ahí está la parte
+- `[47:02-47:06]` Me regresaron en esta altura de los planes.
+- `[47:11-47:12]` ¿Sabes?
+- `[47:13-47:13]` Hermoso.
+- `[47:14-47:16]` El corte da 90 grados.
+- `[47:16-47:19]` Y la calificación de esto es complicada.
+- `[47:21-47:25]` Se puede cortar a 95, pero se puede cortar mal la parte de las diagonales.
+- `[47:25-47:30]` Las diagonales se entienden como la medida al encima.
+- `[47:30-47:36]` Ahora cuando las diagonales están mal, el papel no te sale cuadrado.
+- `[47:36-47:42]` Hay que calcular el sistema de autosángulos para configurar la pierna.
+- `[47:42-47:48]` Hay problemas de física que no lo hacían hacer.
+- `[47:52-47:54]` Pero es todo triángulo.
+- `[47:54-47:57]` Aquí tenemos el sistema ultracónico
+- `[47:57-47:58]` Ya
+- `[47:58-48:02]` Los emisores en la parte de abajo y los emisores en la parte de arriba
+- `[48:02-48:05]` Y acá igual tenemos el sistema de medición de espesor
+- `[48:05-48:08]` Este sistema de medición de espesor es un parqueo
+- `[48:10-48:16]` La diferencia entre cuando las ruedas tocan y cuando no tocan es la medición
+- `[48:16-48:18]` Ah, ya, ya, ya
+- `[48:18-48:20]` ¿La distancia?
+- `[48:20-48:24]` Aquí tenemos otro sistema de pesaje que me da el peso del tablero.
+- `[48:25-48:27]` Son 400 pesajes.
+- `[48:31-48:34]` La parte del tablero se pesa.
+- `[48:35-48:45]` Esta parte de ahí, desde aquí, está completamente aislada del resto del camino para que el peso del tablero sea individual.
+- `[48:45-48:47]` individual
+- `[48:47-48:51]` hoy pasamos a una etapa que se llama grupo
+- `[48:51-48:53]` y hacen la ocupación de tres tableros para meter a la prensa
+- `[48:53-48:55]` ah ya se apilan
+- `[48:59-49:01]` la dos
+- `[49:01-49:03]` espera el tercero
+- `[49:07-49:09]` ingreso
+- `[49:09-49:13]` todo eso es solo con sensores
+- `[49:13-49:17]` de tableros, bien configurados son super bonitos.
+- `[49:27-49:31]` La parte del atilado del enfriamiento que solo es para darle esta configurada a los tableros,
+- `[49:31-49:37]` se van ocupando dentro del enfriamiento y también se van descargando a consecuencia.
+- `[49:37-49:44]` Aquí tienen otro tipo de accesorios que también son ópticos, pero estos son ópticos con una retroalimentación.
+- `[49:44-49:46]` ¿Emissor?
+- `[49:46-49:47]` ¿Exacto?
+- `[49:47-49:48]` Ah, ya.
+- `[49:48-49:49]` Un punto.
+- `[49:49-49:51]` Desde allá lo que hace es enfriar la vista.
+- `[49:51-49:52]` Claro.
+- `[49:52-49:53]` ¿Y cuántas veces pasa un tablero?
+- `[49:53-49:54]` Es como el chart.
+- `[49:54-49:55]` ¿Al visto el sensor chart?
+- `[49:55-49:56]` Es el.
+- `[49:56-49:57]` Vamos a ver.
+- `[49:57-50:04]` la última parte en la que abrilamos los tableros
+- `[50:04-50:07]` ahora, ¿cómo se sabe cuántos tableros salen?
+- `[50:07-50:09]` por medio de la contabilización de ese tercero ahí
+- `[50:09-50:12]` ¿ah, de ahí?
+- `[50:13-50:17]` manda la señal, da un hueco, uno
+- `[50:17-50:19]` manda la señal, da un hueco, dos
+- `[50:19-50:21]` esa es la contabilización
+- `[50:21-50:26]` ahí se apilan perfectamente
+- `[50:26-50:31]` Se apilan, se agrupan con sistemas neumáticos y van bajando
+- `[50:42-50:44]` Esto es con sistemas neumáticos, dijiste?
+- `[50:44-50:45]` Si
+- `[50:45-50:47]` Ahí suena
+- `[50:47-50:50]` Después nosotros del cerrado
+- `[50:50-50:52]` y una de acá
+- `[50:52-50:55]` con corte como duda
+- `[50:55-50:57]` y una de la linda
+- `[50:57-50:59]` hasta aquí es toda la parte del proceso
+- `[50:59-51:01]` positivo de El Lomerang
+- `[51:01-51:20]` y queda
+- `[51:20-51:32]` y de aquí ya recoge un
+- `[51:32-51:34]` montacargista y lleva la etapa
+- `[51:34-51:36]` desligado y ahí comienza la etapa de la parte
+- `[51:36-51:37]` de laminado también
+- `[51:37-51:41]` ¿dudas?
+- `[51:42-51:43]` o sea
+- `[51:43-51:45]` van a tomar las dudas
+- `[51:45-51:47]` demasiada información
+- `[51:47-51:50]` Sí, pero voy a tratar de con otro cojo.
+- `[51:56-51:59]` Este es Marco Villalba, gerente de la parte de mantenimiento.
+- `[52:00-52:02]` Marco Villalba, gerente de la parte de mantenimiento.
+- `[52:03-52:05]` Juan Carlos, el que estaba en la parte de mantenimiento.
+- `[52:05-52:06]` Juan Carlos?
+- `[52:06-52:07]` Sí, es el de...
+- `[52:07-52:10]` ¿Cuál es tu título?
+- `[52:11-52:12]` Supervisor de producción.
+- `[52:13-52:14]` Supervisor de producción.
+- `[52:14-52:15]` ¿Y a Manuel?
+- `[52:15-52:16]` ¿Pero a ver?
+- `[52:16-52:17]` El es jefe de acomerado
+- `[52:17-52:18]` Jefe de acomerado
+- `[52:23-52:25]` Este laboratorio número 1 de castellano
+- `[52:45-52:55]` Bueno, se concluye la emisión de...
+- `[52:55-52:57]` Esto es línea 2, ¿no?
+- `[52:57-52:58]` Línea 1
+- `[52:58-53:06]` Proceso, sensores, todo

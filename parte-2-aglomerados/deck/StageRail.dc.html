@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="display:flex;gap:8px;width:100%;align-items:center;">
+  <sc-for list="{{ cells }}" as="c" hint-placeholder-count="10">
+    <sc-if value="{{ c.done }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;height:42px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:22px;background:#004E38;color:#ffffff;">{{ c.n }}</div>
+    </sc-if>
+    <sc-if value="{{ c.cur }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1.35;height:46px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:24px;background:#FFDE00;color:#004E38;box-shadow:0 5px 16px rgba(0,78,56,0.30);">{{ c.n }}</div>
+    </sc-if>
+    <sc-if value="{{ c.up }}" hint-placeholder-val="{{ true }}">
+      <div style="flex:1;height:42px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:22px;background:#ffffff;color:#AEB4B0;border:2px solid #D9DDD9;box-sizing:border-box;">{{ c.n }}</div>
+    </sc-if>
+  </sc-for>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:60},&quot;active&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:3,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:0,&quot;max&quot;:10}}">
+class Component extends DCLogic {
+  renderVals() {
+    const active = Number(this.props.active ?? 0);
+    const cells = [];
+    for (let i = 1; i <= 10; i++) {
+      cells.push({ n: i, done: i < active, cur: i === active, up: i > active });
+    }
+    return { cells };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,474 @@
+# Reunion angeloncipales — Perfilómetro, tau y calibración de esparcidoras
+
+## Metadata
+
+- Fecha de procesamiento: 2026-06-22
+- Contexto: NOVOPAN / aglomerados / línea de tableros de partículas MDP
+- Audio original normalizado: `audios/2026-06-22_aglomerados/reunion_angeloncipales.m4a`
+- Duración aproximada: 20:28
+- Transcripción cruda: `transcripts/2026-06-22_aglomerados/raw/reunion_angeloncipales.txt`
+- Artefactos timestamped: `transcripts_audio_aglomerados/2026-06-22_batch/reunion_angeloncipales.json/.srt/.tsv/.vtt`
+
+## Resumen ejecutivo
+
+Esta reunión entra en el corazón del problema de dosificación por capas. Se explica el perfilómetro/densitómetro como herramienta para ver distribución de densidad a lo largo del tablero y detectar anomalías de material. El parámetro `tau` aparece como la diferencia entre lo que deberían mandar las esparcidoras y lo que mide la báscula central; idealmente debe oscilar cerca de cero, pero se menciona un desvío constante cercano a 5.
+
+El problema no parece ser solo de peso patrón estático: las celdas de carga de esparcidoras y báscula central pueden marcar bien en parado, pero fallar dinámicamente cuando la banda se mueve, cuando cambia el arrastre o cuando el material entra con distinta densidad/flujo. Se mencionan tres frentes abiertos: esparcidoras, dosificadoras y tau/TAM, con espera de instrucciones del fabricante para calibración mecánica y eléctrica.
+
+## Puntos clave con timestamp
+
+- `[00:45-01:25]` Perfilómetro/densitómetro: mide densidad del tablero y permite detectar caída o mala distribución de material.
+- `[01:30-02:40]` Si la báscula central detecta caída, el controlador acelera bandas para compensar; después puede aparecer subida brusca por acción de control.
+- `[02:12-04:20]` `Tau` se define como diferencia entre la suma de lo descargado por esparcidoras y lo que pide/mide la báscula central. Debería mantenerse alrededor de cero.
+- `[04:40-05:35]` Relación de capas: se habla de 30% capas externas y 70% capa media; el 30% externo se divide asimétricamente para controlar pandeo/rectitud del tablero.
+- `[05:48-06:27]` Prueba de papel/testigos entre capas para pesar la separación real; se observa que se pide 30 pero puede estar saliendo 33.
+- `[06:49-08:40]` Cada esparcidora tiene dos celdas de carga izquierda/derecha sobre rodillo; la central tiene cuatro. La tara en vacío registra referencias a lo largo de la banda.
+- `[08:44-10:18]` El problema puede estar en el punto de referencia/linealización de las celdas de carga, especialmente si el cero o milivoltios de partida queda mal ajustado.
+- `[10:18-10:50]` Se mencionan tres problemas: esparcidoras, dosificadoras y tau/TAM; se espera respuesta del fabricante sobre calibración mecánica y eléctrica.
+- `[11:20-12:10]` La dosificación por etapas se vuelve compleja: pesos superiores para componentes, pesos inferiores para relaciones de capa, preprensa, vapor, prensa, humedad, mezcla, temperatura y presión.
+- `[12:55-20:28]` Se revisa un taponamiento de línea y se intenta reconstruir cronología de alarmas, rodillos, nivel, velocidad y parada de producción.
+
+## Gaps técnicos detectados con research
+
+- **Definición formal de tau/TAM.** Falta fórmula exacta, unidades, signo, tags de entrada y tolerancia admisible. Debe quedar claro si compara setpoint de esparcidoras vs báscula central, descarga real vs pedido, o una compensación interna.
+- **Calibración dinámica vs estática.** El audio dice que con pesos patrón marca bien, pero en producción no. NIST respalda que en básculas de banda se deben controlar zero-load, pruebas con material, alineación, limpieza, velocidad y adherencia de material; esto es clave para no culpar solo a la celda.
+- **Linealización y rango de celdas.** Confirmar salida mV/V, punto de cero con peso muerto, span, rango lineal, carga lateral, tensión de banda y efectos de rodillo/arrastre. El problema puede aparecer solo con banda moviéndose.
+- **Relación de capas y validación de papel.** Formalizar SOP de prueba de papel: ubicación del testigo, tiempo de muestra, pesaje, cálculo de % capa externa/core, repetibilidad y criterio de aceptación.
+- **Perfil de densidad no basta solo.** Research de densidad vertical muestra que el perfil es relevante, pero no predice por sí solo internal bond; también influyen adhesivo, contenido de resina, tamaño de partícula, especie, humedad y parámetros de prensa. Hay que cruzar perfilómetro con QC y proceso.
+- **Respuesta del fabricante.** Abrir pendiente formal con evidencia: tendencias, valores tau, pruebas de patrón, tara dinámica, fotos/planos de celdas, historial de ajustes y síntomas por velocidad/material.
+- **Cronología de taponamiento.** Se mezclan fechas/horas (`sábado`, `20/21`, `2:15`, `2:52`, `3:20`). Requiere exportar alarm log y trend sincronizado para no construir la causa raíz sobre memoria verbal.
+
+## Términos por confirmar
+
+- `tau` vs `TAM`: el audio usa tau con claridad al inicio, pero luego suena como TAM.
+- `dosimbuncas`: probablemente dosificadoras/bunkers superiores.
+- `perfilómetro`: confirmar si es densitómetro GreCon u otro sistema.
+- `53/43`: posible error de transcripción; la división de capas externas debe sumar 100% del externo o explicar el diferencial real.
+- `vapor`: se menciona una etapa de vapor que no estaría operando/instalada; validar estado.
+
+## Research externo usado para gaps técnicos
+
+- [EPA AP-42, cap. 10.6.2 Particleboard Manufacturing](https://gaftp.epa.gov/ap42/ch10/s062/c10s06-2.pdf): confirma el flujo base de particleboard: preparación/clasificación de partículas, secado, mezcla con resina/cera, formación de colchón, prensado caliente y acabado.
+- [CORRIM, Particleboard life-cycle inventory](https://corrim.org/wp-content/uploads/2018/03/lci-particleboard-panels-resource-through-product.pdf): referencia de proceso para secado, blending con resina/wax/catalyst, formación por capas face/core, hot pressing, enfriado, corte y lijado.
+- [ANSI A208.1-2016 Particleboard](https://res.cloudinary.com/hdi/image/upload/v1621251940/Suppliers/Guides/CPA_ANSI_Standard_A208_1_Particleboard_2016.pdf): marco externo de propiedades, tolerancias, test methods, inspección e identificación de tableros de partículas.
+- [NIST Handbook 44, Section 2.21 Belt-Conveyor Scale Systems](https://www.nist.gov/document/2026-nist-handbook-44-section-221): referencia para calibración, zero-load tests, material tests, alineación, limpieza y operación de básculas en banda.
+- [Siemens PID_Compact docs](https://docs.tia.siemens.cloud/r/en-us/v21/pid-control/pid-control-s7-1200-s7-1500-s7-1200-g2/using-pid_compact-s7-1200-s7-1500-s7-1200-g2/technology-object-pid_compact-s7-1200-s7-1500-s7-1200-g2): referencia para SP, PV, desviación de control y acciones P/I/D en PLC.
+- [Endress+Hauser, medición de nivel en silos de sólidos](https://www.us.endress.com/_storage/asset/4898436/storage/master/file/47932299/download/WP01074F24EN0118%20-%20Measuring%20the%20level%20of%20bulk%20solids%20stored%20in%20silos.pdf): criterios de selección para radar/ultrasonido en silos con polvo, estructuras internas y condensación.
+- [Endress+Hauser, principio electromagnético de medición de flujo](https://www.endress.com/en/support-overview/learning-center/flow-measuring-principle-emf): referencia para flujómetros magnéticos en líquidos conductivos.
+- [Endress+Hauser, principio Coriolis](https://www.endress.com/en/support-overview/learning-center/flow-measuring-principle-coriolis): referencia para medición directa de flujo másico, densidad y temperatura.
+- [Suo & Bowyer, Simulation modeling of particleboard density profile](https://wfs.swst.org/index.php/wfs/article/download/880/880/0): el perfil de densidad vertical afecta propiedades del tablero y se relaciona con temperatura, humedad y prensado.
+- [Korai 2021, Journal of Wood Science](https://link.springer.com/article/10.1186/s10086-021-01994-4): advierte que el perfil de densidad por sí solo no explica todo el internal bond; también importan adhesivo, partículas, especies, humedad y parámetros de prensa.
+
+## Transcripción segmentada
+
+> Transcripción automática con Whisper large-v3-turbo. Mantener como base cruda; corregir términos técnicos contra planta antes de usar en documentos formales.
+
+- `[00:00-00:04]` Chévere, chévere. Vamos conversando y vamos bien.
+- `[00:14-00:15]` Gracias.
+- `[00:15-00:16]` Gracias.
+- `[00:45-00:50]` de densidades también te indica una anomalía o falla en la parte de la distribución.
+- `[00:51-00:52]` Esos son estos puntos.
+- `[00:54-00:54]` Es la densidad.
+- `[00:55-00:57]` Sí, es la densidad. Este es el perfil ómetro.
+- `[00:57-01:01]` Es que le ves el tomatito ahí. Va midiendo la densidad a lo largo del tablero.
+- `[01:01-01:05]` ¿Qué te permite ver la densidad? ¿Cómo está distribuida o qué tanto de material tienes
+- `[01:05-01:05]` en cada punto?
+- `[01:05-01:06]` Claro.
+- `[01:06-01:10]` Ok. Si tú ves, no es cierto, que esta tiene una variación, tienes una caída de material
+- `[01:10-01:17]` en ese punto puede deberse a que el sensor en verdad está midiendo bien, que está menos
+- `[01:17-01:21]` material y solo es una consecuencia de algo mecánico que no le está permitiendo que
+- `[01:21-01:22]` se esparza bien.
+- `[01:22-01:22]` Claro.
+- `[01:23-01:24]` Ok, esa es la una.
+- `[01:24-01:28]` Porque el sensor, si es que está bien, solo lo que te va a hacer es el peso que te da,
+- `[01:28-01:29]` te da la caída y la subida.
+- `[01:30-01:32]` ¿Y por qué se atentan esas oscilaciones?
+- `[01:32-01:37]` Porque a lo que pasa en la báscula central, si el sistema ve una caída pronunciada, lo
+- `[01:37-01:41]` que haces manda acelerar las bandas para tratar de compensar esa caída, después de la caída
+- `[01:41-01:48]` pronunciada hay una subida brusca, es por acción de controlador, ahora, que falta como calibrar,
+- `[01:49-01:54]` identificar el problema es la parte difícil, esto no debe pasar, primero, la parte como se
+- `[01:54-02:01]` mitiga esto es, haces una limpieza, sopeteas, ves que todo sea uniforme, y en la banda, claro,
+- `[02:01-02:06]` en la banda, una vez que esto sea uniforme, no deberías tener variaciones de peso, ves
+- `[02:06-02:12]` las variaciones de peso en la central y vas viendo en cuál es la que te está mandando más
+- `[02:12-02:18]` o menos material del que debería aquí hay uno bueno un parámetro que se llama tau que es la
+- `[02:18-02:25]` diferencia entre lo que me está mandando la parte de las esparcidoras que son las tres y de lo que
+- `[02:25-02:34]` me dice la báscula central la báscula central sí esa me hace el peso total del coche y en base a
+- `[02:34-02:36]` a los parámetros que tú tienes seteados, que te dices
+- `[02:36-02:38]` quiero mandarle 30% de las
+- `[02:38-02:40]` capas externas y 70% de la capa media
+- `[02:40-02:41]` te hace un cálculo
+- `[02:41-02:44]` supongamos que me está pidiendo
+- `[02:44-02:46]` 9 metros, como se llama
+- `[02:46-02:47]` kilogramos por metro cuadrado
+- `[02:47-02:50]` me dice, ok, 3 kilogramos por metro
+- `[02:50-02:52]` cuadrado deberían ser de capas externas
+- `[02:52-02:54]` y 6 kilogramos
+- `[02:54-02:56]` por metro cuadrado deberían ser de capa media
+- `[02:56-02:58]` ya, te da las proporciones
+- `[02:58-03:00]` eso alimenta
+- `[03:00-03:02]` a los desparcidores, ese es el set
+- `[03:02-03:04]` Que deberían descargar las esparcidoras.
+- `[03:04-03:08]` Ya, esa es una medida que está después, pero manda...
+- `[03:08-03:09]` Correcto.
+- `[03:09-03:09]` Ok, chévere.
+- `[03:09-03:14]` Esto realmente aquí, desde aquí para siempre el máster es la prensa y va jalando todo lo demás,
+- `[03:14-03:17]` porque todo esto también está relacionado con la parte de la velocidad.
+- `[03:17-03:18]` Claro.
+- `[03:18-03:18]` Ok.
+- `[03:19-03:19]` ¿Es cierto?
+- `[03:19-03:22]` Me mandan las proporciones a cada esparcidora,
+- `[03:22-03:27]` y una vez que me mandan las proporciones, las esparcidoras con la parte de las bandas,
+- `[03:28-03:29]` ¿calculan cuánto están mandando?
+- `[03:29-03:30]` Claro.
+- `[03:30-03:30]` Ok.
+- `[03:30-03:34]` El porcentaje que le pide acá
+- `[03:34-03:37]` Se forma el colchón
+- `[03:37-03:38]` Y vuelve a pasar acá
+- `[03:38-03:41]` Y ahí tienes el bucle cerrado
+- `[03:41-03:41]` ¿No es cierto?
+- `[03:42-03:42]` Claro
+- `[03:42-03:44]` Ahora, cuando el peso
+- `[03:44-03:46]` Que mandaron las esparcidoras
+- `[03:46-03:48]` No es el que pidió la báscula central
+- `[03:48-03:50]` La báscula central me dice
+- `[03:50-03:53]` Ok, me estás mandando con una diferencia de 5%
+- `[03:53-03:55]` Mándame 5% más
+- `[03:55-03:56]` Ese es el Tau
+- `[03:56-03:59]` El Tau debería estar en cero normalmente
+- `[03:59-04:02]` Ya, el tau es lo que pide de diferencia.
+- `[04:02-04:06]` De lo que hay de diferencia entre la fumatoria de las fes y lo que me manda la central.
+- `[04:06-04:08]` Y lo que pide la vascula.
+- `[04:09-04:10]` Claro, ese es.
+- `[04:10-04:11]` Siempre deberías estar en cero.
+- `[04:12-04:15]` Si tienes una diferencia negativa o positiva, tienes un problema.
+- `[04:15-04:17]` Claro, deberías estar en cero cerrado.
+- `[04:17-04:18]` No hay margen de error ahí.
+- `[04:18-04:19]` Y eso es lo que hay.
+- `[04:19-04:21]` Porque es la variación de peso.
+- `[04:21-04:24]` Claro, puedes tener una oscilación, pero siempre cercana a cero.
+- `[04:25-04:26]` Normalmente hay una oscilación, ¿no es cierto?
+- `[04:26-04:31]` Sí, normalmente debe tener una acilación porque es hasta que realmente el sensor, pero siempre tiene que estar en cero.
+- `[04:31-04:34]` Ahora nuestro TAUS está en una 5, constante.
+- `[04:35-04:37]` Tengo un problema, primer problema.
+- `[04:37-04:41]` Tengo otro problema en cuanto es la relación de capas.
+- `[04:42-04:43]` ¿La proporción de capas?
+- `[04:43-04:45]` ¿Y por qué no es estándar eso?
+- `[04:45-04:50]` Sí, a ver, nosotros sentíamos que me mande 30% de capas externas.
+- `[04:50-04:51]` ¿No? ¿15-15?
+- `[04:53-04:53]` No, es 15-15.
+- `[04:54-04:54]` ¿No?
+- `[04:54-05:02]` No, a ver, es 30% de capas externas y de ahí tengo ese 30%, le haces del mismo 100% y le divides en 53, 43.
+- `[05:03-05:04]` Ya, ya, ya, ok.
+- `[05:04-05:08]` Ok, del 15% será 53 abajo y...
+- `[05:08-05:10]` 53 arriba, 43 abajo.
+- `[05:10-05:12]` Ok, por lógica de...
+- `[05:12-05:14]` Sí, es un parámetro que se puede...
+- `[05:14-05:17]` Por física de la prensa, me imagino.
+- `[05:17-05:18]` Esto es para pandejo.
+- `[05:19-05:22]` Ok, cuando tú tienes más material arriba, lo que hace el tablero es esto.
+- `[05:22-05:23]` Ah, ok.
+- `[05:23-05:25]` Tiene más material de capa externa para abajo.
+- `[05:25-05:26]` Es esto.
+- `[05:27-05:28]` ¿Por qué tiene esas diferencias?
+- `[05:28-05:30]` Es para tratar de controlar que el tablero lo traiga recto.
+- `[05:30-05:31]` Sí, sí, sí.
+- `[05:31-05:31]` Ok.
+- `[05:32-05:34]` Por eso es la diferencia entre capas externas.
+- `[05:34-05:38]` La de capa media y capas externas es más para toda la parte de superficie,
+- `[05:38-05:39]` el fijado que debes tener,
+- `[05:39-05:42]` y la parte del core del tablero que es para la parte de estructura mecánica.
+- `[05:43-05:43]` Claro.
+- `[05:43-05:45]` Ahora, yo le seteo y le digo, mándame 30.
+- `[05:46-05:47]` Mándame 30-70.
+- `[05:48-05:51]` Hago la prueba, las pruebas que hacemos aquí para comprobar eso son pruebas de papel.
+- `[05:51-05:54]` que ponemos un papel y me da la separación de cada capa
+- `[05:54-05:55]` puedo ver las tres capas
+- `[05:55-05:56]` separadas que ya le vamos a llevar
+- `[05:56-05:59]` un papel como que entre cada capa, entre las esparcidoras
+- `[05:59-06:00]` si, ya tengo unos testigos
+- `[06:00-06:02]` ya te indico, paso le veas como es
+- `[06:02-06:04]` peso, peso
+- `[06:04-06:07]` y le saco la relación en porcentaje
+- `[06:07-06:09]` y resulta que yo le estoy diciendo
+- `[06:09-06:10]` mándame 30
+- `[06:10-06:13]` pero me está mandando 33
+- `[06:13-06:14]` ah ok
+- `[06:14-06:15]` realmente
+- `[06:15-06:18]` ahora, eso es un problema
+- `[06:18-06:21]` de pesaje, que claro que el peso
+- `[06:21-06:22]` que me dice la báscula
+- `[06:22-06:24]` no es el mismo que tú mandas
+- `[06:24-06:26]` no es el que está marcando en realidad
+- `[06:26-06:28]` ¿cómo se corrige eso?
+- `[06:29-06:30]` como cualquier báscula normal
+- `[06:30-06:33]` poniéndole pesos patrones y comprobando el peso
+- `[06:33-06:35]` ya se ha hecho varias veces
+- `[06:35-06:37]` eso, paras la espacidora
+- `[06:37-06:38]` ese es el problema
+- `[06:38-06:40]` que sale bien, más grande
+- `[06:40-06:43]` la verdad, que lo que pone los pesos patrones
+- `[06:43-06:45]` marca bien, a lo que comenzamos
+- `[06:45-06:46]` la producción
+- `[06:46-06:47]` marca, marca
+- `[06:47-06:48]` ok
+- `[06:48-06:53]` ¿Y el pesaje es lo que está dentro de las esparcidoras?
+- `[06:53-07:04]` Sí, a ver, en las esparcidoras nosotros tenemos dos celdas de carga, no sé si conocen las celdas de carga, son dispositivos que se pandean y nos mandan una señal de resistencia y en base a eso se hace un escalamiento para saber el peso.
+- `[07:04-07:18]` Tenemos izquierda y derecha y esas están entrelazadas con un rodillo, el material o la banda pasa directamente haciendo fuerza sobre el rodillo y ese rodillo manda la parte de la fuerza a las dos celdas de carga y esas te dan una medición, izquierda y derecha.
+- `[07:18-07:20]` El promedio es el peso.
+- `[07:20-07:20]` Sí.
+- `[07:21-07:22]` Así funcionan las tres.
+- `[07:23-07:27]` Y la central igual tiene un método parecido de funcionamiento, pero con cuatro celdas.
+- `[07:28-07:32]` Ahora, cuando tú pones un peso patrón y te marca el peso verdadero,
+- `[07:33-07:34]` se supone que ya comprueba las básicas.
+- `[07:35-07:36]` Claro, pero no está saliendo así.
+- `[07:36-07:37]` Claro.
+- `[07:37-07:38]` Ahora, ¿qué pasa?
+- `[07:38-07:40]` Que al momento en que tú arrancas las bandas,
+- `[07:41-07:46]` cambia la relación que tienes mecánica con la parte de los componentes,
+- `[07:46-07:51]` porque también ya se produce la parte de arrastre, de peso, de cómo interactúa con la banda.
+- `[07:53-07:56]` Ahí puede ser el problema, siendo como peso para abajo cuando usted...
+- `[07:56-08:02]` Ahí viene la siguiente noción, nosotros al momento que arrancamos, las esparcidoras arrancamos en vacío, taramos.
+- `[08:03-08:08]` Es decir, lo que pesa la banda, le descontamos, para que me marque el cerro.
+- `[08:09-08:15]` Se tara, se ve que aquí la tara es mucho más precisa porque te da en cada instante de tiempo de la banda.
+- `[08:15-08:21]` es decir, va marcando puntos de referencia a todo el recorrido de la banda
+- `[08:21-08:26]` y le va haciendo un delta o un promedio de cuánto es eso para tener la medida más exacta
+- `[08:26-08:32]` y hace la tara, queda tarado todo bien, a lo que arrancas producción no manda lo que es
+- `[08:32-08:36]` y con la banda moviéndose y todo igual, todo bien
+- `[08:36-08:38]` no manda lo que es
+- `[08:38-08:39]` ahora
+- `[08:39-08:44]` es complicado la parte de la resolución
+- `[08:44-08:46]` de problemas de las celdas de carga
+- `[08:46-08:48]` las celdas de carga tienen un espacio
+- `[08:48-08:50]` lineal donde funciona, como cualquier sensor
+- `[08:50-08:52]` tiene un espacio lineal, una línea
+- `[08:52-08:54]` recta donde funciona, donde me dice
+- `[08:54-08:56]` las celdas de carga, ¿cuáles son esos?
+- `[08:56-08:57]` son los instrumentos que pesan
+- `[08:57-09:00]` celdas de carga, si se les conoce
+- `[09:00-09:02]` son como una báscula industrial
+- `[09:02-09:06]` tienes una relación o como
+- `[09:06-09:08]` realmente eso es tantos milivoltios
+- `[09:08-09:18]` tantos kilos. Me dice para 3 milivoltios, 0 kilos, para 20 milivoltios equivalen a 20 kilos.
+- `[09:18-09:22]` Chévere, ustedes ya saben eso. Esa es la linealización del sensor normal.
+- `[09:22-09:24]` ¿Y el lineal? Claro. Es simple, ya.
+- `[09:24-09:30]` Es bastante simple. Pero en general es de 0 a 20 las señales que te mandan, o de 3 a 20 las señales que te mandan.
+- `[09:30-09:33]` Minivoltios. Y eso se traslada a kilos.
+- `[09:33-09:35]` ¿Qué es lo que pasa?
+- `[09:35-09:37]` Que eso depende bastante del punto de referencia
+- `[09:37-09:38]` De donde tú trabajas
+- `[09:38-09:40]` ¿Cómo así?
+- `[09:41-09:42]` Cuando tú instalas una celda de carga
+- `[09:42-09:45]` Tú, al momento que tienes ya todo el peso muerto
+- `[09:45-09:47]` Tú puedes darle el punto de referencia de donde vas a partir
+- `[09:47-09:49]` Es decir, con todo el peso encima
+- `[09:49-09:52]` Tú puedes decirle estamos trabajando en 3 milivoltios
+- `[09:52-09:52]` Claro
+- `[09:52-09:53]` O en 6 milivoltios
+- `[09:53-09:56]` Y ese es el punto de referencia de donde partes
+- `[09:56-09:58]` Si partes de un punto mal
+- `[09:58-09:59]` De milivoltios
+- `[09:59-10:01]` Coge desde el escalamiento mal
+- `[10:01-10:08]` Encontrar la parte de partida o el ajuste es la parte complicada
+- `[10:08-10:12]` Ahora la parte de equipo de ingenieros de aquí ya le hicieron algunos ajustes
+- `[10:12-10:18]` Mejoró, sí, pero no se encuentra el punto correcto de trabajo
+- `[10:18-10:21]` Que debería ser comentado en cero, con las diferencias de capas en cero
+- `[10:21-10:23]` Y con la parte de desviación de consumos en cero
+- `[10:23-10:27]` Aquí tenemos, son tres problemas separados
+- `[10:27-10:29]` Uno que son las esparcidoras
+- `[10:29-10:30]` otro que son las dosificadoras
+- `[10:30-10:31]` que es la parte de consumo
+- `[10:31-10:33]` y otro es la parte del TAM
+- `[10:33-10:36]` todos los problemas tenemos ahorita acá
+- `[10:36-10:37]` que estamos acarreando
+- `[10:37-10:41]` se envió un correo al fabricante
+- `[10:41-10:43]` para que nos dé lo instructivo
+- `[10:43-10:44]` de cómo calibrar
+- `[10:44-10:46]` mecánicamente y eléctricamente
+- `[10:46-10:48]` y estamos a la espera de esa respuesta
+- `[10:48-10:50]` para entrar a hacer las calibraciones
+- `[10:50-10:51]` claro
+- `[10:51-10:54]` y eso ya se convierte en un problema
+- `[10:54-10:55]` ya súper complejo
+- `[10:55-10:57]` porque ya vamos a medio año
+- `[10:57-10:59]` sin poder paliar el problema en su totalidad
+- `[10:59-11:01]` Ah, este problema de las...
+- `[11:02-11:03]` Llevamos bastante rato
+- `[11:03-11:05]` y no podemos paliar el...
+- `[11:05-11:07]` Y el problema del tau, de las...
+- `[11:07-11:08]` El tau, de las esparcidoras
+- `[11:08-11:10]` Y las dosimbuncas, que son las de arriba
+- `[11:10-11:11]` ¿Las qué?
+- `[11:11-11:12]` Las dosimbuncas
+- `[11:12-11:13]` Ah, ya, ok
+- `[11:13-11:17]` Aquí la parte de cómo calcula
+- `[11:17-11:18]` todo el proceso
+- `[11:18-11:21]` para hacer la dosificación
+- `[11:21-11:22]` es la parte compleja
+- `[11:22-11:25]` Entender cómo va dosificando
+- `[11:25-11:30]` en cada etapa o como hacen los cálculos para dosificar en cada etapa, se vuelve el proceso
+- `[11:30-11:32]` complejo de toda la parte operativa acá abajo.
+- `[11:33-11:34]` Desde atrás, pero ¿dónde te refieres?
+- `[11:35-11:40]` Sí, ya le vamos a ir viendo, porque claro, primero son pesos arriba que me hace la dosificación
+- `[11:40-11:45]` de componentes, pesos acá abajo que me hace las relaciones entre las partes de la capa,
+- `[11:45-11:50]` toda la estabilidad que esté bien, viene pre-pensa, de ahí va la parte del vapor,
+- `[11:50-11:51]` de ahí va la prensa.
+- `[11:51-11:53]` ¿La de vapor ya está funcionando?
+- `[11:53-11:54]` No, no es oposición de la industria.
+- `[11:55-11:58]` La parte de la prensa es la otra parte complicada,
+- `[11:58-12:00]` que también tiene que ver con toda la interacción de la parte,
+- `[12:00-12:03]` el cambio de la humedad, todas las mezclas de los componentes,
+- `[12:03-12:04]` temperatura, presión.
+- `[12:05-12:07]` Y de ahí viene la parte del apilado,
+- `[12:07-12:09]` que es la parte más sencilla de entender.
+- `[12:09-12:12]` Solo es del corte y cómo va organizándose los apiladores.
+- `[12:12-12:13]` ¿Y los apiladores?
+- `[12:14-12:17]` Es relativamente sencillo de entender.
+- `[12:18-12:19]` Sí, ¿y no causan muchos problemas?
+- `[12:20-12:21]` A veces sí.
+- `[12:21-12:27]` Hay veces que la parte de los encoders se daña, la parte del agrupamiento también se daña.
+- `[12:28-12:31]` O sea, problemas aquí te puedes tratar por cualquier lado.
+- `[12:33-12:36]` Es la parte de entender los problemas, es la parte complicada.
+- `[12:36-12:36]` Claro.
+- `[12:36-12:40]` Y explicar qué pasó, porque muchas veces, claro, tenemos algún problema.
+- `[12:40-12:43]` Coges, vacías la línea, vuelves a reiniciar y ya no se te...
+- `[12:43-12:44]` Ya no estás como antes.
+- `[12:45-12:46]` Ya no estás como antes, ya no te aparece el mismo problema.
+- `[12:47-12:47]` ¿Ah, sí?
+- `[12:47-12:54]` pero claro tampoco nunca explicaste cuál fue el problema de la causa raíz para para detectar eso
+- `[12:54-13:02]` ahora el problema que vamos a analizar ahorita es uno que se ocasionó el día sábado en la noche
+- `[13:02-13:08]` es que se taponó una sección de la línea con material y ya le vamos a ver qué sección es
+- `[13:08-13:13]` y en base al otro sensor que me dijo Juan Carlos que no sé qué pasó esa vez porque estaba ya de vacaciones
+- `[13:13-13:19]` No sé cómo pasa, vamos a comenzar a tratar de analizar a ver qué pasó.
+- `[13:19-13:20]` Chévere, chévere.
+- `[13:21-13:21]` Hola.
+- `[13:22-13:23]` Darwin.
+- `[13:24-13:25]` Hola.
+- `[13:27-13:28]` ¿Qué tal?
+- `[13:28-13:28]` Gracias.
+- `[13:31-13:33]` ¿Me revisaron ya las tendencias?
+- `[13:34-13:36]` Estamos en contra.
+- `[13:37-13:41]` No, la única que sabe contar los...
+- `[13:41-13:52]` ¿Qué alarma de salto primerito?
+- `[13:52-13:58]` La alarma que ellos habían tenido es algo de la encoladora y se han venido a limpiar algo.
+- `[13:58-14:01]` ¿Pero esos son de los medios de calificación?
+- `[14:01-14:01]` Hola.
+- `[14:01-14:03]` Hola.
+- `[14:03-14:05]` Hola.
+- `[14:11-14:12]` poniendo los rodillos
+- `[14:41-14:46]` y en cambio este verde de aquí es el sensor de nivel
+- `[14:46-14:50]` entonces como obviamente detiene este barro
+- `[14:50-14:54]` lo que tenía de los heladores cae por inercia y sube un poco más
+- `[14:54-14:57]` y después hay el nivel más
+- `[14:57-14:59]` estamos hablando del nivel
+- `[14:59-15:08]` y desde aquí ellos ya terminan de hacer esa liquidación en la encoladora
+- `[15:08-15:15]` Ya de iniciamiento es de aquí, parece que por ahí puedo ir, de aquí, de aquí.
+- `[15:15-15:17]` 2
+- `[15:17-15:19]` 2
+- `[15:19-15:21]` 3
+- `[15:21-15:23]` 4
+- `[15:23-15:25]` 4
+- `[15:25-15:27]` 5
+- `[15:27-15:29]` 5
+- `[15:29-15:31]` 6
+- `[15:31-15:33]` 7
+- `[15:33-15:35]` 7
+- `[15:35-15:37]` 8
+- `[15:37-15:39]` 8
+- `[15:39-15:41]` 10
+- `[15:41-15:43]` 11
+- `[15:43-15:53]` La cronología hay que estar bien claro porque se vaya a confundir.
+- `[15:53-15:58]` Porque inicia con el taponamiento del rodillo, que es una parada normal.
+- `[16:00-16:03]` Por eso le ve que ahí no hay demasiado nada.
+- `[16:04-16:06]` La 4 de la mañana del 21 sería.
+- `[16:06-16:08]` No, es el 20.
+- `[16:09-16:09]` Sí.
+- `[16:10-16:11]` No, pero antes era las 3.
+- `[16:13-16:15]` La primera es la de Jodíno.
+- `[16:15-16:17]` Sí, la primera.
+- `[16:17-16:19]` La primera es la de Jodíns.
+- `[16:19-16:21]` Pero sí, la gente ve la velocidad.
+- `[16:21-16:23]` La velocidad es la que está bien.
+- `[16:23-16:25]` Está bien.
+- `[16:27-16:29]` 3 de la mañana del 24.
+- `[16:29-16:31]` Sí.
+- `[16:31-16:33]` 4 de la mañana.
+- `[16:33-16:35]` El 21, claro.
+- `[16:35-16:37]` Y el 22, el 22, el 21.
+- `[16:37-16:39]` El 22, el 21.
+- `[16:39-17:09]` El sábado
+- `[17:09-17:11]` 2 y 51
+- `[17:11-17:13]` ahí se te para la
+- `[17:13-17:15]` si detiene el
+- `[17:15-17:17]` no estamos viendo el
+- `[17:17-17:19]` que tal como estas?
+- `[17:19-17:21]` buen dia
+- `[17:21-17:23]` buen dia
+- `[17:23-17:25]` voy a mudar asi
+- `[17:25-17:27]` este del
+- `[17:27-17:29]` creo que que lo encontraco
+- `[17:29-17:31]` estábamos viendo la grafica del otro dia
+- `[17:31-17:33]` estábamos viendo la grafica del otro dia
+- `[17:33-17:35]` claro
+- `[17:35-17:37]` esa tambien ha tenido el
+- `[17:37-17:38]` ¿Qué es el problema?
+- `[17:38-17:39]` Hay problemas, ¿verdad?
+- `[17:39-17:40]` ¿O en dos días?
+- `[17:40-17:41]` Sí, son dos días.
+- `[17:41-17:42]` Ok.
+- `[17:42-17:44]` Porque así han tenido variaciones.
+- `[17:44-17:45]` Claro, sí reportaron.
+- `[17:45-17:46]` Sí, sí.
+- `[17:46-17:47]` ¿Desde el sábado?
+- `[17:47-17:48]` Sí.
+- `[17:48-17:50]` No estoy en la...
+- `[17:50-17:51]` Ya.
+- `[17:51-17:53]` Sí, ve aquí.
+- `[17:53-17:57]` Aquí te carga más de 120, 110, 120.
+- `[17:57-18:00]` Creo que después de la parada, que se van a hacer el queso.
+- `[18:00-18:01]` ¿Dónde se ve?
+- `[18:01-18:02]` Aquí está.
+- `[18:02-18:03]` A ver.
+- `[18:03-18:05]` A ver...
+- `[18:05-18:09]` La aparada esta aqui a las 3.20
+- `[18:09-18:11]` Tiene alguna alarma en esa hora de...
+- `[18:11-18:13]` En el encolado tambien
+- `[18:13-18:15]` Si, en el encolado se...
+- `[18:15-18:17]` Pero mira, mira, aquí mira, ve...
+- `[18:17-18:19]` Estas llenando bien así con esos...
+- `[18:19-18:21]` ...y con esos...
+- `[18:21-18:23]` ...y con esos...
+- `[18:23-18:25]` ...y hay un bar...
+- `[18:25-18:27]` No se si porque para el...
+- `[18:27-18:29]` ...y la morada esta...
+- `[18:29-18:31]` ...la morada es el de...
+- `[18:31-18:33]` Esa es la velocidad.
+- `[18:34-18:35]` La velocidad es la velocidad.
+- `[18:35-18:36]` Y empaparan hasta el mega.
+- `[18:37-18:38]` Se aparan las dos.
+- `[18:40-18:42]` Pero tú sigues produciendo.
+- `[18:42-18:42]` A las tres.
+- `[18:43-18:44]` A las tres.
+- `[18:44-18:44]` ¿Cuánto?
+- `[18:45-18:47]` A las dos.
+- `[18:48-18:49]` A la mejor es la velocidad de la bandera.
+- `[18:52-18:53]` ¿A qué hora es Pancho?
+- `[18:55-18:55]` Pancho.
+- `[18:56-18:57]` ¿A qué hora se detiene?
+- `[18:58-18:59]` ¿A qué hora se detiene?
+- `[18:59-19:09]` la producción se detiene a las 2 y 20
+- `[19:09-19:14]` 2 y 52
+- `[19:14-19:18]` 2 y 52
+- `[19:18-19:21]` y
+- `[19:25-19:27]` la primera
+- `[19:27-19:30]` y
+- `[19:30-19:33]` y
+- `[19:33-19:35]` y
+- `[19:35-19:37]` y
+- `[19:37-19:40]` y
+- `[19:40-19:43]` y
+- `[19:43-19:46]` 21 a las 2 y...
+- `[19:46-19:48]` 2 y 42.
+- `[20:13-20:22]` ¿A qué horas te da la alarma de rodillos?
+- `[20:23-20:24]` A las 2.15.
+- `[20:25-20:26]` No, a las 2.15.
+- `[20:26-20:27]` Aquí da la alarma de rodillos.

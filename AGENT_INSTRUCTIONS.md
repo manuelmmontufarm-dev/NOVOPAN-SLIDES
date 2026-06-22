@@ -27,7 +27,7 @@
 
 ## La regla de oro
 
-**`instructivos/finales/CONTENIDO_MAESTRO.md` es la ÚNICA fuente de verdad.**
+**`parte-1-preparacion-madera/instructivos/finales/CONTENIDO_MAESTRO.md` es la ÚNICA fuente de verdad.**
 
 Si hay divergencia entre el maestro y cualquier otro doc, el agent debe **siempre creerle al maestro** y actualizar los derivados — nunca al revés.
 
@@ -35,7 +35,7 @@ Si hay divergencia entre el maestro y cualquier otro doc, el agent debe **siempr
 
 ## La branch dedicada: `maestro/edits`
 
-- Todo cambio al contenido del IJP se hace **primero** en el branch `maestro/edits`, editando únicamente `instructivos/finales/CONTENIDO_MAESTRO.md`.
+- Todo cambio al contenido del IJP se hace **primero** en el branch `maestro/edits`, editando únicamente `parte-1-preparacion-madera/instructivos/finales/CONTENIDO_MAESTRO.md`.
 - El agent observa pushes a este branch específicamente.
 - Cuando el agent termina su trabajo, abre PR de `maestro/edits` → `main`.
 - Después del merge, `maestro/edits` se queda como branch persistente (no se borra) — se re-usa para la siguiente edición.
@@ -46,25 +46,25 @@ Si hay divergencia entre el maestro y cualquier otro doc, el agent debe **siempr
 
 | # | Archivo derivado | Tipo de update |
 |---|---|---|
-| 1 | `html-app/NOVOPNHTML1_files/Screens.jsx` | Editar JSX (componentes Card, Callout, List, etc) reflejando el contenido del maestro |
-| 2 | `instructivos/finales/IJP_FINAL_ACTUALIZADO_<fecha>.docx` | Editar via descompresión XML (find/replace en `word/document.xml` preservando estilos) |
-| 3 | `instructivos/finales/RECEPCION_DE_MADERA_guia_v2_ACTUALIZADO_<fecha>.docx` | Igual que el IJP |
-| 4 | `instructivos/finales/NOVOPAN_Guia_Recepcion_Madera_FINAL_ESTATICO.html` | Rebuild con babel desde Screens.jsx (instrucciones más abajo) |
+| 1 | `parte-1-preparacion-madera/html-app/NOVOPNHTML1_files/Screens.jsx` | Editar JSX (componentes Card, Callout, List, etc) reflejando el contenido del maestro |
+| 2 | `parte-1-preparacion-madera/instructivos/finales/IJP_FINAL_ACTUALIZADO_<fecha>.docx` | Editar via descompresión XML (find/replace en `word/document.xml` preservando estilos) |
+| 3 | `parte-1-preparacion-madera/instructivos/finales/RECEPCION_DE_MADERA_guia_v2_ACTUALIZADO_<fecha>.docx` | Igual que el IJP |
+| 4 | `parte-1-preparacion-madera/instructivos/finales/NOVOPAN_Guia_Recepcion_Madera_FINAL_ESTATICO.html` | Rebuild con babel desde Screens.jsx (instrucciones más abajo) |
 
-**El PDF** (`NOVOPAN_Guia_Recepcion_Madera_FINAL.pdf`) NO se actualiza automáticamente — requiere re-export desde Word manualmente. El agent solo documenta que el PDF quedó stale.
+**El PDF** (`parte-1-preparacion-madera/instructivos/finales/NOVOPAN_Guia_Recepcion_Madera_FINAL.pdf`) NO se actualiza automáticamente — requiere re-export desde Word manualmente. El agent solo documenta que el PDF quedó stale.
 
 ---
 
 ## Reglas estrictas para el agent
 
 ### Cuándo NO actuar
-Si el push **no tocó** `instructivos/finales/CONTENIDO_MAESTRO.md`:
+Si el push **no tocó** `parte-1-preparacion-madera/instructivos/finales/CONTENIDO_MAESTRO.md`:
 - Detente.
 - No modifiques ningún archivo.
 - Reporta: `"Sin cambios en CONTENIDO_MAESTRO.md; no se ejecutó sincronización."`
 
 ### Cuándo SÍ actuar
-Si el push tocó `instructivos/finales/CONTENIDO_MAESTRO.md`:
+Si el push tocó `parte-1-preparacion-madera/instructivos/finales/CONTENIDO_MAESTRO.md`:
 1. Lee el archivo completo.
 2. Identifica qué cambió (diff vs versión anterior en main).
 3. Determina qué derivados necesitan update basado en el tipo de cambio:
@@ -98,7 +98,7 @@ npm i --silent @babel/core @babel/preset-react @babel/preset-env
 cat > build.cjs <<'EOF'
 const babel = require('@babel/core');
 const fs = require('fs');
-const src = fs.readFileSync('<repo>/html-app/NOVOPNHTML1_files/Screens.jsx', 'utf-8');
+const src = fs.readFileSync('<repo>/parte-1-preparacion-madera/html-app/NOVOPNHTML1_files/Screens.jsx', 'utf-8');
 const out = babel.transformSync(src, {
   presets: [
     ['@babel/preset-env', { targets: { browsers: ['last 2 chrome versions'] } }],

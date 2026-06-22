@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style data-omelette-print-defaults>
+@media print {
+  @page { margin: 0.5in; }
+  h1, h2, h3, h4, h5, h6 { break-after: avoid; }
+  figure, table, pre, blockquote, img, svg, tr, [class~="card" i] { break-inside: avoid; }
+  img, svg { max-width: 100%; }
+  p { orphans: 3; widows: 3; }
+}
+</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/novopan-instructivos-design-system-ed66c500-9484-4f8b-9ae5-a765bdbc3d4b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/novopan-instructivos-design-system-ed66c500-9484-4f8b-9ae5-a765bdbc3d4b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/novopan-instructivos-design-system-ed66c500-9484-4f8b-9ae5-a765bdbc3d4b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/novopan-instructivos-design-system-ed66c500-9484-4f8b-9ae5-a765bdbc3d4b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/novopan-instructivos-design-system-ed66c500-9484-4f8b-9ae5-a765bdbc3d4b/styles.css">
+<script src="_ds/novopan-instructivos-design-system-ed66c500-9484-4f8b-9ae5-a765bdbc3d4b/_ds_bundle.js"></script>
+<style>
+  body { margin:0; background:#11201A; }
+  .ms { font-family:'Material Symbols Rounded'; font-variation-settings:'FILL' 1,'wght' 600; line-height:1; }
+</style>
+</helmet>
+
+<x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1920" height="1080" hint-size="100%,100%">
+
+  <!-- ════ SLIDE 0 · RESUMEN ════ -->
+  <section data-label="Resumen" data-speaker-notes="Vista general de las 10 etapas de la línea de Encolados, de silos a estacado. Dos ideas ancla: la variable maestra es el peso del colchón en la báscula central; el máster que marca el ritmo de toda la línea es la prensa.">
+    <div style="width:100%;height:100%;box-sizing:border-box;background:#004E38;color:#fff;font-family:'Barlow',sans-serif;padding:60px 72px;display:flex;flex-direction:column;gap:34px;">
+      <div style="display:flex;align-items:center;gap:26px;">
+        <img src="assets/novopan-logo.jpg" alt="Novopan" style="width:140px;border-radius:10px;flex:none;">
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:800;font-size:17px;letter-spacing:0.14em;text-transform:uppercase;color:#FFDE00;">Mapa de proceso · Tableros MDP</div>
+          <h1 style="margin:6px 0 0;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:64px;line-height:0.96;text-transform:uppercase;letter-spacing:-0.01em;">Línea de Encolados — Proceso completo</h1>
+        </div>
+        <div style="flex:none;text-align:right;font-size:18px;color:rgba(255,255,255,0.7);line-height:1.4;">10 etapas<br>Planta Itulcachi · Quito</div>
+      </div>
+
+      <div style="background:#fff;border-radius:18px;padding:30px 34px;flex:none;">
+        <x-import component-from-global-scope="NovopanInstructivosDesignSystem_ed66c5.FlowDiagram" steps="{{ flowSteps }}" hint-size="100%,150px"></x-import>
+      </div>
+
+      <div style="display:flex;gap:26px;flex:1;min-height:0;">
+        <div style="flex:1;background:rgba(255,255,255,0.08);border:2px solid rgba(255,222,0,0.5);border-left:8px solid #FFDE00;border-radius:14px;padding:28px 32px;display:flex;flex-direction:column;justify-content:center;gap:10px;">
+          <div style="display:flex;align-items:center;gap:14px;"><span class="ms" style="font-size:42px;color:#FFDE00;">scale</span><div style="font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:24px;text-transform:uppercase;letter-spacing:0.04em;color:#FFDE00;">Variable maestra</div></div>
+          <div style="font-size:27px;line-height:1.3;">Peso del colchón en la <strong>báscula central</strong>. Todo el proceso se regula para mantenerlo en el objetivo.</div>
+        </div>
+        <div style="flex:1;background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.28);border-left:8px solid #fff;border-radius:14px;padding:28px 32px;display:flex;flex-direction:column;justify-content:center;gap:10px;">
+          <div style="display:flex;align-items:center;gap:14px;"><span class="ms" style="font-size:42px;color:#fff;">local_fire_department</span><div style="font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:24px;text-transform:uppercase;letter-spacing:0.04em;">Máster de la línea</div></div>
+          <div style="font-size:27px;line-height:1.3;">La <strong>prensa</strong> (etapa 7). Su velocidad marca el ritmo de todo lo que está aguas arriba y aguas abajo.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ SLIDE 1 · SILOS ════ -->
+  <section data-label="Silos" data-speaker-notes="Almacenan partícula ya clasificada. Fina para capas externas, media (biruta) para la capa central. Dos tornillos de descarga por silo. El nivel se mide por ultrasonido porque el polvo hace inviable un sensor visual.">
+    <div style="width:100%;height:100%;box-sizing:border-box;background:#F6F7F4;color:#1A1D1B;font-family:'Barlow',sans-serif;padding:52px 72px 44px;display:flex;flex-direction:column;gap:26px;">
+      <sc-if value="{{ showStageRail }}" hint-placeholder-val="{{ true }}"><dc-import name="StageRail" active="1" hint-size="100%,46px"></dc-import></sc-if>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:32px;border-bottom:3px solid #004E38;padding-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:24px;">
+          <div style="width:84px;height:84px;flex:none;background:#FFDE00;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:48px;color:#004E38;">1</div>
+          <div><h1 style="margin:0;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:56px;line-height:0.98;text-transform:uppercase;letter-spacing:-0.01em;color:#004E38;">Silos</h1><p style="margin:7px 0 0;font-size:26px;color:#3D423F;">Almacenamiento de partícula clasificada</p></div>
+        </div>
+        <div style="flex:none;text-align:right;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:21px;text-transform:uppercase;letter-spacing:0.05em;color:#004E38;line-height:1.1;">Línea de Encolados<div style="font-size:14px;color:#676E69;letter-spacing:0.16em;margin-top:3px;">NOVOPAN · MDP</div></div>
+      </div>
+      <div style="display:flex;gap:26px;flex:1;min-height:0;">
+        <div style="flex:1;background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:30px 34px;display:flex;flex-direction:column;gap:20px;box-shadow:0 2px 6px rgba(26,29,27,0.05);">
+          <div style="font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:21px;letter-spacing:0.05em;text-transform:uppercase;color:#004E38;display:flex;align-items:center;gap:11px;border-bottom:2px solid #E8EBE7;padding-bottom:13px;"><span class="ms" style="font-size:27px;">warehouse</span>Qué hay aquí</div>
+          <div style="display:flex;gap:15px;align-items:flex-start;"><span style="flex:none;width:11px;height:11px;margin-top:11px;background:#FFDE00;border-radius:3px;"></span><div style="font-size:25px;line-height:1.35;color:#1A1D1B;"><strong>Partícula fina</strong> → capas externas del tablero</div></div>
+          <div style="display:flex;gap:15px;align-items:flex-start;"><span style="flex:none;width:11px;height:11px;margin-top:11px;background:#FFDE00;border-radius:3px;"></span><div style="font-size:25px;line-height:1.35;color:#1A1D1B;"><strong>Partícula media (biruta)</strong> → capa central</div></div>
+          <div style="display:flex;gap:15px;align-items:flex-start;"><span style="flex:none;width:11px;height:11px;margin-top:11px;background:#004E38;border-radius:3px;"></span><div style="font-size:25px;line-height:1.35;color:#1A1D1B;"><strong>2 tornillos de descarga</strong> por silo</div></div>
+        </div>
+        <div style="flex:1;background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:30px 34px;display:flex;flex-direction:column;gap:18px;box-shadow:0 2px 6px rgba(26,29,27,0.05);">
+          <div style="font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:21px;letter-spacing:0.05em;text-transform:uppercase;color:#004E38;display:flex;align-items:center;gap:11px;border-bottom:2px solid #E8EBE7;padding-bottom:13px;"><span class="ms" style="font-size:27px;">sensors</span>Instrumentación</div>
+          <div style="display:flex;gap:16px;align-items:flex-start;"><span class="ms" style="flex:none;font-size:36px;color:#004E38;margin-top:1px;">graphic_eq</span><div><div style="font-weight:700;font-size:25px;">Ultrasónico</div><div style="font-size:22px;color:#3D423F;line-height:1.3;margin-top:1px;">Nivel 0–100 % (interpolación lineal)</div></div></div>
+          <div style="display:flex;gap:16px;align-items:flex-start;"><span class="ms" style="flex:none;font-size:36px;color:#004E38;margin-top:1px;">flag</span><div><div style="font-weight:700;font-size:25px;">Paletas on/off</div><div style="font-size:22px;color:#3D423F;line-height:1.3;margin-top:1px;">Mínimo y máximo de seguridad</div></div></div>
+          <div style="display:flex;gap:16px;align-items:flex-start;"><span class="ms" style="flex:none;font-size:36px;color:#004E38;margin-top:1px;">settings</span><div><div style="font-weight:700;font-size:25px;">Inductivos</div><div style="font-size:22px;color:#3D423F;line-height:1.3;margin-top:1px;">Cuentan rotaciones del tornillo</div></div></div>
+        </div>
+      </div>
+      <x-import component-from-global-scope="NovopanInstructivosDesignSystem_ed66c5.Callout" variant="nota" title="Por qué ultrasónico" hint-size="100%,auto">El polvo en suspensión hace inviable un sensor óptico o visual — por eso la medición de nivel es ultrasónica.</x-import>
+    </div>
+  </section>
+
+  <!-- ════ SLIDE 2 · DOSIMBUNCAS ════ -->
+  <section data-label="Dosimbuncas" data-speaker-notes="Bunkers dosificadores, uno por tipo de capa. La descarga en kg/min es el peso en la celda de carga por la velocidad del motor. Confirmar el nombre real del tag en el HMI: dosimbuncas, dosimil o dosibunker.">
+    <div style="width:100%;height:100%;box-sizing:border-box;background:#F6F7F4;color:#1A1D1B;font-family:'Barlow',sans-serif;padding:52px 72px 44px;display:flex;flex-direction:column;gap:26px;">
+      <sc-if value="{{ showStageRail }}" hint-placeholder-val="{{ true }}"><dc-import name="StageRail" active="2" hint-size="100%,46px"></dc-import></sc-if>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:32px;border-bottom:3px solid #004E38;padding-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:24px;">
+          <div style="width:84px;height:84px;flex:none;background:#FFDE00;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:48px;color:#004E38;">2</div>
+          <div><h1 style="margin:0;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:56px;line-height:0.98;text-transform:uppercase;letter-spacing:-0.01em;color:#004E38;">Dosimbuncas</h1><p style="margin:7px 0 0;font-size:26px;color:#3D423F;">Bunkers dosificadores — 1 por tipo de capa</p></div>
+        </div>
+        <div style="flex:none;text-align:right;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:21px;text-transform:uppercase;letter-spacing:0.05em;color:#004E38;line-height:1.1;">Línea de Encolados<div style="font-size:14px;color:#676E69;letter-spacing:0.16em;margin-top:3px;">NOVOPAN · MDP</div></div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:24px;min-height:0;">
+        <div style="background:#004E38;border-radius:16px;padding:28px 34px;display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;">
+          <span style="font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:34px;color:#FFDE00;text-transform:uppercase;letter-spacing:0.03em;">Descarga (kg/min)</span>
+          <span style="font-size:42px;color:#fff;font-weight:300;">=</span>
+          <span style="font-size:32px;color:#fff;font-weight:700;">Peso en celda</span>
+          <span style="font-size:42px;color:#fff;font-weight:300;">×</span>
+          <span style="font-size:32px;color:#fff;font-weight:700;">Velocidad de motor</span>
+        </div>
+        <div style="display:flex;gap:24px;flex:1;min-height:0;">
+          <div style="flex:1;background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:12px;box-shadow:0 2px 6px rgba(26,29,27,0.05);"><span class="ms" style="font-size:46px;color:#004E38;">view_in_ar</span><div style="font-weight:700;font-size:25px;">Sensor de volumen</div><div style="font-size:22px;color:#3D423F;line-height:1.35;">Mantiene el llenado constante del bunker.</div></div>
+          <div style="flex:1;background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:12px;box-shadow:0 2px 6px rgba(26,29,27,0.05);"><span class="ms" style="font-size:46px;color:#004E38;">scale</span><div style="font-weight:700;font-size:25px;">Celda de carga</div><div style="font-size:22px;color:#3D423F;line-height:1.35;">Mide los kg de material disponibles.</div></div>
+          <div style="flex:1;background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:12px;box-shadow:0 2px 6px rgba(26,29,27,0.05);"><span class="ms" style="font-size:46px;color:#004E38;">settings</span><div style="font-weight:700;font-size:25px;">Encoder / inductivo</div><div style="font-size:22px;color:#3D423F;line-height:1.35;">Cuenta las rotaciones del motor.</div></div>
+        </div>
+      </div>
+      <x-import component-from-global-scope="NovopanInstructivosDesignSystem_ed66c5.Callout" variant="nota" title="Confirmar en la próxima visita" hint-size="100%,auto">El nombre en planta varía: dosimbuncas / dosimil / dosibunker. Verificar el tag exacto en el HMI.</x-import>
+    </div>
+  </section>
+
+  <!-- ════ SLIDE 3 · CLASIFICACIÓN ════ -->
+  <section data-label="Clasificación" data-speaker-notes="Camas de rodillos moleteados que separan la partícula por tamaño. Dos camas: una para la capa externa fina y otra para la capa media. La profundidad del moleteado va de 0.3 a 1.3 mm según la capa. Es un proceso mecánico, sin control PID.">
+    <div style="width:100%;height:100%;box-sizing:border-box;background:#F6F7F4;color:#1A1D1B;font-family:'Barlow',sans-serif;padding:52px 72px 44px;display:flex;flex-direction:column;gap:26px;">
+      <sc-if value="{{ showStageRail }}" hint-placeholder-val="{{ true }}"><dc-import name="StageRail" active="3" hint-size="100%,46px"></dc-import></sc-if>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:32px;border-bottom:3px solid #004E38;padding-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:24px;">
+          <div style="width:84px;height:84px;flex:none;background:#FFDE00;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:48px;color:#004E38;">3</div>
+          <div><h1 style="margin:0;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:56px;line-height:0.98;text-transform:uppercase;letter-spacing:-0.01em;color:#004E38;">Clasificación</h1><p style="margin:7px 0 0;font-size:26px;color:#3D423F;">Camas de rodillos moleteados</p></div>
+        </div>
+        <div style="flex:none;text-align:right;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:21px;text-transform:uppercase;letter-spacing:0.05em;color:#004E38;line-height:1.1;">Línea de Encolados<div style="font-size:14px;color:#676E69;letter-spacing:0.16em;margin-top:3px;">NOVOPAN · MDP</div></div>
+      </div>
+      <div style="display:flex;gap:26px;flex:1;min-height:0;">
+        <div style="flex:1.25;background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:30px 34px;display:flex;flex-direction:column;justify-content:center;gap:26px;box-shadow:0 2px 6px rgba(26,29,27,0.05);">
+          <div style="display:flex;justify-content:center;gap:30px;">
+            <div style="width:110px;height:110px;border-radius:50%;background:repeating-linear-gradient(90deg,#004E38 0 6px,#0A7D5A 6px 12px);border:4px solid #00684A;"></div>
+            <div style="width:110px;height:110px;border-radius:50%;background:repeating-linear-gradient(90deg,#004E38 0 6px,#0A7D5A 6px 12px);border:4px solid #00684A;"></div>
+            <div style="width:110px;height:110px;border-radius:50%;background:repeating-linear-gradient(90deg,#004E38 0 6px,#0A7D5A 6px 12px);border:4px solid #00684A;"></div>
+          </div>
+          <div style="height:14px;background:#3D423F;border-radius:7px;"></div>
+          <div style="display:flex;justify-content:space-between;font-size:21px;color:#3D423F;"><div style="display:flex;align-items:center;gap:8px;"><span class="ms" style="font-size:26px;color:#004E38;">south</span>Partícula fina pasa</div><div style="display:flex;align-items:center;gap:8px;"><span class="ms" style="font-size:26px;color:#004E38;">trending_flat</span>Partícula grande queda</div></div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:18px;justify-content:center;">
+          <div style="background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:26px 30px;box-shadow:0 2px 6px rgba(26,29,27,0.05);"><div style="font-weight:700;font-size:25px;display:flex;align-items:center;gap:12px;"><span class="ms" style="font-size:34px;color:#004E38;">grain</span>2 camas de rodillos</div><div style="font-size:22px;color:#3D423F;line-height:1.35;margin-top:8px;">Una para la capa externa (fina) y una para la capa media.</div></div>
+          <div style="background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:26px 30px;box-shadow:0 2px 6px rgba(26,29,27,0.05);"><div style="font-weight:700;font-size:25px;display:flex;align-items:center;gap:12px;"><span class="ms" style="font-size:34px;color:#004E38;">straighten</span>Profundidad de moleteado</div><div style="font-size:22px;color:#3D423F;line-height:1.35;margin-top:8px;"><strong style="color:#004E38;">0.3 → 1.3 mm</strong> según la capa.</div></div>
+        </div>
+      </div>
+      <x-import component-from-global-scope="NovopanInstructivosDesignSystem_ed66c5.Callout" variant="excepcion" title="Proceso mecánico" hint-size="100%,auto">La clasificación es puramente mecánica — no hay lazo de control PID.</x-import>
+    </div>
+  </section>
+
+  <!-- ════ SLIDE 4 · ENCOLADOR ════ -->
+  <section data-label="Encolador" data-speaker-notes="Mezcla la partícula con resina, parafina y agua, en dos líneas paralelas (capa externa y capa media). Tiene enfriamiento por agua para que la resina no reaccione antes de la prensa. Las bombas se controlan por PID: SP es el setpoint de flujo, PV la lectura del flujómetro, LMN la salida a la bomba. Punto sano 40 a 50 por ciento. Hoy el PV oscila y no se estabiliza.">
+    <div style="width:100%;height:100%;box-sizing:border-box;background:#F6F7F4;color:#1A1D1B;font-family:'Barlow',sans-serif;padding:52px 72px 44px;display:flex;flex-direction:column;gap:26px;">
+      <sc-if value="{{ showStageRail }}" hint-placeholder-val="{{ true }}"><dc-import name="StageRail" active="4" hint-size="100%,46px"></dc-import></sc-if>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:32px;border-bottom:3px solid #004E38;padding-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:24px;">
+          <div style="width:84px;height:84px;flex:none;background:#FFDE00;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:48px;color:#004E38;">4</div>
+          <div><h1 style="margin:0;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:56px;line-height:0.98;text-transform:uppercase;letter-spacing:-0.01em;color:#004E38;">Encolador</h1><p style="margin:7px 0 0;font-size:26px;color:#3D423F;">Mezcla partícula + resina + parafina</p></div>
+        </div>
+        <div style="flex:none;text-align:right;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:21px;text-transform:uppercase;letter-spacing:0.05em;color:#004E38;line-height:1.1;">Línea de Encolados<div style="font-size:14px;color:#676E69;letter-spacing:0.16em;margin-top:3px;">NOVOPAN · MDP</div></div>
+      </div>
+      <div style="display:flex;gap:26px;flex:1;min-height:0;">
+        <div style="flex:1;background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:28px 32px;display:flex;flex-direction:column;gap:18px;box-shadow:0 2px 6px rgba(26,29,27,0.05);">
+          <div style="font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:21px;letter-spacing:0.05em;text-transform:uppercase;color:#004E38;display:flex;align-items:center;gap:11px;border-bottom:2px solid #E8EBE7;padding-bottom:13px;"><span class="ms" style="font-size:27px;">science</span>El proceso</div>
+          <div style="display:flex;gap:14px;align-items:flex-start;"><span style="flex:none;width:11px;height:11px;margin-top:10px;background:#FFDE00;border-radius:3px;"></span><div style="font-size:24px;line-height:1.35;"><strong>2 líneas paralelas:</strong> capa externa / capa media</div></div>
+          <div style="display:flex;gap:14px;align-items:flex-start;"><span style="flex:none;width:11px;height:11px;margin-top:10px;background:#FFDE00;border-radius:3px;"></span><div style="font-size:24px;line-height:1.35;"><strong>Mezcla:</strong> partícula + resina + parafina + agua</div></div>
+          <div style="display:flex;gap:14px;align-items:flex-start;"><span style="flex:none;width:11px;height:11px;margin-top:10px;background:#004E38;border-radius:3px;"></span><div style="font-size:24px;line-height:1.35;"><strong>Enfriamiento por agua:</strong> evita que la resina reaccione antes de la prensa</div></div>
+        </div>
+        <div style="flex:1;background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:28px 32px;display:flex;flex-direction:column;gap:14px;box-shadow:0 2px 6px rgba(26,29,27,0.05);">
+          <div style="font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:21px;letter-spacing:0.05em;text-transform:uppercase;color:#004E38;display:flex;align-items:center;gap:11px;border-bottom:2px solid #E8EBE7;padding-bottom:13px;"><span class="ms" style="font-size:27px;">tune</span>Control PID de bombas</div>
+          <div style="display:flex;align-items:baseline;gap:12px;"><span style="flex:none;width:48px;text-align:center;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:22px;color:#fff;background:#D32F2F;border-radius:6px;padding:3px 0;">SP</span><div style="font-size:23px;line-height:1.3;">Setpoint de flujo (L/min)</div></div>
+          <div style="display:flex;align-items:baseline;gap:12px;"><span style="flex:none;width:48px;text-align:center;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:22px;color:#fff;background:#1976D2;border-radius:6px;padding:3px 0;">PV</span><div style="font-size:23px;line-height:1.3;">Lectura del flujómetro — debe ir <strong>sobre el SP</strong></div></div>
+          <div style="display:flex;align-items:baseline;gap:12px;"><span style="flex:none;width:48px;text-align:center;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:22px;color:#fff;background:#3D423F;border-radius:6px;padding:3px 0;">LMN</span><div style="font-size:23px;line-height:1.3;">Salida → velocidad de la bomba</div></div>
+          <div style="margin-top:auto;background:#E3F1E8;border:2px solid #2E7D32;border-radius:10px;padding:12px 16px;font-size:22px;color:#1B5E20;"><strong>Punto de trabajo sano:</strong> 40–50 % del nominal</div>
+        </div>
+      </div>
+      <sc-if value="{{ highlightIssues }}" hint-placeholder-val="{{ true }}"><x-import component-from-global-scope="NovopanInstructivosDesignSystem_ed66c5.Callout" variant="advertencia" title="Estado actual" hint-size="100%,auto">El PV oscila y no se estabiliza — el lazo no está sintonizado.</x-import></sc-if>
+    </div>
+  </section>
+
+  <!-- ════ SLIDE 5 · ESPARCIDORES ════ -->
+  <section data-label="Esparcidores" data-speaker-notes="Los esparcidores o forming heads arman el colchón en tres capas: externa inferior, media (core) y externa superior. La externa se reparte 43 por ciento abajo y 53 por ciento arriba del 30 por ciento total, para controlar el pandeo. Parámetro clave: tau, igual a la suma de esparcidoras menos la báscula central. Setpoint cero; hoy está en más cinco constante.">
+    <div style="width:100%;height:100%;box-sizing:border-box;background:#F6F7F4;color:#1A1D1B;font-family:'Barlow',sans-serif;padding:52px 72px 40px;display:flex;flex-direction:column;gap:22px;">
+      <sc-if value="{{ showStageRail }}" hint-placeholder-val="{{ true }}"><dc-import name="StageRail" active="5" hint-size="100%,46px"></dc-import></sc-if>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:32px;border-bottom:3px solid #004E38;padding-bottom:18px;">
+        <div style="display:flex;align-items:center;gap:24px;">
+          <div style="width:84px;height:84px;flex:none;background:#FFDE00;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:48px;color:#004E38;">5</div>
+          <div><h1 style="margin:0;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:56px;line-height:0.98;text-transform:uppercase;letter-spacing:-0.01em;color:#004E38;">Esparcidores</h1><p style="margin:7px 0 0;font-size:26px;color:#3D423F;">Forming heads — arman el colchón por capas</p></div>
+        </div>
+        <div style="flex:none;text-align:right;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:21px;text-transform:uppercase;letter-spacing:0.05em;color:#004E38;line-height:1.1;">Línea de Encolados<div style="font-size:14px;color:#676E69;letter-spacing:0.16em;margin-top:3px;">NOVOPAN · MDP</div></div>
+      </div>
+      <div style="display:flex;gap:26px;flex:1;min-height:0;">
+        <div style="flex:1;background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:26px 30px;display:flex;flex-direction:column;justify-content:center;gap:10px;box-shadow:0 2px 6px rgba(26,29,27,0.05);">
+          <div style="background:#FFF3D1;border:2px solid #E8A700;border-radius:8px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:22px;color:#6B4E00;">Esparcidor 3 · externa superior</span><span style="font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:24px;color:#6B4E00;">53 %</span></div>
+          <div style="background:#004E38;border-radius:8px;padding:22px 18px;display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:22px;color:#fff;">Esparcidor 2 · capa media (core)</span><span style="font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:28px;color:#FFDE00;">70 %</span></div>
+          <div style="background:#FFF3D1;border:2px solid #E8A700;border-radius:8px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;font-size:22px;color:#6B4E00;">Esparcidor 1 · externa inferior</span><span style="font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:24px;color:#6B4E00;">43 %</span></div>
+          <div style="height:10px;background:#3D423F;border-radius:5px;margin-top:4px;"></div>
+          <div style="text-align:center;font-size:18px;color:#676E69;letter-spacing:0.04em;">banda formadora</div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:18px;">
+          <x-import component-from-global-scope="NovopanInstructivosDesignSystem_ed66c5.InfoTable" columns="{{ esparCols }}" rows="{{ esparRows }}" caption="Reparto por capa" hint-size="100%,auto"></x-import>
+          <div style="background:#fff;border:2px solid #F6B40A;border-left:8px solid #F6B40A;border-radius:14px;padding:22px 26px;flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px;box-shadow:0 2px 6px rgba(26,29,27,0.05);">
+            <div style="font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:23px;text-transform:uppercase;letter-spacing:0.04em;color:#004E38;">Parámetro clave · Tau (τ)</div>
+            <div style="font-size:23px;line-height:1.3;color:#1A1D1B;">τ = Σ esparcidoras − báscula central</div>
+            <div style="display:flex;gap:14px;align-items:center;margin-top:2px;"><span style="font-size:22px;color:#3D423F;">Setpoint: <strong>0</strong></span><span style="width:1px;height:24px;background:#D9DDD9;"></span><span style="font-size:22px;color:#8E1B1B;">Actual: <strong>+5 constante</strong></span></div>
+          </div>
+        </div>
+      </div>
+      <x-import component-from-global-scope="NovopanInstructivosDesignSystem_ed66c5.Callout" variant="nota" title="Por qué 53/43" hint-size="100%,auto">La capa externa superior e inferior son distintas (53 % vs 43 %) para controlar el pandeo del tablero.</x-import>
+    </div>
+  </section>
+
+  <!-- ════ SLIDE 6 · PREPRENSA ════ -->
+  <section data-label="Preprensa" data-speaker-notes="Preprensa hidráulica a unos 153 bar. Sube y baja sobre el colchón con compresión suave, lo deja uniforme en altura y expulsa el aire. Sin esta etapa, el aire se expandiría con el calor de la prensa y generaría defectos internos.">
+    <div style="width:100%;height:100%;box-sizing:border-box;background:#F6F7F4;color:#1A1D1B;font-family:'Barlow',sans-serif;padding:52px 72px 44px;display:flex;flex-direction:column;gap:26px;">
+      <sc-if value="{{ showStageRail }}" hint-placeholder-val="{{ true }}"><dc-import name="StageRail" active="6" hint-size="100%,46px"></dc-import></sc-if>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:32px;border-bottom:3px solid #004E38;padding-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:24px;">
+          <div style="width:84px;height:84px;flex:none;background:#FFDE00;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:48px;color:#004E38;">6</div>
+          <div><h1 style="margin:0;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:56px;line-height:0.98;text-transform:uppercase;letter-spacing:-0.01em;color:#004E38;">Preprensa hidráulica</h1><p style="margin:7px 0 0;font-size:26px;color:#3D423F;">Compacta y expulsa el aire antes de la prensa caliente</p></div>
+        </div>
+        <div style="flex:none;text-align:right;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:21px;text-transform:uppercase;letter-spacing:0.05em;color:#004E38;line-height:1.1;">Línea de Encolados<div style="font-size:14px;color:#676E69;letter-spacing:0.16em;margin-top:3px;">NOVOPAN · MDP</div></div>
+      </div>
+      <div style="display:flex;gap:26px;flex:1;min-height:0;align-items:stretch;">
+        <div style="flex:1;background:#004E38;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#fff;">
+          <span class="ms" style="font-size:64px;color:#FFDE00;">compress</span>
+          <div style="font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:72px;line-height:1;color:#FFDE00;">~153 bar</div>
+          <div style="font-size:24px;letter-spacing:0.04em;color:rgba(255,255,255,0.85);">presión hidráulica</div>
+        </div>
+        <div style="flex:1.1;display:flex;flex-direction:column;gap:18px;justify-content:center;">
+          <div style="background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:26px 30px;box-shadow:0 2px 6px rgba(26,29,27,0.05);"><div style="font-weight:700;font-size:25px;display:flex;align-items:center;gap:12px;"><span class="ms" style="font-size:36px;color:#004E38;">height</span>Sube / baja sobre el colchón</div><div style="font-size:22px;color:#3D423F;line-height:1.35;margin-top:8px;">Compresión suave y progresiva.</div></div>
+          <div style="background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:26px 30px;box-shadow:0 2px 6px rgba(26,29,27,0.05);"><div style="font-weight:700;font-size:25px;display:flex;align-items:center;gap:12px;"><span class="ms" style="font-size:36px;color:#004E38;">check_circle</span>Colchón uniforme en altura</div><div style="font-size:22px;color:#3D423F;line-height:1.35;margin-top:8px;">Sin bolsas de aire atrapadas.</div></div>
+        </div>
+      </div>
+      <x-import component-from-global-scope="NovopanInstructivosDesignSystem_ed66c5.Callout" variant="advertencia" title="Por qué importa" hint-size="100%,auto">Sin preprensa, el aire se expande con el calor de la prensa y genera defectos internos en el tablero.</x-import>
+    </div>
+  </section>
+
+  <!-- ════ SLIDE 7 · PRENSA ════ -->
+  <section data-label="Prensa" data-speaker-notes="Prensa caliente continua: es el máster de la línea, su velocidad controla todo el ritmo aguas arriba y aguas abajo. Perfil de temperatura de 220 a 215 grados, con presión alta a la entrada y baja a la salida. Aceite térmico a unos 285 grados. El colchón entra grueso y sale al espesor objetivo. Atención: el sistema de vapor está fuera de servicio.">
+    <div style="width:100%;height:100%;box-sizing:border-box;background:#F6F7F4;color:#1A1D1B;font-family:'Barlow',sans-serif;padding:52px 72px 44px;display:flex;flex-direction:column;gap:24px;">
+      <sc-if value="{{ showStageRail }}" hint-placeholder-val="{{ true }}"><dc-import name="StageRail" active="7" hint-size="100%,46px"></dc-import></sc-if>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:32px;border-bottom:3px solid #004E38;padding-bottom:18px;">
+        <div style="display:flex;align-items:center;gap:24px;">
+          <div style="width:84px;height:84px;flex:none;background:#FFDE00;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:48px;color:#004E38;">7</div>
+          <div style="display:flex;flex-direction:column;gap:6px;"><div style="display:flex;align-items:center;gap:14px;"><h1 style="margin:0;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:56px;line-height:0.98;text-transform:uppercase;letter-spacing:-0.01em;color:#004E38;">Prensa caliente continua</h1><x-import component-from-global-scope="NovopanInstructivosDesignSystem_ed66c5.Badge" tone="accent" icon="star" solid="{{ true }}" hint-size="auto,32px">Máster de la línea</x-import></div><p style="margin:0;font-size:25px;color:#3D423F;">Su velocidad controla el ritmo de toda la línea</p></div>
+        </div>
+        <div style="flex:none;text-align:right;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:21px;text-transform:uppercase;letter-spacing:0.05em;color:#004E38;line-height:1.1;">Línea de Encolados<div style="font-size:14px;color:#676E69;letter-spacing:0.16em;margin-top:3px;">NOVOPAN · MDP</div></div>
+      </div>
+      <div style="background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:26px 30px;box-shadow:0 2px 6px rgba(26,29,27,0.05);">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <span style="font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:20px;text-transform:uppercase;color:#676E69;letter-spacing:0.05em;flex:none;width:90px;">Entrada</span>
+          <div style="flex:1;display:flex;gap:10px;">
+            <div style="flex:1;background:#C62828;color:#fff;border-radius:8px;padding:16px 0;text-align:center;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:30px;">220°C</div>
+            <div style="flex:1;background:#D32F2F;color:#fff;border-radius:8px;padding:16px 0;text-align:center;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:30px;">220°C</div>
+            <div style="flex:1;background:#E04A2F;color:#fff;border-radius:8px;padding:16px 0;text-align:center;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:30px;">220°C</div>
+            <div style="flex:1;background:#F6B40A;color:#3D2A00;border-radius:8px;padding:16px 0;text-align:center;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:30px;">215°C</div>
+          </div>
+          <span style="font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:20px;text-transform:uppercase;color:#676E69;letter-spacing:0.05em;flex:none;width:80px;text-align:right;">Salida</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;margin-top:10px;"><span style="flex:none;width:90px;font-size:18px;color:#676E69;text-transform:uppercase;letter-spacing:0.04em;">Presión</span><div style="flex:1;height:12px;border-radius:6px;background:linear-gradient(90deg,#004E38,#0A7D5A,#AEB4B0);"></div><span style="flex:none;width:80px;"></span></div>
+        <div style="display:flex;justify-content:space-between;padding:0 104px 0 104px;margin-top:4px;font-size:18px;color:#3D423F;"><span><strong>Alta</strong></span><span><strong>Baja</strong></span></div>
+      </div>
+      <div style="display:flex;gap:24px;flex:1;min-height:0;">
+        <div style="flex:1;background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:24px 28px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 6px rgba(26,29,27,0.05);"><span class="ms" style="font-size:46px;color:#004E38;">oil_barrel</span><div><div style="font-weight:700;font-size:24px;">Aceite térmico</div><div style="font-size:22px;color:#3D423F;">~285 °C</div></div></div>
+        <div style="flex:1.4;background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:24px 28px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 6px rgba(26,29,27,0.05);"><span class="ms" style="font-size:46px;color:#004E38;">compress</span><div><div style="font-weight:700;font-size:24px;">Espesor objetivo</div><div style="font-size:22px;color:#3D423F;line-height:1.3;">El colchón entra grueso y sale al espesor final.</div></div></div>
+        <div style="flex:1.3;background:#FCE7E5;border:2px solid #C62828;border-left:8px solid #D32F2F;border-radius:16px;padding:22px 26px;display:flex;flex-direction:column;justify-content:center;gap:8px;"><x-import component-from-global-scope="NovopanInstructivosDesignSystem_ed66c5.Badge" tone="danger" icon="warning" solid="{{ true }}" hint-size="auto,30px">Fuera de servicio</x-import><div style="font-size:22px;color:#8E1B1B;line-height:1.3;">Sistema de vapor — <strong>2026-06-22</strong></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ SLIDE 8 · CORTE ════ -->
+  <section data-label="Corte" data-speaker-notes="Corte angular en movimiento: la sierra corta en diagonal mientras la banda avanza, lo que compensa la velocidad y deja un corte perpendicular. Se controla la diagonal para verificar el ortoángulo, que el tablero quede a 90 grados. Después del corte se mide el espesor por ultrasonido u óptico y el peso individual.">
+    <div style="width:100%;height:100%;box-sizing:border-box;background:#F6F7F4;color:#1A1D1B;font-family:'Barlow',sans-serif;padding:52px 72px 44px;display:flex;flex-direction:column;gap:26px;">
+      <sc-if value="{{ showStageRail }}" hint-placeholder-val="{{ true }}"><dc-import name="StageRail" active="8" hint-size="100%,46px"></dc-import></sc-if>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:32px;border-bottom:3px solid #004E38;padding-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:24px;">
+          <div style="width:84px;height:84px;flex:none;background:#FFDE00;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:48px;color:#004E38;">8</div>
+          <div><h1 style="margin:0;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:56px;line-height:0.98;text-transform:uppercase;letter-spacing:-0.01em;color:#004E38;">Corte angular en movimiento</h1><p style="margin:7px 0 0;font-size:26px;color:#3D423F;">La sierra corta mientras la banda avanza</p></div>
+        </div>
+        <div style="flex:none;text-align:right;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:21px;text-transform:uppercase;letter-spacing:0.05em;color:#004E38;line-height:1.1;">Línea de Encolados<div style="font-size:14px;color:#676E69;letter-spacing:0.16em;margin-top:3px;">NOVOPAN · MDP</div></div>
+      </div>
+      <div style="display:flex;gap:24px;flex:1;min-height:0;">
+        <div style="flex:1;background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:30px 30px;display:flex;flex-direction:column;gap:14px;box-shadow:0 2px 6px rgba(26,29,27,0.05);"><span class="ms" style="font-size:50px;color:#004E38;">content_cut</span><div style="font-weight:700;font-size:26px;">Corte diagonal</div><div style="font-size:23px;color:#3D423F;line-height:1.4;">Compensa la velocidad de la banda → resultado perpendicular.</div></div>
+        <div style="flex:1;background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:30px 30px;display:flex;flex-direction:column;gap:14px;box-shadow:0 2px 6px rgba(26,29,27,0.05);"><span class="ms" style="font-size:50px;color:#004E38;">square_foot</span><div style="font-weight:700;font-size:26px;">Control de diagonales</div><div style="font-size:23px;color:#3D423F;line-height:1.4;">Verifica el ortoángulo — tablero cuadrado a 90°.</div></div>
+        <div style="flex:1;background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:30px 30px;display:flex;flex-direction:column;gap:14px;box-shadow:0 2px 6px rgba(26,29,27,0.05);"><span class="ms" style="font-size:50px;color:#004E38;">straighten</span><div style="font-weight:700;font-size:26px;">Medición post-corte</div><div style="font-size:23px;color:#3D423F;line-height:1.4;">Espesor (ultrasónico u óptico) + peso individual.</div></div>
+      </div>
+      <x-import component-from-global-scope="NovopanInstructivosDesignSystem_ed66c5.Callout" variant="nota" title="Mantenimiento" hint-size="100%,auto">Calibración periódica de las diagonales necesaria para mantener la escuadría correcta.</x-import>
+    </div>
+  </section>
+
+  <!-- ════ SLIDE 9 · ENFRIADORAS ════ -->
+  <section data-label="Enfriadoras" data-speaker-notes="Enfriadoras tipo estrella: brazos en estrella que sostienen tres tableros simultáneos, con rotación de 180 grados por ciclo. Tubos metálicos retiran el calor por contacto. La rotación enfría ambas caras por igual y evita el pandeo por desbalance térmico.">
+    <div style="width:100%;height:100%;box-sizing:border-box;background:#F6F7F4;color:#1A1D1B;font-family:'Barlow',sans-serif;padding:52px 72px 44px;display:flex;flex-direction:column;gap:26px;">
+      <sc-if value="{{ showStageRail }}" hint-placeholder-val="{{ true }}"><dc-import name="StageRail" active="9" hint-size="100%,46px"></dc-import></sc-if>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:32px;border-bottom:3px solid #004E38;padding-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:24px;">
+          <div style="width:84px;height:84px;flex:none;background:#FFDE00;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:48px;color:#004E38;">9</div>
+          <div><h1 style="margin:0;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:56px;line-height:0.98;text-transform:uppercase;letter-spacing:-0.01em;color:#004E38;">Enfriadoras tipo estrella</h1><p style="margin:7px 0 0;font-size:26px;color:#3D423F;">Enfriamiento uniforme para evitar alabeo</p></div>
+        </div>
+        <div style="flex:none;text-align:right;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:21px;text-transform:uppercase;letter-spacing:0.05em;color:#004E38;line-height:1.1;">Línea de Encolados<div style="font-size:14px;color:#676E69;letter-spacing:0.16em;margin-top:3px;">NOVOPAN · MDP</div></div>
+      </div>
+      <div style="display:flex;gap:24px;flex:1;min-height:0;">
+        <div style="flex:1;background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:30px 30px;display:flex;flex-direction:column;gap:14px;box-shadow:0 2px 6px rgba(26,29,27,0.05);"><span class="ms" style="font-size:50px;color:#004E38;">star</span><div style="font-weight:700;font-size:26px;">Brazos en estrella</div><div style="font-size:23px;color:#3D423F;line-height:1.4;">3 tableros enfriándose simultáneamente.</div></div>
+        <div style="flex:1;background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:30px 30px;display:flex;flex-direction:column;gap:14px;box-shadow:0 2px 6px rgba(26,29,27,0.05);"><span class="ms" style="font-size:50px;color:#004E38;">rotate_right</span><div style="font-weight:700;font-size:26px;">Rotación 180°</div><div style="font-size:23px;color:#3D423F;line-height:1.4;">Un giro completo de media vuelta por ciclo.</div></div>
+        <div style="flex:1;background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:30px 30px;display:flex;flex-direction:column;gap:14px;box-shadow:0 2px 6px rgba(26,29,27,0.05);"><span class="ms" style="font-size:50px;color:#004E38;">device_thermostat</span><div style="font-weight:700;font-size:26px;">Tubos metálicos</div><div style="font-size:23px;color:#3D423F;line-height:1.4;">Retiran el calor del tablero por contacto.</div></div>
+      </div>
+      <x-import component-from-global-scope="NovopanInstructivosDesignSystem_ed66c5.Callout" variant="nota" title="Por qué rota" hint-size="100%,auto">La rotación enfría ambas caras por igual → evita el pandeo por desbalance térmico.</x-import>
+    </div>
+  </section>
+
+  <!-- ════ SLIDE 10 · ESTACADO ════ -->
+  <section data-label="Estacado" data-speaker-notes="Estacado: agrupamiento y apilado, el fin del área de encolados. Sensores ópticos emisor-receptor cuentan los tableros, un sistema neumático ejecuta el apilado, y hay encoders en el agrupamiento que fallan con frecuencia. Se forman grupos de tres tableros. La siguiente área es lijado y calibración.">
+    <div style="width:100%;height:100%;box-sizing:border-box;background:#F6F7F4;color:#1A1D1B;font-family:'Barlow',sans-serif;padding:52px 72px 44px;display:flex;flex-direction:column;gap:26px;">
+      <sc-if value="{{ showStageRail }}" hint-placeholder-val="{{ true }}"><dc-import name="StageRail" active="10" hint-size="100%,46px"></dc-import></sc-if>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:32px;border-bottom:3px solid #004E38;padding-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:24px;">
+          <div style="width:84px;height:84px;flex:none;background:#FFDE00;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:48px;color:#004E38;">10</div>
+          <div><h1 style="margin:0;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:56px;line-height:0.98;text-transform:uppercase;letter-spacing:-0.01em;color:#004E38;">Estacado</h1><p style="margin:7px 0 0;font-size:26px;color:#3D423F;">Agrupamiento y apilado — fin del área de encolados</p></div>
+        </div>
+        <div style="flex:none;text-align:right;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:21px;text-transform:uppercase;letter-spacing:0.05em;color:#004E38;line-height:1.1;">Línea de Encolados<div style="font-size:14px;color:#676E69;letter-spacing:0.16em;margin-top:3px;">NOVOPAN · MDP</div></div>
+      </div>
+      <div style="display:flex;gap:24px;flex:1;min-height:0;">
+        <div style="flex:1;background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:30px 30px;display:flex;flex-direction:column;gap:14px;box-shadow:0 2px 6px rgba(26,29,27,0.05);"><span class="ms" style="font-size:50px;color:#004E38;">visibility</span><div style="font-weight:700;font-size:26px;">Sensores ópticos</div><div style="font-size:23px;color:#3D423F;line-height:1.4;">Cuentan los tableros (emisor–receptor).</div></div>
+        <div style="flex:1;background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:30px 30px;display:flex;flex-direction:column;gap:14px;box-shadow:0 2px 6px rgba(26,29,27,0.05);"><span class="ms" style="font-size:50px;color:#004E38;">air</span><div style="font-weight:700;font-size:26px;">Sistema neumático</div><div style="font-size:23px;color:#3D423F;line-height:1.4;">Ejecuta el apilado de los tableros.</div></div>
+        <div style="flex:1;background:#fff;border:2px solid #D9DDD9;border-radius:16px;padding:30px 30px;display:flex;flex-direction:column;gap:14px;box-shadow:0 2px 6px rgba(26,29,27,0.05);"><span class="ms" style="font-size:50px;color:#004E38;">settings</span><div style="font-weight:700;font-size:26px;">Encoders</div><div style="font-size:23px;color:#3D423F;line-height:1.4;">En el agrupamiento — <strong style="color:#8E1B1B;">falla frecuente</strong>, se dañan.</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:18px;background:#004E38;border-radius:14px;padding:22px 30px;"><span class="ms" style="font-size:40px;color:#FFDE00;flex:none;">inventory_2</span><div style="font-size:25px;color:#fff;line-height:1.3;"><strong style="color:#FFDE00;">Grupos de 3 tableros.</strong> Siguiente área: lijado / calibración.</div></div>
+    </div>
+  </section>
+
+</x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showStageRail&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;highlightIssues&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      showStageRail: this.props.showStageRail ?? true,
+      highlightIssues: this.props.highlightIssues ?? true,
+      flowSteps: [
+        { label: 'Silos', icon: 'silo', caption: 'Almacenamiento' },
+        { label: 'Dosimbuncas', icon: 'scale', caption: 'Dosificación' },
+        { label: 'Clasificación', icon: 'grain', caption: '0.3–1.3 mm' },
+        { label: 'Encolador', icon: 'science', caption: 'Resina + parafina' },
+        { label: 'Esparcidores', icon: 'layers', caption: '3 capas · τ=0' },
+        { label: 'Preprensa', icon: 'compress', caption: '~153 bar' },
+        { label: 'Prensa', icon: 'local_fire_department', caption: '215–220 °C · máster' },
+        { label: 'Corte', icon: 'content_cut', caption: 'Angular' },
+        { label: 'Enfriadoras', icon: 'ac_unit', caption: 'Estrella 180°' },
+        { label: 'Estacado', icon: 'inventory_2', caption: 'Grupos de 3' },
+      ],
+      esparCols: [
+        { label: 'Capa', align: 'left' },
+        { label: 'Setpoint', align: 'center' },
+        { label: 'Real medido', align: 'center' },
+      ],
+      esparRows: [
+        ['Externa', '30 %', '≈ 33 %'],
+        ['Core', '70 %', '≈ 67 %'],
+      ],
+    };
+  }
+}
+</script>
+<script>
+(async () => {
+  if (!document.title || !document.title.trim()) document.title = "Encolados";
+  // Prepend so page-supplied @page / break rules (deck-stage's margin:0,
+  // author CSS) keep source-order precedence over the baseline.
+  const baseCss = document.createElement('style');
+  baseCss.textContent = "@media print {\n  figure, table { break-inside: avoid; }\n  *, *::before, *::after {\n    print-color-adjust: exact; -webkit-print-color-adjust: exact;\n    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;\n    animation-delay: -99s !important; animation-duration: .001s !important;\n    animation-iteration-count: 1 !important; animation-fill-mode: both !important;\n    animation-play-state: running !important; transition-duration: 0s !important;\n  }\n}";
+  document.head.prepend(baseCss);
+  if (document.readyState === 'loading') {
+    await new Promise((r) => document.addEventListener('DOMContentLoaded', r, { once: true }));
+  }
+  let ds = document.querySelector('deck-stage');
+  // whenDefined never resolves when nothing registers the element, so only
+  // await it when a <deck-stage> tag exists (and race a timeout regardless).
+  if (ds && !customElements.get('deck-stage')) {
+    try {
+      await Promise.race([
+        customElements.whenDefined('deck-stage'),
+        new Promise((r) => setTimeout(r, 3000)),
+      ]);
+    } catch (e) {}
+    ds = document.querySelector('deck-stage');
+  }
+  // dc-runtime assigns window.DCLogic at init and mounts into #dc-root on
+  // DOMContentLoaded; settle on that subtree so React has rendered before
+  // print(). Non-DC pages fall through to weighing body.
+  const isDc = !ds && 'DCLogic' in window;
+  const settleRoot = ds || (isDc ? document.getElementById('dc-root') : null) || document.body;
+  if (settleRoot) {
+    // Weigh only content children — skip script/style/template so inline
+    // Babel/CSS doesn't register as stable "content" before the framework
+    // has mounted anything.
+    const MEDIA = 'img,svg,canvas,video,picture,iframe,embed,object';
+    const weigh = () => {
+      let text = 0, media = 0;
+      for (const c of settleRoot.children) {
+        const t = c.tagName;
+        if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+        text += (c.textContent || '').trim().length;
+        media += c.querySelectorAll(MEDIA).length + (c.matches(MEDIA) ? 1 : 0);
+      }
+      return text + media * 100;
+    };
+    // "Non-zero and stable" alone is not sufficient to mean rendered: generic
+    // body can carry a static shell while async main content is pending, and
+    // #dc-root can carry the root DC's static text while child refs are still
+    // .sc-placeholder boxes. Gate generic on readyState 'complete', and never
+    // accept stability while a dc-runtime placeholder is present.
+    const isGeneric = settleRoot === document.body;
+    const deadline = Date.now() + 15000;
+    let last = -1, stable = 0;
+    while (Date.now() < deadline) {
+      const n = weigh();
+      const ready =
+        (!isGeneric || document.readyState === 'complete') &&
+        !settleRoot.querySelector('.sc-placeholder');
+      if (n > 0 && n === last && ready) { if (++stable >= 2) break; } else { stable = 0; }
+      last = n;
+      await new Promise((r) => setTimeout(r, 250));
+    }
+  }
+  // Reveal content gated on scroll or visibility before printing. Lazy <img>,
+  // IntersectionObserver fade-ins, and collapsed <details> don't render while
+  // off-screen, so a long page would print with them blank or closed. Open
+  // every <details>, force native-lazy images eager, and scroll the document
+  // through its full height to trip lazy-load + IO; then wait (bounded) for the
+  // newly-triggered images. Inert for deck-stage (slides aren't scroll-gated).
+  try {
+    for (const d of document.querySelectorAll('details')) d.open = true;
+    for (const img of document.querySelectorAll('img[loading="lazy"]'))
+      img.loading = 'eager';
+    const scroller = document.scrollingElement || document.documentElement;
+    const full = Math.max(scroller.scrollHeight, document.body.scrollHeight);
+    const step = window.innerHeight || 800;
+    for (let y = 0; y <= full; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((r) => requestAnimationFrame(r));
+    }
+    window.scrollTo(0, 0);
+    await Promise.race([
+      Promise.all(
+        [...document.images].map((img) =>
+          img.complete
+            ? null
+            : new Promise((res) => {
+                img.addEventListener('load', res, { once: true });
+                img.addEventListener('error', res, { once: true });
+              })
+        )
+      ),
+      new Promise((r) => setTimeout(r, 4000)),
+    ]);
+  } catch (e) {}
+  try { await document.fonts.ready; } catch (e) {}
+  // Jump every animation to its end state so print() never captures a slide
+  // mid-entrance. Ordering matters: the 0s-transition style must be live
+  // BEFORE data-deck-active is set so attribute-keyed transitions don't
+  // start a (now-0s) run from the pre-active base.
+  const st = document.createElement('style');
+  st.textContent = '*,*::before,*::after{animation-delay:-99s !important;animation-duration:.001s !important;animation-iteration-count:1 !important;animation-fill-mode:both !important;animation-play-state:running !important;transition-duration:0s !important}';
+  document.head.appendChild(st);
+  for (const d of document.querySelectorAll('deck-stage')) {
+    for (const c of d.children) {
+      const t = c.tagName;
+      if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+      c.setAttribute('data-deck-active', '');
+    }
+  }
+  // Re-append deck-stage's @page last so no author @page can add a margin and
+  // spill each full-bleed slide onto two sheets. Backstop for old copies.
+  if (ds) {
+    let pg = document.getElementById('deck-stage-print-page');
+    if (!pg) {
+      pg = document.createElement('style');
+      pg.textContent = '@page{size:' + (+ds.getAttribute('width') || 1920) +
+        'px ' + (+ds.getAttribute('height') || 1080) + 'px;margin:0}';
+    }
+    document.body.appendChild(pg);
+  }
+  try {
+    const sweep = () => {
+      for (const a of document.getAnimations()) {
+        try { a.finish(); } catch (e) {
+          try { a.currentTime = (a.effect && a.effect.getComputedTiming().duration) || 0; a.pause(); } catch (e2) {}
+        }
+      }
+    };
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+  } catch (e) {}
+  // Relax break-inside on oversized elements. An element taller than a
+  // printable page can't honor break-inside: avoid — browsers either overflow
+  // it or push it whole to the next page, leaving a blank gap, then break it
+  // anyway at an arbitrary point. After the final layout (content revealed,
+  // animations jumped), find elements taller than a page that still compute
+  // break-inside: avoid and reset them to auto, so the browser breaks them at
+  // their children's boundaries instead (children keep their own avoid). PAGE_PX
+  // is a conservative portrait estimate at 96 CSS px/in — Letter/A4 usable
+  // height minus our 0.5in margins — so only clearly-oversized elements are
+  // touched and under-page elements still stay whole. Skipped for decks, whose
+  // slides are sized to the page.
+  try {
+    if (!document.querySelector('deck-stage')) {
+      const PAGE_PX = 1024;
+      // Our print defaults add a real @page margin only when the source has
+      // no @page of its own; computed style can't tell us (it reports screen
+      // media), so read the injected rule directly.
+      const defaults = document.querySelector('style[data-omelette-print-defaults]');
+      const pageInset = /@page\s*\{[^}]*margin/.test(defaults ? defaults.textContent || '' : '');
+      const SEL = 'section,article,figure,table,pre,blockquote,[class~="card" i],[class~="page" i],[class~="sheet" i]';
+      for (const el of document.body.querySelectorAll(SEL)) {
+        if (el instanceof HTMLElement && el.offsetHeight > PAGE_PX) {
+          el.setAttribute('data-om-oversized', '');
+          // Fake-paged docs simulate sheets with over-tall break-after:page
+          // boxes; honoring the break spills half-blank pages and ends a
+          // colored box mid-sheet. Flow them, and (only when we own the page
+          // inset) drop the redundant padding/background via the rule below.
+          const cs = getComputedStyle(el);
+          if (cs.breakAfter === 'page' || cs.pageBreakAfter === 'always') {
+            el.setAttribute('data-om-fakepage', '');
+          }
+        }
+      }
+      const ost = document.createElement('style');
+      ost.textContent = '@media print{' +
+        '[data-om-oversized]{break-inside:auto !important;page-break-inside:auto !important}' +
+        '[data-om-fakepage]{break-after:auto !important;page-break-after:auto !important}' +
+        (pageInset ? '[data-om-fakepage]{padding:0 !important;background:none !important}' : '') +
+        '}';
+      document.head.appendChild(ost);
+    }
+  } catch (e) {}
+  // macOS Preview renders Skia-PDF Luminosity soft-masks as opaque grey boxes;
+  // swap the CSS that triggers them for Preview-safe forms.
+  try {
+    for (const el of document.body.querySelectorAll('*')) {
+      const cs = getComputedStyle(el);
+
+      if (cs.boxShadow !== 'none' && cs.filter === 'none') {
+        const outs = [], kept = [];
+        for (const s of cs.boxShadow.split(/,(?![^(]*[)])/)) {
+          const t = s.trim();
+          const m = t.match(/^(rgba?[(][^)]+[)]) (-?[0-9.]+px) (-?[0-9.]+px) ([0-9.]+px) -?[0-9.]+px$/);
+          if (m && parseFloat(m[4]) > 0) outs.push('drop-shadow(' + m[2] + ' ' + m[3] + ' ' + m[4] + ' ' + m[1] + ')');
+          else kept.push(t);
+        }
+        if (outs.length) {
+          el.style.setProperty('filter', outs.join(' '), 'important');
+          el.style.setProperty('box-shadow', kept.join(', ') || 'none', 'important');
+        }
+      }
+
+      const mask = cs.maskImage && cs.maskImage !== 'none' ? cs.maskImage : cs.webkitMaskImage;
+      if (mask && mask !== 'none' && cs.filter === 'none') el.style.setProperty('filter', 'opacity(1)', 'important');
+    }
+  } catch (e) {}
+  setTimeout(() => { try { window.print(); } catch (e) {} }, 200);
+})();
+</script>
+</body>
+</html>

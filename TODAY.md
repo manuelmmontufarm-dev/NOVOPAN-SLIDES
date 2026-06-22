@@ -19,29 +19,25 @@
 **Pasante:** Manuel Montúfar
 **Supervisor:** Daniel Sotalin (Encargado del Sistema de Gestión / ISO).
 
-**Cambio de área:** termina la semana de **Recepción de madera** (entregables cerrados 2026-06-19). Esta semana arranca el área de **Encolados** de la Línea 1. La documentación de Recepción queda **independiente** y vigente; el trabajo nuevo se hace en [`encolados/`](encolados/).
+**Cambio de área:** termina la semana de **Recepción de madera** (entregables cerrados 2026-06-19). Esta semana arranca **Parte 2 — Aglomerados** (encolados Línea 1). La Parte 1 queda **independiente** en [`parte-1-preparacion-madera/`](parte-1-preparacion-madera/).
 
-**Objetivo activo (nuevo):** documentar el **proceso de encolados** de Línea 1 (silos → encolador/dosificación → 3 esparcidores → prensa caliente continua → corte angular → enfriadoras estrella → estacado). El primer entregable es la descripción general en [`encolados/PROCESO.md`](encolados/PROCESO.md); a partir de ahí se le agregan mediciones, fotos, transcripciones y el alcance del proyecto del área.
+**Objetivo activo (Parte 2):** documentar encolados L1 — ver [`parte-2-aglomerados/encolados/PROCESO.md`](parte-2-aglomerados/encolados/PROCESO.md) y [`parte-2-aglomerados/encolados/BASE_INFO_ENCOLADOS.md`](parte-2-aglomerados/encolados/BASE_INFO_ENCOLADOS.md).
 
 **Objetivo anterior (cerrado):** documentar el proceso de **recepción de madera en balanza** en formato IJP ISO, dividido en tres documentos separados (Recepción, Descargas y Consumo, Inventario).
 
-**Documentos vigentes:**
-- `instructivos/finales/IJP_FINAL_ACTUALIZADO_2026-06-19.docx` — IJP-REC-001 final alineado a revisión Gabriel; renderizado para QA visual.
-- `instructivos/finales/RECEPCION_DE_MADERA_guia_v2_ACTUALIZADO_2026-06-19.docx` — guía rápida ANI alineada a revisión Gabriel; renderizada para QA visual.
-- `instructivos/finales/NOVOPAN_Guia_Recepcion_Madera_FINAL.pdf` — render para impresión re-exportado desde HTML estático 2026-06-19 17:48.
-- `instructivos/finales/NOVOPAN_Guia_Recepcion_Madera_FINAL_ESTATICO.html` — bundle estático regenerado desde `Screens.jsx` con contenido 2026-06-19 16:07.
-- `html-app/NOVOPNHTML1.html` + `html-app/NOVOPNHTML1_files/Screens.jsx` — app React activa con todos los fixes.
-- `instructivos/IJP_Recepcion_v2.md` — borrador md original (mantener como referencia).
+**Documentos vigentes (Parte 1):**
+- `parte-1-preparacion-madera/instructivos/finales/IJP_FINAL_ACTUALIZADO_2026-06-19.docx`
+- `parte-1-preparacion-madera/instructivos/finales/RECEPCION_DE_MADERA_guia_v2_ACTUALIZADO_2026-06-19.docx`
+- `parte-1-preparacion-madera/instructivos/finales/NOVOPAN_Guia_Recepcion_Madera_FINAL.pdf`
+- `parte-1-preparacion-madera/instructivos/finales/NOVOPAN_Guia_Recepcion_Madera_FINAL_ESTATICO.html`
+- `parte-1-preparacion-madera/html-app/NOVOPNHTML1.html` + `Screens.jsx`
+- `parte-1-preparacion-madera/instructivos/IJP_Recepcion_v2.md` — borrador md referencia
 
 **Próximos pasos — Encolados (orden de prioridad):**
-1. ✅ Integrar datos del recorrido 2026-06-22 en `encolados/PROCESO.md` — HECHO.
-2. Investigación técnica externa (particleboard forming line) → `encolados/technical-research/` — en curso.
-3. **Formular plan del proyecto Opción A** (trazabilidad por etapas con sensor en banda):
-   - Medir distancias entre sensor y cada esparcidora/punto crítico.
-   - Cronometrar tiempos de tránsito entre secciones.
-   - Configurar tiempos de tránsito en software.
-   - Definir cómo mostrar estado por etapa al operador (HMI/SCADA) y guardar histórico.
-4. Subir transcripciones completas de los 3 audios del 2026-06-22 → `encolados/transcripts/`.
+1. ✅ Integrar datos del recorrido 2026-06-22 en `parte-2-aglomerados/encolados/PROCESO.md` — HECHO.
+2. Investigación técnica → `parte-2-aglomerados/technical-research/` — en curso.
+3. **Formular plan del proyecto Opción A** (trazabilidad por etapas con sensor en banda).
+4. ✅ Transcripciones 22-jun en `parte-2-aglomerados/transcripciones/` — HECHO (sync Cursor 22-jun).
 5. Confirmar: split exacto externas (53/47 o 53/43), nombre oficial del área, nombre supervisor.
 
 **Próximos pasos — Recepción (pendientes de la fase anterior):**
@@ -93,6 +89,17 @@
 ---
 
 ## Historial
+
+### 2026-06-22 — Reorganización repo: Parte 1 / Parte 2 + sync local
+
+**Qué cambió:**
+- Repo dividido en **`parte-1-preparacion-madera/`** (recepción, IJP-REC, html-app) y **`parte-2-aglomerados/`** (encolados, deck, transcripciones 22-jun).
+- **`_compartido/`** — glossary, reference, decisions-and-open-items.
+- Nuevos índices: `00_Index.md`, READMEs por parte, `linea-1-overview.md` y `AGENT_INSTRUCTIONS.md` actualizados con rutas nuevas.
+- **Sync desde folder local NOVOPAN:** transcripciones `2026-06-22_aglomerados`, `2026-06-22_encolados`, research aglomerados, deck `Encolados.dc.html`, raw whisper txt.
+- **Codex (ya en main antes de este commit):** PR #6/#7 Gabriel rebuild; 8 commits encolados (`BASE_INFO_ENCOLADOS`, `TEMAS_PARA_REVISAR`, HMI analysis, prompts Cursor/Claude).
+
+**Corte Parte 1 → Parte 2:** salida de preparación de madera = partícula en **silos**; Parte 2 empieza en encolados.
 
 ### 2026-06-22 — Cambio de área: arranca Encolados (Línea 1)
 
