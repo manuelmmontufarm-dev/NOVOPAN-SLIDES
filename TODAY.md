@@ -15,11 +15,15 @@
 
 ## Estado actual
 
-**Fecha:** 2026-06-19
+**Fecha:** 2026-06-22
 **Pasante:** Manuel Montúfar
 **Supervisor:** Daniel Sotalin (Encargado del Sistema de Gestión / ISO).
 
-**Objetivo activo:** documentar el proceso de **recepción de madera en balanza** en formato IJP ISO, dividido en tres documentos separados (Recepción, Descargas y Consumo, Inventario).
+**Cambio de área:** termina la semana de **Recepción de madera** (entregables cerrados 2026-06-19). Esta semana arranca el área de **Encolados** de la Línea 1. La documentación de Recepción queda **independiente** y vigente; el trabajo nuevo se hace en [`encolados/`](encolados/).
+
+**Objetivo activo (nuevo):** documentar el **proceso de encolados** de Línea 1 (silos → encolador/dosificación → 3 esparcidores → prensa caliente continua → corte angular → enfriadoras estrella → estacado). El primer entregable es la descripción general en [`encolados/PROCESO.md`](encolados/PROCESO.md); a partir de ahí se le agregan mediciones, fotos, transcripciones y el alcance del proyecto del área.
+
+**Objetivo anterior (cerrado):** documentar el proceso de **recepción de madera en balanza** en formato IJP ISO, dividido en tres documentos separados (Recepción, Descargas y Consumo, Inventario).
 
 **Documentos vigentes:**
 - `instructivos/finales/IJP_FINAL_ACTUALIZADO_2026-06-19.docx` — IJP-REC-001 final alineado a revisión Gabriel; renderizado para QA visual.
@@ -84,6 +88,21 @@
 ---
 
 ## Historial
+
+### 2026-06-22 — Cambio de área: arranca Encolados (Línea 1)
+
+**Qué cambió:**
+- Cierre del área **Recepción de madera** (entregables del 2026-06-19 quedan vigentes e independientes).
+- Nueva carpeta [`encolados/`](encolados/) para el área actual con:
+  - `PROCESO.md` — descripción técnica del flujo: silos → encolador + caja de dosificación (capas externas finas vs. capa media con biruta+polvo, ambas mezcladas con resina+parafina) → 3 esparcidores (fino/medio/fino) → prensa caliente continua de acero inoxidable → corte angular en movimiento → enfriadoras tipo estrella (3 tableros, giro 180°, tubos metálicos) → estacado.
+  - `notas/` y `transcripts/` listos para el trabajo de campo.
+- Nuevo documento maestro [`linea-1-overview.md`](linea-1-overview.md): mapa completo de la Línea 1 por áreas, vivo, al que se le van añadiendo etapas conforme avanzan las semanas.
+- `TODAY.md` actualizado para reflejar el cambio de objetivo activo.
+
+**Pendientes inmediatos del área nueva:**
+- Definir alcance del proyecto de Encolados con Daniel Sotalin (¿IJP por etapa? ¿guía visual estilo Recepción?).
+- Confirmar contactos: operador de encolador, operador de prensa, control de calidad (¿Franklin?), Jorge (jefe de producción).
+- Empezar a llenar los `Pendiente documentar` de cada etapa en `encolados/PROCESO.md` (tipos de resina, setpoints de prensa, tiempos de enfriamiento, etc.).
 
 ### 2026-06-19 17:48 — Codex: cierre real de entregables finales
 
