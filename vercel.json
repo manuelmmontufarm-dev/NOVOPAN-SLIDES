@@ -1,0 +1,21 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "bash scripts/build-vercel-public.sh",
+  "outputDirectory": "public",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "source": "/trazabilidad", "destination": "/trazabilidad/index.html" },
+    { "source": "/patios", "destination": "/patios/index.html" },
+    { "source": "/patios-interactivo", "destination": "/patios-interactivo/index.html" }
+  ]
+}

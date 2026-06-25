@@ -5,7 +5,7 @@
  *   - Bins / hoppers (tolva):                        τ = M_holdup / F × 60   [s]
  *   - Encoladores / sprays (tiempo fijo):            τ = constante (s)       [s]
  *   - Bandas acopladas a prensa:                     t = L / v_prensa × 60   [s]
- *   - Bandas inclinadas (factor sobre prensa):       t = L / (v_prensa × factor) × 60   [s]
+ *   - Bandas inclinadas (velocidad fija HMI):          t = L / v_banda × 60   [s]
  *   - Sprays (caída instantánea):                    t = constante (estimado)
  *   - Cualquier etapa puede sumar buffer manual:     t_total = t_calc + buffer_s
  *
@@ -35,27 +35,27 @@ export const GLOBAL_PARAMS = [
     key: '_global:peso_manta',
     label: 'Peso manta (báscula central)',
     unit: 'kg/m²',
-    default: 6.60,
+    default: 11.5,
     kind: 'hmi-live',
-    desc: 'Variable maestra que define cuánto material pide la línea por m². Báscula central Metso.',
+    desc: 'Variable maestra (kg/m²). HMI báscula central · 25-jun: 11,5 kg/m².',
     step: 0.05,
   },
   {
     key: '_global:F_SL',
     label: 'Flujo SL (capa fina total)',
     unit: 'kg/min',
-    default: 70.1,
+    default: 147.6,
     kind: 'hmi-live',
-    desc: 'Suma del flujo SL1 (BOTTOM) + SL2 (TOP). Sale de las dosing fina o se mide en HMI.',
+    desc: 'SL1 (69,5) + SL2 (78,1) kg/min. Flujo dividido HMI 25-jun.',
     step: 0.1,
   },
   {
     key: '_global:F_CL',
     label: 'Flujo CL (core)',
     unit: 'kg/min',
-    default: 163.4,
+    default: 118,
     kind: 'hmi-live',
-    desc: 'Flujo de la ruta gruesa (esparcidor 2). HMI dosing gruesa o esparcidor central.',
+    desc: 'Flujo core layer (esparcidor 2). HMI 25-jun: 118 kg/min.',
     step: 0.1,
   },
   // ── Receta ──
@@ -63,18 +63,18 @@ export const GLOBAL_PARAMS = [
     key: '_global:pctSL1',
     label: '% SL1 del fino (BOTTOM)',
     unit: '%',
-    default: 47,
+    default: 47.1,
     kind: 'recipe',
-    desc: 'Sub-receta capa fina inferior. SL1 + SL2 = 100.',
-    step: 1,
+    desc: 'Sub-receta capa fina inferior. 69,5 / 147,6 = 47,1 %.',
+    step: 0.1,
   },
   {
     key: '_global:pctSL2',
     label: '% SL2 del fino (TOP)',
     unit: '%',
-    default: 53,
+    default: 52.9,
     kind: 'recipe',
-    desc: 'Sub-receta capa fina superior. SL1 + SL2 = 100.',
+    desc: 'Sub-receta capa fina superior. 78,1 / 147,6 = 52,9 %.',
     step: 1,
   },
 ];
@@ -86,13 +86,13 @@ export const FINE_PREFIX = [
     label: 'Dosing bin fina',
     kind: 'retention',
     model: 'bin',
-    holdupKg: 100,
+    holdupKg: 20,
     flowSource: 'F_SL',
     layout: 'drop',
     source: {
       kind: 'hmi-live',
       desc: 'τ = M_bin_fina / F_SL × 60',
-      detail: 'Tolva con celda de carga (kg). El τ baja cuando el bin se vacía o sube la demanda.',
+      detail: 'M = 20 kg (HMI). τ ≈ 8,1 s a F_SL = 147,6 kg/min.',
     },
   },
   {
@@ -113,17 +113,19 @@ export const FINE_PREFIX = [
     id: 'incl-fine',
     label: 'Banda inclinada azul (fina)',
     kind: 'transport',
-    lengthM: 64,
-    speedFactor: 6.62, // 96 m/min ÷ 14,5 m/min prensa (24-jun)
+    lengthM: 64.57,
+    beltSpeedMperMin: 99.5,
+    beltRpm: 123.5,
+    beltAreaM2: 600,
     beltColor: 'blue',
     layout: 'incline-up',
     splitsTo: [PATH_IDS.BOTTOM, PATH_IDS.TOP],
-    measuredAt: '2026-06-24',
+    measuredAt: '2026-06-25',
     source: {
       kind: 'measured',
-      date: '2026-06-24',
-      desc: 't = L / (v_prensa × 6,62) × 60',
-      detail: 'Banda inclinada va 6,62× más rápido que la prensa. Calibrado 24-jun: 64 m / 40 s = 96 m/min con prensa a 14,5.',
+      date: '2026-06-25',
+      desc: 't = L / v_banda × 60',
+      detail: 'Velocidad FIJA HMI: 99,5 m/min (123,5 rpm). L = 64,57 m → t ≈ 38,9 s. No depende de v_prensa.',
     },
   },
 ];
@@ -140,14 +142,14 @@ export const PATHS = {
         label: 'Esparcidor 1',
         kind: 'retention',
         model: 'hopper',
-        holdupKg: 30,
+        holdupKg: 12.5,
         flowSource: 'F_SL1', // = F_SL × pctSL1
         layout: 'spreader',
-        measuredAt: '2026-06-24',
+        measuredAt: '2026-06-25',
         source: {
           kind: 'hmi-live',
           desc: 'τ = M_hopper_esp1 / (F_SL × %SL1) × 60',
-          detail: 'Hopper con báscula. A receta 30/70 con SL1 = 47 % y M = 30 kg, da ~55 s (mayor que esp2 porque el flujo de capa fina es menor).',
+          detail: 'M = 12,5 kg (SL1, HMI). τ ≈ 10,8 s a F_SL1 = 69,5 kg/min.',
         },
         equipment: [
           { name: 'Banda interna', atPct: 20 },
@@ -169,14 +171,14 @@ export const PATHS = {
         label: 'Esparcidor 3',
         kind: 'retention',
         model: 'hopper',
-        holdupKg: 30,
+        holdupKg: 15,
         flowSource: 'F_SL2', // = F_SL × pctSL2
         layout: 'spreader',
-        measuredAt: '2026-06-24',
+        measuredAt: '2026-06-25',
         source: {
           kind: 'hmi-live',
           desc: 'τ = M_hopper_esp3 / (F_SL × %SL2) × 60',
-          detail: 'Hopper con báscula. Recibe el SL2 (TOP). ~49 s a receta 30/70 con SL2 = 53 % y M = 30 kg.',
+          detail: 'M = 15 kg (SL2, HMI). τ ≈ 11,5 s a F_SL2 = 78,1 kg/min.',
         },
         equipment: [
           { name: 'Banda interna', atPct: 20 },
@@ -198,13 +200,13 @@ export const PATHS = {
         label: 'Dosing bin gruesa',
         kind: 'retention',
         model: 'bin',
-        holdupKg: 100,
+        holdupKg: 25,
         flowSource: 'F_CL',
         layout: 'drop',
         source: {
           kind: 'hmi-live',
           desc: 'τ = M_bin_thick / F_CL × 60',
-          detail: 'Tolva con celda de carga (kg). A 163 kg/min y 100 kg de holdup ≈ 37 s.',
+          detail: 'M = 25 kg (HMI). τ ≈ 12,7 s a F_CL = 118 kg/min.',
         },
       },
       {
@@ -239,16 +241,18 @@ export const PATHS = {
         id: 'incl-thick',
         label: 'Banda inclinada azul (gruesa)',
         kind: 'transport',
-        lengthM: 68,
-        speedFactor: 15.63, // 226,67 m/min ÷ 14,5 m/min prensa (24-jun)
+        lengthM: 68.5,
+        beltSpeedMperMin: 96.5,
+        beltRpm: 119,
+        beltAreaM2: 800,
         beltColor: 'blue',
         layout: 'incline-up',
-        measuredAt: '2026-06-24',
+        measuredAt: '2026-06-25',
         source: {
           kind: 'measured',
-          date: '2026-06-24',
-          desc: 't = L / (v_prensa × 15,63) × 60',
-          detail: 'Banda inclinada va 15,63× más rápido que la prensa. Calibrado 24-jun: 68 m / 18 s = 226,67 m/min con prensa a 14,5.',
+          date: '2026-06-25',
+          desc: 't = L / v_banda × 60',
+          detail: 'Velocidad FIJA HMI: 96,5 m/min (119 rpm). L = 68,5 m → t ≈ 42,6 s. No depende de v_prensa.',
         },
       },
       {
@@ -256,14 +260,14 @@ export const PATHS = {
         label: 'Esparcidor 2',
         kind: 'retention',
         model: 'hopper',
-        holdupKg: 30,
+        holdupKg: 40,
         flowSource: 'F_CL',
         layout: 'spreader',
-        measuredAt: '2026-06-24',
+        measuredAt: '2026-06-25',
         source: {
           kind: 'hmi-live',
           desc: 'τ = M_hopper_esp2 / F_CL × 60',
-          detail: 'Hopper con báscula. Capa core lleva ~70 % de la masa → flujo alto → τ menor (~11 s a M=30 kg).',
+          detail: 'M = 40 kg (CL, HMI). τ ≈ 20,3 s a F_CL = 118 kg/min.',
         },
         equipment: [
           { name: 'Banda interna', atPct: 20 },
@@ -475,7 +479,20 @@ export function getParameterSchema() {
         kindBadge: 'measured',
       });
     }
-    if (node.speedFactor != null && !seen.has(`factor:${node.id}`)) {
+    if (node.beltSpeedMperMin != null && !seen.has(`speed:${node.id}`)) {
+      seen.add(`speed:${node.id}`);
+      params.push({
+        key: `speed:${node.id}`,
+        nodeId: node.id,
+        label: `Velocidad · ${node.label}`,
+        unit: 'm/min',
+        type: 'speed',
+        default: node.beltSpeedMperMin,
+        group,
+        required: true,
+        kindBadge: 'hmi-live',
+      });
+    } else if (node.speedFactor != null && !seen.has(`factor:${node.id}`)) {
       seen.add(`factor:${node.id}`);
       params.push({
         key: `factor:${node.id}`,

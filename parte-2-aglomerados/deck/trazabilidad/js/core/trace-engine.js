@@ -4,7 +4,7 @@
  * Cada nodo aporta un t_total según su modelo:
  *   - bin / hopper / cstr → τ = M / F × 60 + buffer
  *   - fixed (sprays)      → t = retentionSec + buffer
- *   - transport (banda)   → t = L / (v_prensa × factor) × 60 + buffer
+ *   - transport (banda)   → t = L / v × 60 + buffer  (v = v_banda fija o v_prensa)
  *
  * Convención de merge (esparcidores → banda blanca):
  *   La banda blanca solo arranca cuando el ÚLTIMO (más lento) esparcidor termina.
@@ -26,6 +26,13 @@ function len(nodeId, params, node) {
 function factor(nodeId, params, node) {
   const f = params[`factor:${nodeId}`] ?? node.speedFactor ?? 1;
   return f > 0 ? f : 1;
+}
+
+/** Velocidad efectiva (m/min): banda inclinada fija HMI o acoplada a prensa. */
+function beltSpeed(node, params, pressSpeed) {
+  const vFixed = Number(params[`speed:${node.id}`] ?? node.beltSpeedMperMin ?? 0);
+  if (vFixed > 0) return vFixed;
+  return pressSpeed * factor(node.id, params, node);
 }
 
 /** Lee el flujo (kg/min) que el nodo demanda según su flowSource y la receta. */
@@ -63,12 +70,11 @@ function tauForNode(node, params) {
   return 0;
 }
 
-/** Transporte (s) de un nodo. Banda inclinada usa factor; banda común usa v_prensa. */
+/** Transporte (s) de un nodo. Inclinadas: v fija HMI; bandas comunes: v_prensa. */
 function transportForNode(node, speed, params) {
   const L = len(node.id, params, node);
   if (L <= 0) return 0;
-  const f = factor(node.id, params, node);
-  const v = speed * f;
+  const v = beltSpeed(node, params, speed);
   if (v <= 0) return 0;
   return (L / v) * 60;
 }
@@ -164,8 +170,7 @@ function walkNodes(nodes, tSec, speed, params, startNodeId = null) {
     // Fase 2: transporte (bandas).
     if (tr > 0) {
       if (elapsed < tr) {
-        const f = factor(node.id, params, node);
-        const vEff = speed * f;
+        const vEff = beltSpeed(node, params, speed);
         const L = len(node.id, params, node);
         const posM = (elapsed / 60) * vEff;
         return {
@@ -275,9 +280,8 @@ function traceDownstream(elapsed, speed, params, fromStageId = null) {
     if (buf > 0) elapsed -= buf;
 
     if (tr > 0 && elapsed < tr) {
-      const f = factor(node.id, params, node);
+      const vEff = beltSpeed(node, params, speed);
       const L = len(node.id, params, node);
-      const vEff = speed * f;
       const posM = (elapsed / 60) * vEff;
       return {
         pathId: 'merged',
@@ -548,4 +552,4 @@ export function totalTravelTimeSec(speedMperMin, params, injectionId) {
 }
 
 // Re-export para que la UI describa cada nodo.
-export { tauForNode, transportForNode, flowFor, nodeTotalSec };
+export { tauForNode, transportForNode, flowFor, nodeTotalSec, beltSpeed };

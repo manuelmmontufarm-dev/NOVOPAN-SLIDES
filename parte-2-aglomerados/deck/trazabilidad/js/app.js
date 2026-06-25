@@ -23,7 +23,7 @@ import {
 import { SimulationClock } from './core/simulation-clock.js';
 import { TrackRenderer } from './ui/track-renderer.js';
 
-const STORAGE_KEY = 'novopan-trazabilidad-params-v8';
+const STORAGE_KEY = 'novopan-trazabilidad-params-v9';
 const VIEW_STORAGE_KEY = 'novopan-trazabilidad-view';
 
 const clock = new SimulationClock();
@@ -276,6 +276,14 @@ function equationForNode(node, v) {
   }
   // transporte
   const L = Number(params[`len:${node.id}`] ?? node.lengthM ?? 0);
+  const vBelt = Number(params[`speed:${node.id}`] ?? node.beltSpeedMperMin ?? 0);
+  if (vBelt > 0) {
+    return {
+      eq: `<code>t = L / v_banda × 60</code>`,
+      detail: `L = ${L.toFixed(2)} m ÷ v = ${vBelt.toFixed(1)} m/min × 60 = <strong>${tr.toFixed(1)} s</strong> (velocidad fija HMI)`,
+      tau, tr, buf, total,
+    };
+  }
   const f = Number(params[`factor:${node.id}`] ?? node.speedFactor ?? 1);
   const v_eff = v * f;
   if (f !== 1 && Number.isFinite(f)) {
