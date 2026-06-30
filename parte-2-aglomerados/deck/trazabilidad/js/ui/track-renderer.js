@@ -85,6 +85,7 @@ export class TrackRenderer {
   }
 
   build(injectionId) {
+    this.injectionId = injectionId;
     this.root.innerHTML = '';
     this.nodeEls.clear();
     this.built = true;
@@ -341,7 +342,10 @@ export class TrackRenderer {
       const layer2 = el.querySelector('.path-markers');
       markers.forEach((m, idx) => {
         const dot = document.createElement('div');
-        dot.className = 'path-marker path-marker--board';
+        const paintDemo = this.injectionId === 'enc-all'
+          || this.injectionId === 'enc-fine'
+          || this.injectionId === 'enc-thick';
+        dot.className = `path-marker path-marker--board${paintDemo ? ' path-marker--paint' : ''}`;
         const tint = m.pathColor ?? PATH_COLORS[m.pathId] ?? '#8B6914';
         dot.style.setProperty('--path-tint', tint);
         dot.title = m.nodeLabel;

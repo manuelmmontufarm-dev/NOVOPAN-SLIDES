@@ -171,6 +171,16 @@ body {
 .btn--primary { background: var(--novopan-green); color: #fff; }
 .btn--primary.is-playing { background: var(--warn-accent); color: var(--warn-ink); }
 .btn--secondary { background: var(--surface-sunken); border: 1px solid var(--border-default); }
+.btn--demo {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #E91E63 0%, #C2185B 100%);
+  border: 1px solid #AD1457;
+  color: #fff;
+  font-weight: 600;
+}
+.btn--demo:hover { filter: brightness(1.06); }
+.btn--demo .ms { font-size: 1.1rem; vertical-align: -3px; margin-right: 0.2rem; }
 
 .param-group { margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid var(--line-100); }
 .param-group__title {
@@ -1835,6 +1845,16 @@ kbd {
 }
 
 .path-marker--retention { border-color: var(--novopan-green); }
+
+/* Marcador demo pintura (t₀ = encolador) */
+.path-marker--paint {
+  background: linear-gradient(90deg, #E91E63 0%, #F48FB1 35%, #E91E63 70%, #AD1457 100%);
+  border-color: #880E4F;
+  box-shadow: 0 0 0 2px rgba(233, 30, 99, 0.35), 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+.path-marker--paint::after {
+  display: none;
+}
 
 .pid-zone__label {
   font-family: var(--font-display);

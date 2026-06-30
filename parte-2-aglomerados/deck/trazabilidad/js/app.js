@@ -44,6 +44,7 @@ const els = {
   chromeSimulator: $('chromeSimulator'),
   viewTabs: document.querySelectorAll('.view-tab'),
   playBtn: $('playBtn'),
+  demoPaintBtn: $('demoPaintBtn'),
   resetBtn: $('resetBtn'),
   fitBtn: $('fitBtn'),
   saveParamsBtnTab: $('saveParamsBtnTab'),
@@ -81,7 +82,7 @@ function buildInjectionSelect() {
       const o = document.createElement('option');
       o.value = opt.id;
       o.textContent = opt.label;
-      if (opt.id === 'dosing-all') o.selected = true;
+      if (opt.id === 'enc-all') o.selected = true;
       og.appendChild(o);
     }
     els.injection.appendChild(og);
@@ -483,6 +484,23 @@ function resetParamsToDefaults() {
   showSaveFeedback('Defaults restaurados');
 }
 
+/** Prepara prueba en planta: pintura en encoladores = t₀, bandas medidas, reloj acelerado. */
+function startPaintDemo() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch {}
+  params = defaultParams();
+  buildAllParamsPanels();
+  renderer.setParams(params);
+  if (els.injection) els.injection.value = 'enc-all';
+  if (els.speedPreset) els.speedPreset.value = 'observed-jun24';
+  els.speed.value = '14.5';
+  els.timeScale.value = '30';
+  clock.timeScale = 30;
+  els.timeScaleVal.textContent = '30×';
+  clock.reset();
+  rebuild();
+  els.status.innerHTML = 'Demo pintura lista — pulsa <strong>Iniciar</strong> cuando marques los encoladores en planta';
+}
+
 function handleStageSelected(nodeId) {
   if (!nodeId) return;
   renderer.jumpToNode(nodeId);
@@ -600,6 +618,7 @@ els.playBtn.addEventListener('click', () => {
   refresh(true);
 });
 els.resetBtn.addEventListener('click', () => { clock.reset(); refresh(); });
+els.demoPaintBtn?.addEventListener('click', startPaintDemo);
 els.fitBtn?.addEventListener('click', () => {
   els.diagram.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
   const main = els.diagram.closest('.main');

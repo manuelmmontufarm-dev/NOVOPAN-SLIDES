@@ -285,15 +285,15 @@ export const DOWNSTREAM = [
     id: 'white',
     label: 'Banda blanca → nariz #1',
     kind: 'transport',
-    lengthM: 29,
+    lengthM: 45,
     beltColor: 'white',
     validated: true,
-    measuredAt: '2026-06-24',
+    measuredAt: '2026-06-30',
     source: {
-      kind: 'derived',
-      date: '2026-06-24',
+      kind: 'measured',
+      date: '2026-06-30',
       desc: 't = L_white / v_prensa × 60',
-      detail: '29 m despejados del cronómetro encolador → nariz (120 s × 14,5 m/min ÷ 60). Banda acoplada a prensa.',
+      detail: '45 m medidos en planta. Banda acoplada a prensa (colchón + báscula + pre-prensa + nariz #1).',
     },
     equipment: [
       { name: 'Colchón 3 capas', atPct: 12 },
@@ -307,14 +307,14 @@ export const DOWNSTREAM = [
     id: 'red',
     label: 'Banda roja',
     kind: 'transport',
-    lengthM: 27.43,
+    lengthM: 10,
     beltColor: 'red',
     validated: true,
     source: {
       kind: 'measured',
-      date: '2026-06',
+      date: '2026-06-30',
       desc: 't = L_red / v_prensa × 60',
-      detail: '27,43 m de banda acoplada a prensa. Cruza sensor de metales + Dynasteam.',
+      detail: '10 m medidos en planta. Banda acoplada a prensa (sensor metales + Dynasteam).',
     },
     equipment: [
       { name: 'Sensor metales', atPct: 22 },
@@ -340,6 +340,7 @@ export const DOWNSTREAM = [
 ];
 
 export const INJECTION_OPTIONS = [
+  { id: 'enc-all', label: 'Demo pintura · ambos encoladores', group: 'Inicio completo' },
   { id: 'dosing-all', label: 'Inicio · ambos dosing bins', group: 'Inicio completo' },
   { id: 'dosing-fine', label: 'Dosing bin fina', group: 'Ruta fina' },
   { id: 'enc-fine', label: 'Encolador fina', group: 'Ruta fina' },
@@ -361,7 +362,9 @@ export const DOWNSTREAM_STAGE_IDS = ['white', 'red', 'press', 'done'];
 
 /** Rutas que reciben marcador según dónde se inyecta el cambio. */
 export function pathsForInjection(injectionId) {
-  if (injectionId === 'dosing-all') return [PATH_IDS.BOTTOM, PATH_IDS.CORE, PATH_IDS.TOP];
+  if (injectionId === 'dosing-all' || injectionId === 'enc-all') {
+    return [PATH_IDS.BOTTOM, PATH_IDS.CORE, PATH_IDS.TOP];
+  }
   if (injectionId === 'dosing-fine' || injectionId === 'enc-fine' || injectionId === 'incl-fine') {
     return [PATH_IDS.BOTTOM, PATH_IDS.TOP];
   }
@@ -382,6 +385,9 @@ export function startNodeForPath(injectionId, pathId) {
   if (DOWNSTREAM_STAGE_IDS.includes(injectionId)) return null;
   if (injectionId === 'dosing-all') {
     return pathId === PATH_IDS.CORE ? 'dosing-thick' : 'dosing-fine';
+  }
+  if (injectionId === 'enc-all') {
+    return pathId === PATH_IDS.CORE ? 'enc-thick' : 'enc-fine';
   }
   const nodes = nodesForPath(pathId);
   if (nodes.some((n) => n.id === injectionId)) return injectionId;
