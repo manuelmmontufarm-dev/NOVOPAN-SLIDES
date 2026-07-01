@@ -15,6 +15,7 @@
   ],
   "rewrites": [
     { "source": "/trazabilidad", "destination": "/trazabilidad/index.html" },
+    { "source": "/trazabilidad-linea", "destination": "/trazabilidad-linea/index.html" },
     { "source": "/patios", "destination": "/patios/index.html" },
     { "source": "/patios-interactivo", "destination": "/patios-interactivo/index.html" }
   ]

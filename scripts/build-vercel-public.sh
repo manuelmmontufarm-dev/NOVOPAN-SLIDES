@@ -19,10 +19,15 @@ mkdir -p "$PUBLIC"
 # Landing page
 cp "$ROOT/vercel/index.html" "$PUBLIC/index.html"
 
-# Trazabilidad simulator — Línea 1 (parte-2-aglomerados/deck/trazabilidad)
+# Trazabilidad simulator — Línea 1 P&ID clásico (parte-2-aglomerados/deck/trazabilidad)
 mkdir -p "$PUBLIC/trazabilidad"
 cp -R "$DECK/trazabilidad/." "$PUBLIC/trazabilidad/"
 find "$PUBLIC/trazabilidad" -type f \( -name '*.md' -o -name 'CLAUDE_*' \) -delete
+
+# Trazabilidad Sección 2 — vista línea horizontal (reusa motor en ../trazabilidad/js/core/)
+mkdir -p "$PUBLIC/trazabilidad-linea"
+cp -R "$DECK/trazabilidad-linea/." "$PUBLIC/trazabilidad-linea/"
+find "$PUBLIC/trazabilidad-linea" -type f \( -name '*.md' -o -name 'CLAUDE_*' -o -name '*.dc.html' \) -delete
 
 # Design system tokens — CSS imports ../../_ds/... from trazabilidad/css/
 mkdir -p "$PUBLIC/_ds"
@@ -63,6 +68,7 @@ for html_path, base in [
     (public / "patios" / "index.html", "/patios/"),
     (public / "patios-interactivo" / "index.html", "/patios-interactivo/"),
     (public / "trazabilidad" / "index.html", "/trazabilidad/"),
+    (public / "trazabilidad-linea" / "index.html", "/trazabilidad-linea/"),
 ]:
     inject_base(html_path, base)
 PY
@@ -70,5 +76,6 @@ PY
 echo "✓ public/ ready ($(find "$PUBLIC" -type f | wc -l | tr -d ' ') files)"
 echo "  /                    → index.html"
 echo "  /trazabilidad        → parte-2-aglomerados/deck/trazabilidad + _ds tokens"
+echo "  /trazabilidad-linea  → parte-2-aglomerados/deck/trazabilidad-linea (Sección 2)"
 echo "  /patios              → parte-1-preparacion-madera (guía estática)"
 echo "  /patios-interactivo  → parte-1-preparacion-madera/html-app (React/Babel)"
