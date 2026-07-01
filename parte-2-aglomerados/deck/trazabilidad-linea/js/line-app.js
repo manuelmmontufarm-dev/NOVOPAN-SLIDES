@@ -24,7 +24,8 @@ const SVG_NS = 'http://www.w3.org/2000/svg';
 // prensa → tablero, que es exactamente el span del SVG.
 const INJECTION = 'white';
 const DEFAULT_SPEED = SPEED_PRESETS.find((p) => p.id === 'observed-jun24')?.mPerMin ?? 14.5;
-const DEFAULT_TIME_SCALE = 10;
+/** 1 = tiempo real (1 s de simulación = 1 s de reloj). La barra manual sigue funcionando. */
+const DEFAULT_TIME_SCALE = 1;
 
 // ── Constantes de geometría (idénticas al handoff) ──
 const BELT_Y = 400;
