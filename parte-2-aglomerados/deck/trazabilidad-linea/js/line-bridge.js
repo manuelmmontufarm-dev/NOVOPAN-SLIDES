@@ -5,9 +5,9 @@
    banda: white/red/press) a la coordenada X del canvas horizontal,
    y arma las anotaciones discretas de distancias medidas.
 
-   El SVG NO es proporcional a los metros (el diseño es fijo): se usa
-   un mapeo por tramos (breakpoints absM → x) anclado a los equipos
-   dibujados. La lógica de tiempo/slider sigue siendo del motor.
+   Parte 1 (jul-2026): el SVG es PROPORCIONAL a los metros medidos.
+   Se usa UNA sola escala lineal `x = X0 + PX_PER_M × m` (0 → 71.6 m),
+   compartida por equipos, regla, trazador y anotaciones.
    ============================================================ */
 
 import {
@@ -21,38 +21,13 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 export const BAND_OFFSET = { white: 0, red: 45, press: 55 };
 export const DOWNSTREAM_TOTAL_M = 71.6; // 45 + 10 + 16.6
 
-// Breakpoints [absM, x] anclados a los equipos del SVG del handoff.
-// Monótono creciente en ambos ejes.
-const BREAKS = [
-  [0, 60],       // arranque banda blanca
-  [4.89, 470],   // zona SL1 (cabezal)
-  [13.9, 730],   // zona CL
-  [20.66, 980],  // zona SL2
-  [26.68, 1150], // imán (tambor banda azul)
-  [31.4, 1443],  // pre-prensa
-  [35.99, 1810], // sprays desmoldante #2
-  [37.69, 2010], // detector de metales
-  [39.56, 2230], // cortadores de filo
-  [45, 2500],    // fin blanca / inicio banda roja
-  [48.0, 2720],  // vapor EVOsteam
-  [55, 2960],    // fin roja / inicio prensa
-  [55.10, 2985], // marco 1
-  [70.4, 3705],  // marco 19
-  [71.6, 3900],  // fin zona activa / tablero
-];
+// Escala lineal única del downstream (misma que el SVG y la regla).
+export const X0 = 80;        // px del metro 0 (formación del colchón)
+export const PX_PER_M = 70;  // px por metro medido
 
-/** Mapea metros absolutos del downstream a X del canvas (lineal por tramos). */
+/** Mapea metros absolutos del downstream a X del canvas (escala lineal única). */
 export function mapAbsMToX(absM) {
-  if (absM <= BREAKS[0][0]) return BREAKS[0][1];
-  for (let i = 1; i < BREAKS.length; i++) {
-    if (absM <= BREAKS[i][0]) {
-      const [a0, x0] = BREAKS[i - 1];
-      const [a1, x1] = BREAKS[i];
-      const t = a1 > a0 ? (absM - a0) / (a1 - a0) : 1;
-      return x0 + (x1 - x0) * t;
-    }
-  }
-  return BREAKS[BREAKS.length - 1][1];
+  return X0 + PX_PER_M * clamp(absM, 0, DOWNSTREAM_TOTAL_M);
 }
 
 /** Metros absolutos del downstream para un marcador del motor. */

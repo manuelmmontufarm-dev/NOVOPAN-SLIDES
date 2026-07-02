@@ -142,6 +142,13 @@ body {
   margin-top: 2px;
 }
 
+/* ── Fila de relojes: un único reloj real (hora de Quito, Ecuador) ── */
+.s2-clocks {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+}
+
 /* ── Toolbar sticky ── */
 .s2-toolbar {
   position: sticky;
@@ -228,6 +235,302 @@ body {
   accent-color: #004E38;
 }
 
+/* ── Control operador: velocidad de prensa (v_prensa) ── */
+.s2-speed {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #E3F1E8;
+  border: 1.5px solid #0A7D5A;
+  border-radius: 10px;
+  padding: 5px 12px;
+}
+.s2-speed__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Barlow Semi Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: #004E38;
+}
+.s2-speed__label .ms { font-size: 18px; }
+.s2-speed__range {
+  width: 340px;
+  height: 22px;
+  accent-color: #004E38;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+.s2-speed__range::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #0A7D5A, #004E38);
+}
+.s2-speed__range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #FFDE00;
+  border: 3px solid #004E38;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+}
+.s2-speed__range::-moz-range-track {
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #0A7D5A, #004E38);
+}
+.s2-speed__range::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #FFDE00;
+  border: 3px solid #004E38;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+}
+.s2-speed__box {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  background: #fff;
+  border: 1px solid #0A7D5A;
+  border-radius: 8px;
+  padding: 2px 8px;
+}
+.s2-speed__box input {
+  width: 58px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Barlow Semi Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 19px;
+  color: #004E38;
+  text-align: right;
+}
+.s2-speed__unit { font-size: 11px; font-weight: 700; color: #0A7D5A; }
+
+/* ── Movedor manual del cambio ── */
+.s2-mover { display: flex; align-items: center; gap: 8px; }
+.s2-mover__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #676E69;
+}
+.s2-mover__label .ms { font-size: 16px; color: #C98B2E; }
+.s2-mover__range { width: 180px; accent-color: #C98B2E; }
+.s2-mover__range:disabled { opacity: .35; cursor: not-allowed; }
+
+/* ── Botón + panel de reportes (hora real por cambio y equipo) ── */
+.s2-reports-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #F6F7F4;
+  border: 1px solid #D9DDD9;
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  color: #1A1D1B;
+  cursor: pointer;
+}
+.s2-reports-btn:hover { background: #E3F1E8; border-color: #0A7D5A; }
+.s2-reports-btn .ms { font-size: 17px; color: #0A7D5A; }
+.s2-reports-btn__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: #004E38;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+/* ── Reiniciar demo: borra todos los cambios y reportes ── */
+.s2-reset-changes-btn {
+  display: inline-flex;
+  align-items: center;
+  background: #FFF4F4;
+  border: 1px solid #EFC7C7;
+  border-radius: 8px;
+  padding: 7px 9px;
+  color: #C62828;
+  cursor: pointer;
+}
+.s2-reset-changes-btn:hover { background: #FBE0E0; border-color: #C62828; }
+.s2-reset-changes-btn .ms { font-size: 18px; }
+
+.s2-reports-panel {
+  position: fixed;
+  top: 108px;
+  right: 16px;
+  width: 340px;
+  max-height: calc(100vh - 140px);
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  border: 1px solid #D9DDD9;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(16, 40, 32, .18);
+  z-index: 40;
+  overflow: hidden;
+}
+.s2-reports-panel__hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #004E38;
+  color: #fff;
+  flex: none;
+}
+.s2-reports-panel__hd h4 {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Barlow Semi Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+.s2-reports-panel__hd .ms { font-size: 18px; }
+.s2-reports-panel__close {
+  border: none;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+}
+.s2-reports-panel__hint {
+  margin: 0;
+  padding: 8px 12px 0;
+  font-size: 10.5px;
+  color: #676E69;
+  flex: none;
+}
+.s2-reports-panel__list {
+  padding: 10px 12px 14px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+.report-empty {
+  font-size: 12px;
+  color: #AEB4B0;
+  text-align: center;
+  padding: 20px 8px;
+}
+.report-card {
+  border-left: 4px solid #FFDE00;
+  background: #F6F7F4;
+  border-radius: 0 8px 8px 0;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+}
+.report-card--active { background: #FFFDF3; }
+.report-card__hd {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+  font-size: 12px;
+  color: #1A1D1B;
+}
+.report-card__hd i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  flex: none;
+}
+.report-card__status {
+  margin-left: auto;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  padding: 1px 6px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.report-card--active .report-card__status {
+  background: #FFF4D6;
+  color: #7A5D00;
+  animation: mpulse 1.4s ease infinite;
+}
+.report-card:not(.report-card--active) .report-card__status {
+  background: #E3F1E8;
+  color: #1B5E20;
+}
+.report-card__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.report-card__list li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 11px;
+  color: #3D423F;
+  padding: 2px 0;
+  border-bottom: 1px dashed #E8EBE7;
+}
+.report-card__list li:last-child { border-bottom: none; }
+.report-card__list li strong {
+  font-variant-numeric: tabular-nums;
+  color: #004E38;
+  white-space: nowrap;
+}
+.report-card__countdown {
+  background: #FFF4D6;
+  border-radius: 4px;
+  padding: 4px 6px !important;
+  margin-bottom: 4px;
+  border-bottom: none !important;
+  font-weight: 600;
+}
+.report-card__countdown span {
+  color: #5C4A00;
+  font-size: 10px;
+  letter-spacing: .02em;
+}
+.report-card__countdown strong {
+  color: #7A5D00;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* ── Equipos clicables (marcar el cambio ahí) ── */
+.s2-machine { cursor: pointer; }
+.s2-machine:hover { opacity: .9; }
+@keyframes injflash { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+.s2-machine.is-injected { animation: injflash .7s ease 2; }
+
 /* ── Canvas SVG ── */
 .s2-canvas {
   flex: 1;
@@ -238,7 +541,9 @@ body {
   background-size: 26px 26px;
 }
 .s2-canvas svg { display: block; }
-.s2-tracer { transition: transform .08s linear; }
+/* El trazador se anima por rAF (60 fps); sin transición para que el loop,
+   la inyección y el movedor salten al instante sin barrido. */
+.s2-tracer { transition: none; }
 
 /* ── Leyenda inferior ── */
 .s2-legend {
@@ -265,6 +570,8 @@ body {
 .s2-legend__dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #004E38; background: #FFDE00; }
 .s2-legend__reject { color: #C62828; }
 .s2-legend__reject .ms { font-size: 14px; }
+.s2-legend__hint { color: #0A7D5A; font-weight: 600; }
+.s2-legend__hint .ms { font-size: 14px; }
 .s2-legend__spacer { margin-left: auto; color: #AEB4B0; }
 
 /* ── Tabs de vista (Línea / Parámetros) ── */
